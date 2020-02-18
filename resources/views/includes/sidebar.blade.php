@@ -100,14 +100,7 @@
                                     <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span
                                             class="kt-menu__link"><span class="kt-menu__link-text">Inventario
                                             </span></span></li>
-                                    <li class="kt-menu__item nav-link {{ setActive('server') }}" aria-haspopup="true">
-                                        <a href=" {{ route('inventario.tipo.index') }} " class="kt-menu__link ">
-                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
-                                                <span></span>
-                                            </i><span class="kt-menu__link-text">Tipo
-                                            </span>
-                                        </a>
-                                    </li>
+
                                     <li class="kt-menu__item nav-link {{ setActive('server') }}" aria-haspopup="true">
                                         <a href=" {{ route('inventario.marca.index') }} " class="kt-menu__link ">
                                             <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
@@ -116,14 +109,7 @@
                                             </span>
                                         </a>
                                     </li>
-                                    <li class="kt-menu__item nav-link {{ setActive('server') }}" aria-haspopup="true">
-                                        <a href=" {{ route('inventario.modelo.index') }} " class="kt-menu__link ">
-                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
-                                                <span></span>
-                                            </i><span class="kt-menu__link-text">Modelo
-                                            </span>
-                                        </a>
-                                    </li>
+
                                 </ul>
                             </div>
                         </li>
