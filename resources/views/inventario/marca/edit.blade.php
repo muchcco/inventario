@@ -8,12 +8,12 @@
         </div>
         <div class="modal-body">
             <div class="modal-body">
-                <input style="display:none" type="text" class="form-control" id="MarcaId" name="MarcaId" value="{{$marca->id}}">
+                <input style="display:none" type="text" class="form-control" id="MarcaId" name="MarcaId" value="{{$marca->IdMarca}}">
                 <form id="MarcaFormEdit" name="MarcaFormEdit">
 
                     <div class="form-group">
                         <label for="recipient-name" class="form-control-label">Nombre:</label>
-                    <input type="text" class="form-control" id="MarcaNombre" name="nombre" value="{{$marca->nombre}}">
+                    <input type="text" class="form-control" id="MarcaNombre" name="nombre" value="{{$marca->Nombre}}">
                     </div>
                 </form>
             </div>

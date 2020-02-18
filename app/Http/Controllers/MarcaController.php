@@ -29,7 +29,7 @@ class MarcaController extends Controller
      */
     public function tabla()
     {
-        $modelos = Marca::select('marcas.id', 'marcas.nombre')->get();
+        $modelos = Marca::select('Marca.IdMarca', 'Marca.Nombre')->get();
 
         $view = view('inventario.marca.tabla',compact('modelos'))->render();
         return response()->json(['html'=>$view]);
@@ -54,8 +54,9 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
+
             $attr = $request->all();
-            $attr['id'] = auth()->id();
+
             $response_data = Marca::create($attr);
             return Response::json( $response_data );
     }
@@ -82,7 +83,7 @@ class MarcaController extends Controller
     public function edit(Request $request)
     {
 
-        $marca = Marca::select('marcas.id', 'marcas.nombre')->where('id', $request->marca)->first();
+        $marca = Marca::select('marca.id', 'marca.Nombre')->where('id', $request->marca)->first();
         $view = view('inventario.marca.edit',compact('marca'))->render();
         return response()->json(['html'=>$view]);
         exit;
@@ -98,7 +99,7 @@ class MarcaController extends Controller
     public function update(Request $request, $id)
     {
         $Marca = Marca::find($id);
-        $Marca->nombre = $request->nombre;
+        $Marca->Nombre = $request->Nombre;
         if($Marca->save()){
             return 1;
         }else{

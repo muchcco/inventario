@@ -3,10 +3,10 @@
 
     @foreach( $modelos as $modelo )
         <tr>
-            <td> {{ $modelo->id }} </td>
-            <td> {{ $modelo->nombre }} </td>
+            <td> {{ $modelo->IdMarca }} </td>
+            <td> {{ $modelo->Nombre }} </td>
 
-            <td><button type="button" class="btn btn-success" onclick="EditarMarca({{$modelo->id}})">Editar </button>
+            <td><button type="button" class="btn btn-success" onclick="EditarMarca({{$modelo->IdMarca}})">Editar </button>
 
         </tr>
     @endforeach

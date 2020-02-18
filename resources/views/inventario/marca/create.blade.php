@@ -11,7 +11,7 @@
                 <form id="MarcaForm" name="MarcaForm">
                     <div class="form-group">
                         <label for="recipient-name" class="form-control-label">Nombre:</label>
-                        <input type="text" class="form-control" id="MarcaNombre" name="nombre">
+                        <input type="text" class="form-control" id="MarcaNombre" name="Nombre">
                     </div>
                 </form>
             </div>
