@@ -32,11 +32,11 @@ class UsuarioController extends Controller
     {
         $usuarios = role::join('users','users.role_id','=','roles.id')
                             ->select('users.name as un', 'users.email as ue', 'roles.nombre as rn', 'users.estado as ues')
-                            ->toSql();
+                            ->get();
 
         $view = view('usuarios.tabla',compact('usuarios'))->render();
 
-        dd($usuarios);
+        
         return response()->json(['html'=>$view]);
     }
 
