@@ -110,7 +110,14 @@
                                         </a>
                                     </li>
 
-
+                                    <li class="kt-menu__item nav-link {{ setActive('server') }}" aria-haspopup="true">
+                                        <a href=" {{ route('inventario.subtipo.index') }} " class="kt-menu__link ">
+                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
+                                                <span></span>
+                                            </i><span class="kt-menu__link-text">SubTipo
+                                            </span>
+                                        </a>
+                                    </li>
 
                                     <li class="kt-menu__item nav-link {{ setActive('server') }}" aria-haspopup="true">
                                         <a href=" {{ route('inventario.marca.index') }} " class="kt-menu__link ">

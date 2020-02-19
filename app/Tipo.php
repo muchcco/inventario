@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\SubTipo;
 class Tipo extends Model
 {
     protected $table = 'Tipo';
@@ -13,4 +13,9 @@ class Tipo extends Model
     protected $fillable = ['Nombre'];
 
     public $timestamps = false;
+
+    public function SubTipos()
+    {
+        return $this->hasMany('App\SubTipo', 'IdTipo', 'IdTipo');
+    }
 }
