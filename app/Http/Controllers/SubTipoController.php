@@ -29,17 +29,22 @@ class SubTipoController extends Controller
      */
     public function tabla()
     {
-        $Tipo=Tipo::find(2);
+
+        $subtipos = SubTipo::join('Tipo','Tipo.idTipo','=','SubTipo.IdSubTipo')->select('Tipo.nombre as TipoNom'  , 'SubTipo.IdSubTipo', 'SubTipo.Nombre')->get();
 
 
-
-
-        return $Tipo->SubTipos()->toArray();
-       // $modelos = Marca::join('modelos','modelos.id_marca','=','marcas.id')->select('modelos.nombre as nombremod'  , 'modelos.id', 'marcas.nombre')->get();
-        $modelos = SubTipo::join('Tipo','Tipo.id_marca','=','marcas.id')->select('modelos.nombre as nombremod'  , 'modelos.id', 'marcas.nombre')->get();
-
-
-        $view = view('inventario.tipo.tabla',compact('tipos'))->render();
+        $view = view('inventario.subtipo.tabla',compact('subtipos'))->render();
         return response()->json(['html'=>$view]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $view_create =  view('inventario.subtipo.create')->render();
+        return response()->json(['html'=>$view_create]);
     }
 }

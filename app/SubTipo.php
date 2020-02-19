@@ -14,9 +14,4 @@ class SubTipo extends Model
 
     public $timestamps = false;
 
-    public function Tipo()
-    {
-
-        return $this->belongsTo('App\Tipo', 'IdTipo');
-    }
 }

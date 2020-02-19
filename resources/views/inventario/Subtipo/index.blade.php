@@ -7,19 +7,20 @@
     <script src="{{ asset('assets/js/pages/components/extended/sweetalert2.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
-            tabla_tipos();
+            tabla_subtipos();
         });
-        var tabla = $("#tabla_tipos").DataTable();
-        var tabla_tipos =() =>  {
+        var tabla = $("#tabla_subtipos").DataTable();
+        var tabla_subtipos =() =>  {
             ajaxRequest(
                 "{{ route('inventario.subtipo.tabla') }}",
                 'GET',
                 {},
                 function(data){
                     tabla.destroy();
-                    $("#tabla_tipos_body").html(data.html);
-                    tabla = $("#tabla_tipos").DataTable({
+                    $("#tabla_subtipos_body").html(data.html);
+                    tabla = $("#tabla_subtipos").DataTable({
                     "columns": [
+                        { "width": "20%" },
                         { "width": "20%" },
                         { "width": "20%" },
                         { "width": "20%" }
@@ -29,16 +30,16 @@
                 }
             );
         }
-        var agregarTipo = () => {
+        var agregarSubTipo = () => {
             $.ajax({
                 type:'get',
-                url:"{{ route('inventario.tipo.create') }}",
+                url:"{{ route('inventario.subtipo.create') }}",
                 dataType: "json",
                 data:{},
                 success:function(data){
-                    $("#modal_agregar_tipo").html(data.html);
-                    tabla_tipos();
-                    $("#modal_agregar_tipo").modal('show');
+                    $("#modal_agregar_subtipo").html(data.html);
+                    tabla_subtipos();
+                    $("#modal_agregar_subtipo").modal('show');
                 }
             });
         };
@@ -132,7 +133,7 @@
                         <i class="kt-font-brand flaticon2-line-chart"></i>
                     </span>
                     <h3 class="kt-portlet__head-title">
-                        Tipo
+                        SubTipo
                         <small></small>
                     </h3>
                 </div>
@@ -182,24 +183,25 @@
                     </div>
                 </div>
                 &nbsp;
-                <button type="button" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" onclick="agregarTipo()">
+                <button type="button" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" onclick="agregarSubTipo()">
                     <i class="la la-plus"></i>
-                    Agregar Tipo
+                    Agregar SubTipo
                 </button>
             </div>
         </div>		 </div>
             </div>
             <div class="kt-portlet__body">
             <!--begin: Datatable -->
-            <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_tipos">
+            <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_subtipos">
                 <thead>
                     <tr>
                         <th>Id</th>
                         <th>Tipo</th>
+                        <th>SubTipo</th>
                         <th>Accion </th>
                     </tr>
                 </thead>
-                <tbody id="tabla_tipos_body">
+                <tbody id="tabla_subtipos_body">
                 </tbody>
             </table>
 
@@ -211,12 +213,12 @@
 
 
         <!--begin: Modal crear marca-->
-        <div class="modal fade" id="modal_agregar_tipo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="modal_agregar_subtipo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
         </div>
         <!--end: Modal crear marca-->
         <!--begin: Modal crear marca-->
-        <div class="modal fade" id="modal_editar_tipo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="modal_editar_subtipo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
         </div>
         <!--end: Modal crear marca-->

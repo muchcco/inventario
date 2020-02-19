@@ -14,8 +14,5 @@ class Tipo extends Model
 
     public $timestamps = false;
 
-    public function SubTipos()
-    {
-        return $this->hasMany('App\SubTipo', 'IdTipo', 'IdTipo');
-    }
+
 }
