@@ -8,12 +8,12 @@
         </div>
         <div class="modal-body">
             <div class="modal-body">
-                <input style="display:none" type="text" class="form-control" id="TipoId" name="TipoId" value="{{$tipo->id}}">
+                <input style="display:none" type="text" class="form-control" id="IdTipo" name="IdTipo" value="{{$tipo->IdTipo}}">
                 <form id="TipoFormEdit" name="TipoFormEdit">
 
                     <div class="form-group">
                         <label for="recipient-name" class="form-control-label">Nombre:</label>
-                    <input type="text" class="form-control" id="TipoNombre" name="nombre" value="{{$tipo->nombre}}">
+                    <input type="text" class="form-control" id="Nombre" name="Nombre" value="{{$tipo->Nombre}}">
                     </div>
                 </form>
             </div>

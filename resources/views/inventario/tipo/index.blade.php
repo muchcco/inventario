@@ -73,7 +73,7 @@
 
         $(document).on('click', '#btn_actualizar_tipo', function(){
             var url = "{{ route('inventario.tipo.update', ':id') }}";
-    		url = url.replace(':id', $("#TipoId").val());
+    		url = url.replace(':id', $("#IdTipo").val());
             var createForm = $("#TipoFormEdit");
 
             ajaxRequest(
@@ -81,14 +81,42 @@
 	    		'PUT',
 	    		createForm.serializeArray(),
 	    		function(response){
-                        if(response == 1){
+
+                        if(response[0].UpdatedID){
                             tabla_tipos();
-                            $("#modal_editar_tipo").modal('hide');
-                        }else{
                             $("#modal_editar_tipo").modal('hide');
                         }
 	    	});
-        })
+        });
+
+        var EliminarTipo = (id,nombre) => {
+            swal.fire({
+                title: "Seguro que desea eliminar?",
+                text: `eliminar ${nombre}`,
+                type: "warning",
+                showCancelButton: !0,
+                confirmButtonText: "Si, Eliminar!"
+            }).then((result) => {
+
+                        var url = "{{ route('inventario.tipo.destroy', ':id') }}";
+                        url = url.replace(':id', id);
+
+                        ajaxRequest(
+                            url,
+                            'delete',
+                            [],
+                            function(response){
+                                tabla_tipos();
+                                Swal.fire(
+                                'Eliminado!',
+                                'El Archivo a sido eliminado',
+                                'success'
+                                );
+                        });
+
+
+            })
+        };
 
 
     </script>

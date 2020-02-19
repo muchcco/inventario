@@ -8,7 +8,6 @@ use Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
-
 class MarcaController extends Controller
 {
     /**

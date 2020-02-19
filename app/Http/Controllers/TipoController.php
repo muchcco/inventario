@@ -6,6 +6,7 @@ use App\Tipo;
 use Validator;
 use Response;
 use Illuminate\Support\Facades\DB;
+
 use Illuminate\Http\Request;
 
 class TipoController extends Controller
@@ -20,7 +21,6 @@ class TipoController extends Controller
         return view('inventario.tipo.index');
 
     }
-
 
     /**
      * Display a listing of the resource.
@@ -60,6 +60,19 @@ class TipoController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function shows($id)
+    {
+        //
+                var_dump("234");
+    die();
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -67,9 +80,7 @@ class TipoController extends Controller
      */
     public function edit(Request $request)
     {
-
-        $tipo = Tipo::select('tipos.id', 'tipos.nombre')->where('id', $request->tipo)->first();
-
+        $tipo = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->where('IdTipo', $request->tipo)->first();
         $view = view('inventario.tipo.edit',compact('tipo'))->render();
         return response()->json(['html'=>$view]);
         exit;
@@ -86,14 +97,24 @@ class TipoController extends Controller
     public function update(Request $request, $id)
     {
 
-        $Tipo = Tipo::find($id);
-        $Tipo->nombre = $request->nombre;
-        if($Tipo->save()){
-            return 1;
-        }else{
-            return 0;
-        }
 
-        //
+       $tipo = DB::select('exec [udp_Tipo_ups] ?,?',array($id,$request->input('Nombre')));
+
+        return $tipo;
+
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        DB::delete('exec [udp_Tipo_del] ?',array($id));
+
+
     }
 }
