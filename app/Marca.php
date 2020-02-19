@@ -8,6 +8,8 @@ class Marca extends Model
 {
     protected $table = 'Marca';
 
+    protected $primaryKey = 'IdMarca';
+
     protected $fillable = ['Nombre'];
 
     public $timestamps = false;

@@ -83,7 +83,7 @@ class MarcaController extends Controller
     public function edit(Request $request)
     {
 
-        $marca = Marca::select('marca.id', 'marca.Nombre')->where('id', $request->marca)->first();
+        $marca = Marca::select('marca.IdMarca', 'marca.Nombre')->where('IdMarca', $request->marca)->first();
         $view = view('inventario.marca.edit',compact('marca'))->render();
         return response()->json(['html'=>$view]);
         exit;
@@ -99,7 +99,10 @@ class MarcaController extends Controller
     public function update(Request $request, $id)
     {
         $Marca = Marca::find($id);
+
         $Marca->Nombre = $request->Nombre;
+
+
         if($Marca->save()){
             return 1;
         }else{
@@ -117,7 +120,9 @@ class MarcaController extends Controller
      */
     public function destroy($id)
     {
-        dd($id);
+
+        $Marca = Marca::find($id)->forceDelete();
+        return true;
 
     }
 

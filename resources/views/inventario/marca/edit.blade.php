@@ -13,7 +13,7 @@
 
                     <div class="form-group">
                         <label for="recipient-name" class="form-control-label">Nombre:</label>
-                    <input type="text" class="form-control" id="MarcaNombre" name="nombre" value="{{$marca->Nombre}}">
+                    <input type="text" class="form-control" id="Nombre" name="Nombre" value="{{$marca->Nombre}}">
                     </div>
                 </form>
             </div>

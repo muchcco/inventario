@@ -14,7 +14,7 @@ Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
     Route::post('marca/store', 'MarcaController@store')->name('marca.store');
     Route::post('marca/edit', 'MarcaController@edit')->name('marca.edit');
     Route::put('marca/{marca}', 'MarcaController@update')->name('marca.update');
-
+    Route::delete('marca/{marca}', 'MarcaController@destroy')->name('marca.destroy');
 
 });
 

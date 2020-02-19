@@ -91,6 +91,45 @@
         })
 
 
+
+        var EliminarMarca = (id,nombre) => {
+            swal.fire({
+                title: "Seguro que desea eliminar?",
+                text: `eliminar ${nombre}`,
+                type: "warning",
+                showCancelButton: !0,
+                confirmButtonText: "Si, Eliminar!"
+            }).then((result) => {
+
+                if (result.value) {
+                        var url = "{{ route('inventario.marca.destroy', ':id') }}";
+                        url = url.replace(':id', id);
+                        $.ajax({
+                            type:'delete',
+                            url:url,
+                            dataType: "json",
+                            data:{modelo : id},
+                            success:function(data){
+
+                                $("#modal_editar_modelo").html(data.html);
+
+                                $("#modal_editar_modelo").modal('show');
+
+                            }
+                    });
+                    Swal.fire(
+                    'Eliminado!',
+                    'El Archivo a sido eliminado',
+                    'success'
+                    ).then((result) => {
+                        if (result.value) {
+                            tabla_marcas();
+                        }
+                    })
+                }
+            })
+        };
+
     </script>
 @endsection
 
