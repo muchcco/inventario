@@ -59,7 +59,7 @@
         var EditarMarca = (id) => {
             $.ajax({
                 type:'post',
-                url:"{{ route('inventario.marca.edit') }}",
+                url:"{{ route('usuarios.edit') }}",
                 dataType: "json",
                 data:{marca : id},
                 success:function(data){
@@ -72,7 +72,7 @@
         };
 
         $(document).on('click', '#btn_actualizar_marca', function(){
-            var url = "{{ route('inventario.marca.update', ':id') }}";
+            var url = "{{ route('usuarios.update', ':id') }}";
     		url = url.replace(':id', $("#MarcaId").val());
             var createForm = $("#MarcaFormEdit");
 
@@ -168,6 +168,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Marca</th>
+                        <th>Rol</th>
                         <th>Accion </th>
                     </tr>
                 </thead>

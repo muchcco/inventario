@@ -7,22 +7,29 @@
         </div>
         <div class="modal-body">
             <div class="modal-body">
-                <input type="text" class="form-control" id="ModeloId" name="ModeloId" value="{{$modelo->modeloid}}" style="display:none">
+                <input type="text" class="form-control" id="ModeloId" name="ModeloId" value="{{$usuarios->uid}}" style="display:none">
                 <form id="ModeloFormEdit" name="ModeloFormEdit">
                     <div class="form-group ">
                         <label class="form-control-label">Modelo</label>
                         <div class="">
                             <select class="form-control kt-selectpicker" name="id_marca" id="id_marca">
-                                @foreach( $marcas as $marca )
-                                    <tr>
-                                        <option value="{{ $marca->id }}"
-                                            @if($marca->id == $modelo->marcaid)
-                                                selected
-                                            @endif
-
-                                            >{{ $marca->nombre }}</option>
-                                    </tr>
-                                @endforeach
+                                <div class="form-group">
+                                    <label for="recipient-name" class="form-control-label">Nombre:</label>
+                                <input type="text" class="form-control" id="MarcaNombre" name="nombre" value="{{$usuarios->un}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="recipient-name" class="form-control-label">Email:</label>
+                                <input type="text" class="form-control" id="MarcaNombre" name="nombre" value="{{$usuarios->ue}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="recipient-name" class="form-control-label">Password:</label>
+                                <input type="text" class="form-control" id="MarcaNombre" name="nombre" value="{{$usuarios->up}}">
+                                </div>
+                               
+                                <div class="form-group">
+                                    <label for="recipient-name" class="form-control-label">Password:</label>
+                                <input type="text" class="form-control" id="MarcaNombre" name="nombre" value="{{$usuarios->ues}}">
+                                </div>
 
                             </select>
                         </div>

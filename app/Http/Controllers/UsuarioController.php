@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 
 use App\role;
 use App\User;
-
+use Auth;
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Hash;
@@ -31,7 +31,7 @@ class UsuarioController extends Controller
     public function tabla()
     {
         $usuarios = role::join('users','users.role_id','=','roles.id')
-                            ->select('users.name as un', 'users.email as ue', 'roles.nombre as rn', 'users.estado as ues')
+                            ->select('users.id as idu','users.name as un', 'users.email as ue', 'roles.nombre as rn', 'users.estado as ues')
                             ->get();
 
         $view = view('usuarios.tabla',compact('usuarios'))->render();
@@ -92,7 +92,13 @@ class UsuarioController extends Controller
     public function edit(Request $request)
     {
         $roles = Role::get();
-        $usuarios = User::join('roles','roles.id','=','users.role_id')->select('users.name as un', 'users.email as ue', 'roles.nombre as rn', 'users.estado as ues')->where('users.id', $request->roles)->first();
+   
+        $users = Auth::user()->id;
+        
+        $usuarios = User::join('roles','roles.id','=','users.role_id')->select( 'users.id as uid' ,'users.name as un', 'users.email as ue','users.password as up', 'roles.id as ri' ,'roles.nombre as rn', 'users.estado as ues')->where('users.id', $users)->first();
+
+     
+      
         $view = view('usuarios.edit',compact('roles','usuarios'))->render();
         return response()->json(['html'=>$view]);
 
@@ -107,14 +113,7 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $Modelo = Modelo::find($id);
-        $Modelo->id_marca = $request->id_marca;
-        $Modelo->nombre = $request->nombre;
-        if($Modelo->save()){
-            return 1;
-        }else{
-            return 0;
-        }
+        
     }
 
     /**
@@ -125,8 +124,7 @@ class UsuarioController extends Controller
      */
     public function destroy($id)
     {
-        $modelo = Modelo::find($id);
-        $modelo->delete();
+        
 
     }
 }
