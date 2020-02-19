@@ -102,6 +102,17 @@
                                             </span></span></li>
 
                                     <li class="kt-menu__item nav-link {{ setActive('server') }}" aria-haspopup="true">
+                                        <a href=" {{ route('inventario.tipo.index') }} " class="kt-menu__link ">
+                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
+                                                <span></span>
+                                            </i><span class="kt-menu__link-text">Tipo
+                                            </span>
+                                        </a>
+                                    </li>
+
+
+
+                                    <li class="kt-menu__item nav-link {{ setActive('server') }}" aria-haspopup="true">
                                         <a href=" {{ route('inventario.marca.index') }} " class="kt-menu__link ">
                                             <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                                 <span></span>
@@ -118,7 +129,7 @@
                             <h4 class="kt-menu__section-text">CONFIGURACION </h4>
                             <i class="kt-menu__section-icon flaticon-more-v2"></i>
                         </li>
-                        
+
                         <li class="kt-menu__item " aria-haspopup="true"><a href=" {{ route('usuarios.index') }}" class="kt-menu__link "><i class="kt-menu__link-icon flaticon2-expand"></i><span class="kt-menu__link-text">Usuarios </span></a>
                         </li>
                     </ul>

@@ -167,7 +167,7 @@
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Marca</th>
+                        <th>Tipo</th>
                         <th>Accion </th>
                     </tr>
                 </thead>

@@ -16,6 +16,16 @@ Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
     Route::put('marca/{marca}', 'MarcaController@update')->name('marca.update');
     Route::delete('marca/{marca}', 'MarcaController@destroy')->name('marca.destroy');
 
+
+    Route::get('tipo', 'TipoController@index')->name('tipo.index');
+    Route::get('tipo/tabla', 'TipoController@tabla')->name('tipo.tabla');
+    Route::get('tipo/create', 'TipoController@create')->name('tipo.create');
+    Route::post('tipo/store', 'TipoController@store')->name('tipo.store');
+    Route::post('tipo/edit', 'TipoController@edit')->name('tipo.edit');
+    Route::put('tipo/{tipo}', 'TipoController@update')->name('tipo.update');
+    Route::delete('tipo/{tipo}', 'TipoController@destroy')->name('tipo.destroy');
+
+
 });
 
     Route::get('usuarios', 'UsuarioController@index')->name('usuarios.index');
