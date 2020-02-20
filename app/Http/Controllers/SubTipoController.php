@@ -30,7 +30,7 @@ class SubTipoController extends Controller
     public function tabla()
     {
 
-        $subtipos = SubTipo::join('Tipo','Tipo.idTipo','=','SubTipo.IdSubTipo')->select('Tipo.nombre as TipoNom'  , 'SubTipo.IdSubTipo', 'SubTipo.Nombre')->get();
+        $subtipos = SubTipo::join('Tipo','Tipo.idTipo','=','SubTipo.IdTipo')->select('Tipo.nombre as TipoNom'  , 'SubTipo.IdSubTipo', 'SubTipo.Nombre')->get();
 
 
         $view = view('inventario.subtipo.tabla',compact('subtipos'))->render();
@@ -44,7 +44,65 @@ class SubTipoController extends Controller
      */
     public function create()
     {
-        $view_create =  view('inventario.subtipo.create')->render();
+        $tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
+        $view_create =  view('inventario.subtipo.create',compact('tipos'))->render();
         return response()->json(['html'=>$view_create]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+
+            $attr = $request->all();
+            $response_data = SubTipo::create($attr);
+            return Response::json( $response_data );
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Request $request)
+    {
+        $subtipo = SubTipo::select('SubTipo.IdSubTipo as IdSubTipo'  , 'SubTipo.IdTipo', 'SubTipo.Nombre')->where('IdSubTipo', $request->subtipo)->first();
+        $tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
+
+
+        $view = view('inventario.subtipo.edit',compact('subtipo','tipos'))->render();
+        return response()->json(['html'=>$view]);
+        exit;
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+
+        return $request;
+        $SubTipo = SubTipo::find($id);
+
+        $SubTipo->Nombre = $request->Nombre;
+        $SubTipo->IdTipo = $request->IdTipo;
+
+
+        if($SubTipo->save()){
+            return 1;
+        }else{
+            return 0;
+        }
+
     }
 }

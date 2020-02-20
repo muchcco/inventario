@@ -8,10 +8,15 @@
         </div>
         <div class="modal-body">
             <div class="modal-body">
-                <form id="TipoForm" name="TipoForm">
+                <form id="SubTipoForm" name="SubTipoForm">
                     <div class="form-group">
-                        <label for="recipient-name" class="form-control-label">Nombre:</label>
-                        <input type="text" class="form-control" id="Nombre" name="Nombre">
+                        <label for="recipient-name" class="form-control-label">Tipo:</label>
+                        <select class="form-control" id="IdTipo" name="IdTipo">
+                            @foreach ($tipos as $tipo)
+                            <option value="{{$tipo->IdTipo}}">{{$tipo->Nombre}}</option>
+                            @endforeach
+
+						</select>
                     </div>
                     <div class="form-group">
                         <label for="recipient-name" class="form-control-label">Nombre:</label>
@@ -22,7 +27,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar </button>
-            <button type="button" class="btn btn-primary" id="btn_guardar_tipo">Guardar</button>
+            <button type="button" class="btn btn-primary" id="btn_guardar_subtipo">Guardar</button>
         </div>
     </div>
 </div>

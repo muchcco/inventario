@@ -44,15 +44,15 @@
             });
         };
 
-        $(document).on('click', '#btn_guardar_tipo', function(){
-            var createForm = $("#TipoForm");
+        $(document).on('click', '#btn_guardar_subtipo', function(){
+            var createForm = $("#SubTipoForm");
             ajaxRequest(
-                    "{{ route('inventario.tipo.store') }}",
+                    "{{ route('inventario.subtipo.store') }}",
                     'POST',
                     createForm.serializeArray(),
                     function(response){
-                        tabla_tipos()
-                        $("#modal_agregar_tipo").modal('hide');
+                        tabla_subtipos()
+                        $("#modal_agregar_subtipo").modal('hide');
 
                 });
         })
@@ -60,22 +60,22 @@
         var EditarTipo = (id) => {
             $.ajax({
                 type:'post',
-                url:"{{ route('inventario.tipo.edit') }}",
+                url:"{{ route('inventario.subtipo.edit') }}",
                 dataType: "json",
-                data:{tipo : id},
+                data:{subtipo : id},
                 success:function(data){
 
-                    $("#modal_editar_tipo").html(data.html);
+                    $("#modal_editar_subtipo").html(data.html);
 
-                    $("#modal_editar_tipo").modal('show');
+                    $("#modal_editar_subtipo").modal('show');
                 }
             });
         };
 
-        $(document).on('click', '#btn_actualizar_tipo', function(){
-            var url = "{{ route('inventario.tipo.update', ':id') }}";
-    		url = url.replace(':id', $("#IdTipo").val());
-            var createForm = $("#TipoFormEdit");
+        $(document).on('click', '#btn_actualizar_subtipo', function(){
+            var url = "{{ route('inventario.subtipo.update', ':id') }}";
+    		url = url.replace(':id', $("#IdSubTipo").val());
+            var createForm = $("#SubTipoFormEdit");
 
             ajaxRequest(
 	    		url,
@@ -85,7 +85,7 @@
 
                         if(response[0].UpdatedID){
                             tabla_tipos();
-                            $("#modal_editar_tipo").modal('hide');
+                            $("#modal_editar_subtipo").modal('hide');
                         }
 	    	});
         });
