@@ -24,6 +24,8 @@
                         { "width": "20%" },
                         { "width": "20%" },
                         { "width": "20%" },
+                        { "width": "20%" },
+                        { "width": "20%" },
                         { "width": "20%" }
                     ]
                     });
@@ -39,23 +41,29 @@
                 data:{},
                 success:function(data){
                     $("#modal_agregar_modelo").html(data.html);
-                    tabla_modelos();
                     $("#modal_agregar_modelo").modal('show');
                 }
             });
         };
 
         $(document).on('click', '#btn_guardar_modelo', function(){
-            var createForm = $("#ModeloForm");
+            var createForm = $("#ModeloForm").serializeArray();
+
+
+            /*for (let i = 0; i < createForm.length; i++) {
+                if (createForm[i].value == "") {
+                    alert("se tiene que llenar todos los datos");
+                    return true;
+                }
+
+            }*/
             ajaxRequest(
                     "{{ route('inventario.modelo.store') }}",
                     'POST',
-                    createForm.serializeArray(),
+                    createForm,
                     function(response){
-
                         tabla_modelos()
                         $("#modal_agregar_modelo").modal('hide');
-
                 });
         })
 
@@ -64,9 +72,8 @@
                 type:'post',
                 url:"{{ route('inventario.modelo.edit') }}",
                 dataType: "json",
-                data:{marca : id},
+                data:{modelo : id},
                 success:function(data){
-
                     $("#modal_editar_modelo").html(data.html);
                     tabla_modelos();
                     $("#modal_editar_modelo").modal('show');
@@ -78,7 +85,6 @@
             var url = "{{ route('inventario.modelo.update', ':id') }}";
     		url = url.replace(':id', $("#ModeloId").val());
             var createForm = $("#ModeloFormEdit");
-
             ajaxRequest(
 	    		url,
 	    		'PUT',
@@ -94,8 +100,6 @@
 	    	});
         })
 
-
-
         var eliminarModelo = (id,nombre) => {
             swal.fire({
                 title: "Seguro que desea eliminar?",
@@ -104,7 +108,6 @@
                 showCancelButton: !0,
                 confirmButtonText: "Si, Eliminar!"
             }).then((result) => {
-
                 if (result.value) {
                         var url = "{{ route('inventario.modelo.destroy', ':id') }}";
                         url = url.replace(':id', id);
@@ -114,9 +117,7 @@
                             dataType: "json",
                             data:{modelo : id},
                             success:function(data){
-
                                 $("#modal_editar_modelo").html(data.html);
-
                                 $("#modal_editar_modelo").modal('show');
 
                             }
@@ -132,12 +133,9 @@
                     })
                 }
             })
-
-
-
-
-
         };
+
+
 
     </script>
 @endsection
@@ -215,6 +213,8 @@
                 <thead>
                     <tr>
                         <th>Id</th>
+                        <th>Tipo</th>
+                        <th>SubTipo</th>
                         <th>Marca</th>
                         <th>Modelo</th>
                         <th>Acciones</th>

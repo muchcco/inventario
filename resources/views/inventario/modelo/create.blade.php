@@ -10,21 +10,41 @@
             <div class="modal-body">
                 <form id="ModeloForm" name="ModeloForm">
                     <div class="form-group ">
-                        <label class="form-control-label">Marca</label>
-                        <div class="">
-                            <select class="form-control kt-selectpicker" name="id_marca" id="id_marca">
-                                @foreach( $marcas as $marca )
+                        <label class="form-control-label">Tipo</label>
+
+                            <select class="form-control kt-selectpicker" name="IdTipo" id="IdTipo">
+                                @foreach( $tipos as $tipo )
                                     <tr>
-                                        <option value="{{ $marca->id }}">{{ $marca->nombre }}</option>
+                                        <option value="{{ $tipo->IdTipo }}">{{ $tipo->Nombre }}</option>
                                     </tr>
                                 @endforeach
 
                             </select>
-                        </div>
+
                     </div>
+                    <div class="form-group ">
+                        <label class="form-control-label">SubTipos</label>
+
+                            <select class="form-control kt-selectpicker" name="IdSubTipo" id="IdSubTipo">
+                            </select>
+
+                    </div>
+                    <div class="form-group ">
+                            <label class="form-control-label">Marca</label>
+
+                                <select class="form-control kt-selectpicker" name="IdMarca" id="IdMarca">
+                                        @foreach( $marcas as $marca )
+                                        <tr>
+                                            <option value="{{ $marca->IdMarca }}">{{ $marca->Nombre }}</option>
+                                        </tr>
+                                    @endforeach
+                                </select>
+
+                    </div>
+
                     <div class="form-group">
                         <label for="nombre" class="form-control-label">Nombre Modelo:</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre">
+                        <input type="text" class="form-control" id="Nombre" name="Nombre">
                     </div>
                 </form>
             </div>
@@ -35,3 +55,43 @@
         </div>
     </div>
 </div>
+
+<script>
+
+
+$(document).ready(function () {
+    //CARGAR COMBO SUBTIPO
+
+    var tipo = document.getElementById('IdTipo');
+    var cargarSAubtipo = () => {
+        ajaxRequest(
+            "{{ route('inventario.modelo.subtipos') }}",
+            'POST',
+            {tipo : tipo.value},
+            function(response){
+                let SubTipos = '<option value="">Seleccione SubTipo</option>'
+                for (var i=0; i<response.length;i++){
+                    SubTipos+='<option value="'+response[i].IdSubTipo+'">'+response[i].Nombre+'</option>';
+                }
+                $("#IdSubTipo").html(SubTipos)
+        });
+    }
+    cargarSAubtipo();
+    tipo.addEventListener('change', (event) => {
+
+        ajaxRequest(
+            "{{ route('inventario.modelo.subtipos') }}",
+            'POST',
+            {tipo : event.target.value},
+            function(response){
+                let SubTipos = '<option value="">Seleccione SubTipo</option>'
+                for (var i=0; i<response.length;i++){
+                    SubTipos+='<option value="'+response[i].IdSubTipo+'">'+response[i].Nombre+'</option>';
+                }
+                $("#IdSubTipo").html(SubTipos)
+        });
+    });
+
+})
+</script>
+

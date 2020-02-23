@@ -80,7 +80,7 @@
                             <h4 class="kt-menu__section-text">Custom </h4>
                             <i class="kt-menu__section-icon flaticon-more-v2"></i>
                         </li>
-                        <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
+                        <li class="kt-menu__item  kt-menu__item--submenu @if (Request::is('inventario*')) kt-menu__item--open @endif" aria-haspopup="true"
                             data-ktmenu-submenu-toggle="hover"><a href="javascript:;"
                                 class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon"><svg
                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -97,11 +97,9 @@
                                     class="kt-menu__ver-arrow la la-angle-right"></i></a>
                             <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                                 <ul class="kt-menu__subnav">
-                                    <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span
-                                            class="kt-menu__link"><span class="kt-menu__link-text">Inventario
-                                            </span></span></li>
 
-                                    <li class="kt-menu__item nav-link {{ setActive('server') }}" aria-haspopup="true">
+
+                                    <li class="kt-menu__item nav-link @if (Request::is('inventario/tipo*')) kt-menu__item--active @endif" aria-haspopup="true">
                                         <a href=" {{ route('inventario.tipo.index') }} " class="kt-menu__link ">
                                             <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                                 <span></span>
@@ -110,7 +108,7 @@
                                         </a>
                                     </li>
 
-                                    <li class="kt-menu__item nav-link {{ setActive('server') }}" aria-haspopup="true">
+                                    <li class="kt-menu__item nav-link @if (Request::is('inventario/subtipo*')) kt-menu__item--active @endif" aria-haspopup="true">
                                         <a href=" {{ route('inventario.subtipo.index') }} " class="kt-menu__link ">
                                             <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                                 <span></span>
@@ -119,7 +117,7 @@
                                         </a>
                                     </li>
 
-                                    <li class="kt-menu__item nav-link {{ setActive('server') }}" aria-haspopup="true">
+                                    <li class="kt-menu__item nav-link @if (Request::is('inventario/marca*')) kt-menu__item--active @endif" aria-haspopup="true">
                                         <a href=" {{ route('inventario.marca.index') }} " class="kt-menu__link ">
                                             <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                                 <span></span>
@@ -127,9 +125,17 @@
                                             </span>
                                         </a>
                                     </li>
-
+                                    <li class="kt-menu__item nav-link @if (Request::is('inventario/modelo*')) kt-menu__item--active @endif" aria-haspopup="true">
+                                        <a href=" {{ route('inventario.modelo.index') }} " class="kt-menu__link ">
+                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
+                                                <span></span>
+                                            </i><span class="kt-menu__link-text">Modelo
+                                            </span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
+
                         </li>
 
                         <li class="kt-menu__section ">

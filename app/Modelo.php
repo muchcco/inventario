@@ -8,5 +8,9 @@ class Modelo extends Model
 {
     protected $table = 'Modelo';
 
-    protected $fillable = ['IdMarca','Nombre'];
+    protected $primaryKey = 'IdModelo';
+
+    protected $fillable = ['IdMarca','IdSubTipo','Nombre'];
+
+    public $timestamps = false;
 }

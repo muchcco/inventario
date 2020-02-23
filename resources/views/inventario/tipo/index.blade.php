@@ -97,7 +97,7 @@
                 showCancelButton: !0,
                 confirmButtonText: "Si, Eliminar!"
             }).then((result) => {
-
+                if (result.value) {
                         var url = "{{ route('inventario.tipo.destroy', ':id') }}";
                         url = url.replace(':id', id);
 
@@ -113,7 +113,7 @@
                                 'success'
                                 );
                         });
-
+                }
 
             })
         };

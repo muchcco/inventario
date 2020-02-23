@@ -8,22 +8,28 @@
         </div>
         <div class="modal-body">
             <div class="modal-body">
-                <input type="text" class="form-control" id="ModeloId" name="ModeloId" value="{{$modelo->modeloid}}" style="display:none">
+                <input type="text" class="form-control" id="ModeloId" name="ModeloId" value="{{$modelo->IdModelo}}" style="display:none">
                 <form id="ModeloFormEdit" name="ModeloFormEdit">
+                    <div class="form-group ">
+                        <label class="form-control-label">Tipo</label>
+                        <select class="form-control kt-selectpicker" name="IdTipo" id="IdTipo">
+                                @foreach( $tipos as $tipo )
+                                <tr>
+                                    <option value="{{ $tipo->IdTipo }}" @if ($tipo->IdTipo == $modelo->IdTipo)  selected    @endif>{{ $tipo->Nombre }}</option>
+                                </tr>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="form-group ">
                         <label class="form-control-label">Modelo</label>
                         <div class="">
-                            <select class="form-control kt-selectpicker" name="id_marca" id="id_marca">
-                                @foreach( $marcas as $marca )
-                                    <tr>
-                                        <option value="{{ $marca->id }}"
-                                            @if($marca->id == $modelo->marcaid)
-                                                selected
-                                            @endif
+                            <select class="form-control kt-selectpicker" name="IdSubTipo" id="IdSubTipo">
 
-                                            >{{ $marca->nombre }}</option>
-                                    </tr>
-                                @endforeach
+
+                                        <option value=""></option>
+
+
 
                             </select>
                         </div>
@@ -41,3 +47,51 @@
         </div>
     </div>
 </div>
+
+
+<script>
+
+
+    $(document).ready(function () {
+        //CARGAR COMBO SUBTIPO
+
+        var tipo = document.getElementById('IdTipo');
+        var cargarSAubtipo = () => {
+            ajaxRequest(
+                "{{ route('inventario.modelo.subtipos') }}",
+                'POST',
+                {tipo : tipo.value},
+                function(response){
+                    let SubTipos = '<option value="">Seleccione SubTipo</option>'
+                    for (var i=0; i<response.length;i++){
+                        selected = ""
+
+                        if ('{{ $modelo->IdSubTipo }}' == response[i].IdSubTipo) {
+                            selected = " selected "
+
+                        }
+                        SubTipos+=`<option value="${response[i].IdSubTipo}" ${selected} >${response[i].Nombre}</option>`;
+                    }
+                    $("#IdSubTipo").html(SubTipos)
+            });
+        }
+        cargarSAubtipo();
+        tipo.addEventListener('change', (event) => {
+
+            ajaxRequest(
+                "{{ route('inventario.modelo.subtipos') }}",
+                'POST',
+                {tipo : event.target.value},
+                function(response){
+                    let SubTipos = '<option value="">Seleccione SubTipo</option>'
+                    for (var i=0; i<response.length;i++){
+                        SubTipos+='<option value="'+response[i].IdSubTipo+'">'+response[i].Nombre+'</option>';
+                    }
+                    $("#IdSubTipo").html(SubTipos)
+            });
+        });
+
+    })
+</script>
+
+

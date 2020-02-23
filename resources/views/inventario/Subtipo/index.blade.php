@@ -83,14 +83,14 @@
 	    		createForm.serializeArray(),
 	    		function(response){
 
-                        if(response[0].UpdatedID){
-                            tabla_tipos();
+                        if(response==1){
+                            tabla_subtipos();
                             $("#modal_editar_subtipo").modal('hide');
                         }
 	    	});
         });
 
-        var EliminarTipo = (id,nombre) => {
+        var EliminarSubTipo = (id,nombre) => {
             swal.fire({
                 title: "Seguro que desea eliminar?",
                 text: `eliminar ${nombre}`,
@@ -98,8 +98,8 @@
                 showCancelButton: !0,
                 confirmButtonText: "Si, Eliminar!"
             }).then((result) => {
-
-                        var url = "{{ route('inventario.tipo.destroy', ':id') }}";
+                if (result.value) {
+                        var url = "{{ route('inventario.subtipo.destroy', ':id') }}";
                         url = url.replace(':id', id);
 
                         ajaxRequest(
@@ -107,17 +107,18 @@
                             'delete',
                             [],
                             function(response){
-                                tabla_tipos();
-                                Swal.fire(
-                                'Eliminado!',
-                                'El Archivo a sido eliminado',
-                                'success'
-                                );
+                                if (response==1) {
+                                    tabla_subtipos();
+                                    Swal.fire(
+                                    'Eliminado!',
+                                    'El Archivo a sido eliminado',
+                                    'success'
+                                    );
+                                }
                         });
-
-
-            })
-        };
+                }
+            });
+        }
 
 
     </script>

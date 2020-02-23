@@ -91,18 +91,32 @@ class SubTipoController extends Controller
     public function update(Request $request, $id)
     {
 
-        return $request;
         $SubTipo = SubTipo::find($id);
 
         $SubTipo->Nombre = $request->Nombre;
-        $SubTipo->IdTipo = $request->IdTipo;
 
+        $SubTipo->IdTipo = $request->IdTipo;
 
         if($SubTipo->save()){
             return 1;
         }else{
             return 0;
         }
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+
+        $Marca = SubTipo::find($id)->forceDelete();
+
+        return 1;
 
     }
 }
