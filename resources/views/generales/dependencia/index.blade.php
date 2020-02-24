@@ -33,10 +33,10 @@
                 }
             );
         }
-        var agregarModelo = () => {
+        var agregarDependencia = () => {
             $.ajax({
                 type:'get',
-                url:"{{ route('inventario.modelo.create') }}",
+                url:"{{ route('generales.dependencia.create') }}",
                 dataType: "json",
                 data:{},
                 success:function(data){
@@ -197,9 +197,9 @@
                     </div>
                 </div>
                 &nbsp;
-                <button type="button" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" onclick="agregarModelo()">
+                <button type="button" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" onclick="agregarDependencia()">
                     <i class="la la-plus"></i>
-                    Agregar Modelo
+                    Agregar Dependencia
                 </button>
             </div>
         </div>		 </div>

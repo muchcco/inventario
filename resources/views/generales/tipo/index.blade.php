@@ -5,25 +5,21 @@
 @section('script')
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js')}}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/pages/components/extended/sweetalert2.js')}}" type="text/javascript"></script>
-    <script src="{{ asset('assets/js/pages/crud/forms/widgets/bootstrap-select.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
-            tabla_modelos();
+            tabla_tipos();
         });
-        var tabla = $("#tabla_modelos").DataTable();
-        var tabla_modelos =() =>  {
+        var tabla = $("#tabla_tipos").DataTable();
+        var tabla_tipos =() =>  {
             ajaxRequest(
-                "{{ route('inventario.modelo.tabla') }}",
+                "{{ route('inventario.tipo.tabla') }}",
                 'GET',
                 {},
                 function(data){
                     tabla.destroy();
-                    $("#tabla_modelos_body").html(data.html);
-                    tabla = $("#tabla_modelos").DataTable({
+                    $("#tabla_tipos_body").html(data.html);
+                    tabla = $("#tabla_tipos").DataTable({
                     "columns": [
-                        { "width": "20%" },
-                        { "width": "20%" },
-                        { "width": "20%" },
                         { "width": "20%" },
                         { "width": "20%" },
                         { "width": "20%" }
@@ -33,105 +29,94 @@
                 }
             );
         }
-        var agregarModelo = () => {
+        var agregarTipo = () => {
             $.ajax({
                 type:'get',
-                url:"{{ route('inventario.modelo.create') }}",
+                url:"{{ route('inventario.tipo.create') }}",
                 dataType: "json",
                 data:{},
                 success:function(data){
-                    $("#modal_agregar_modelo").html(data.html);
-                    $("#modal_agregar_modelo").modal('show');
+                    $("#modal_agregar_tipo").html(data.html);
+                    tabla_tipos();
+                    $("#modal_agregar_tipo").modal('show');
                 }
             });
         };
 
-        $(document).on('click', '#btn_guardar_modelo', function(){
-            var createForm = $("#ModeloForm").serializeArray();
-
-
-            /*for (let i = 0; i < createForm.length; i++) {
-                if (createForm[i].value == "") {
-                    alert("se tiene que llenar todos los datos");
-                    return true;
-                }
-
-            }*/
+        $(document).on('click', '#btn_guardar_tipo', function(){
+            var createForm = $("#TipoForm");
             ajaxRequest(
-                    "{{ route('inventario.modelo.store') }}",
+                    "{{ route('inventario.tipo.store') }}",
                     'POST',
-                    createForm,
+                    createForm.serializeArray(),
                     function(response){
-                        tabla_modelos()
-                        $("#modal_agregar_modelo").modal('hide');
+                        tabla_tipos()
+                        $("#modal_agregar_tipo").modal('hide');
+
                 });
         })
 
-        var EditarModelo = (id) => {
+        var EditarTipo = (id) => {
             $.ajax({
                 type:'post',
-                url:"{{ route('inventario.modelo.edit') }}",
+                url:"{{ route('inventario.tipo.edit') }}",
                 dataType: "json",
-                data:{modelo : id},
+                data:{tipo : id},
                 success:function(data){
-                    $("#modal_editar_modelo").html(data.html);
-                    tabla_modelos();
-                    $("#modal_editar_modelo").modal('show');
+
+                    $("#modal_editar_tipo").html(data.html);
+
+                    $("#modal_editar_tipo").modal('show');
                 }
             });
         };
 
-        $(document).on('click', '#btn_actualizar_modelo', function(){
-            var url = "{{ route('inventario.modelo.update', ':id') }}";
-    		url = url.replace(':id', $("#ModeloId").val());
-            var createForm = $("#ModeloFormEdit");
+        $(document).on('click', '#btn_actualizar_tipo', function(){
+            var url = "{{ route('inventario.tipo.update', ':id') }}";
+    		url = url.replace(':id', $("#IdTipo").val());
+            var createForm = $("#TipoFormEdit");
+
             ajaxRequest(
 	    		url,
 	    		'PUT',
 	    		createForm.serializeArray(),
 	    		function(response){
 
-                        if(response == 1){
-                            tabla_modelos();
-                            $("#modal_editar_modelo").modal('hide');
-                        }else{
-                            $("#modal_editar_modelo").modal('hide');
+                        if(response[0].UpdatedID){
+                            tabla_tipos();
+                            $("#modal_editar_tipo").modal('hide');
                         }
 	    	});
-        })
+        });
 
-        var eliminarModelo = (id,nombre) => {
+        var EliminarTipo = (id,nombre) => {
             swal.fire({
                 title: "Seguro que desea eliminar?",
-                text: "eliminar",
+                text: `eliminar ${nombre}`,
                 type: "warning",
                 showCancelButton: !0,
                 confirmButtonText: "Si, Eliminar!"
             }).then((result) => {
                 if (result.value) {
-                        var url = "{{ route('inventario.modelo.destroy', ':id') }}";
+                        var url = "{{ route('inventario.tipo.destroy', ':id') }}";
                         url = url.replace(':id', id);
-                        $.ajax({
-                            type:'delete',
-                            url:url,
-                            dataType: "json",
-                            data:{modelo : id},
-                            success:function(data){
-                            }
-                    });
-                    Swal.fire(
-                    'Eliminado!',
-                    'El Archivo a sido eliminado',
-                    'success'
-                    ).then((result) => {
-                        if (result.value) {
-                            tabla_modelos();
-                        }
-                    })
+
+                        ajaxRequest(
+                            url,
+                            'delete',
+                            [],
+                            function(response){
+                                tabla_tipos();
+                                Swal.fire(
+                                'Eliminado!',
+                                'El Archivo a sido eliminado',
+                                'success'
+                                );
+                        });
                 }
+
             })
         };
-
 
 
     </script>
@@ -147,7 +132,7 @@
                         <i class="kt-font-brand flaticon2-line-chart"></i>
                     </span>
                     <h3 class="kt-portlet__head-title">
-                        Modelo
+                        Tipo
                         <small></small>
                     </h3>
                 </div>
@@ -197,27 +182,24 @@
                     </div>
                 </div>
                 &nbsp;
-                <button type="button" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" onclick="agregarModelo()">
+                <button type="button" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" onclick="agregarTipo()">
                     <i class="la la-plus"></i>
-                    Agregar Modelo
+                    Agregar Tipo
                 </button>
             </div>
         </div>		 </div>
             </div>
             <div class="kt-portlet__body">
             <!--begin: Datatable -->
-            <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_modelos">
+            <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_tipos">
                 <thead>
                     <tr>
                         <th>Id</th>
                         <th>Tipo</th>
-                        <th>SubTipo</th>
-                        <th>Marca</th>
-                        <th>Modelo</th>
-                        <th>Acciones</th>
+                        <th>Accion </th>
                     </tr>
                 </thead>
-                <tbody id="tabla_modelos_body">
+                <tbody id="tabla_tipos_body">
                 </tbody>
             </table>
 
@@ -229,15 +211,15 @@
 
 
         <!--begin: Modal crear marca-->
-        <div class="modal fade" id="modal_agregar_modelo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="modal_agregar_tipo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
         </div>
         <!--end: Modal crear marca-->
-        <!--begin: Modal editar marca-->
-        <div class="modal fade" id="modal_editar_modelo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <!--begin: Modal crear marca-->
+        <div class="modal fade" id="modal_editar_tipo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
         </div>
-        <!--end: Modal editar marca-->
+        <!--end: Modal crear marca-->
     </div>
 </div>
 @endsection

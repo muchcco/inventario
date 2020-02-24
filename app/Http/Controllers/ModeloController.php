@@ -101,9 +101,52 @@ class ModeloController extends Controller
                         ->first();
 
         $tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
+        $marcas = Marca::select('Marca.IdMarca', 'Marca.Nombre')->get();
 
-
-        $view = view('inventario.modelo.edit',compact('modelo','tipos'))->render();
+        $view = view('inventario.modelo.edit',compact('modelo','tipos','marcas'))->render();
         return response()->json(['html'=>$view]);
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+
+        $modelo = Modelo::find($id);
+
+
+        $modelo->IdSubTipo = $request->IdSubTipo;
+        $modelo->IdMarca = $request->IdMarca;
+        $modelo->Nombre = $request->Nombre;
+
+        if($modelo->save()){
+            return 1;
+        }else{
+            return 0;
+        }
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+
+        $Marca = Modelo::find($id)->forceDelete();
+
+        return 1;
+
+    }
+
+
+
 }

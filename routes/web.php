@@ -45,6 +45,27 @@ Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
     Route::delete('subtipo/{tipo}', 'SubtipoController@destroy')->name('subtipo.destroy');
 
 
+    Route::get('subtipo', 'SubtipoController@index')->name('subtipo.index');
+    Route::get('subtipo/tabla', 'SubtipoController@tabla')->name('subtipo.tabla');
+    Route::get('subtipo/create', 'SubtipoController@create')->name('subtipo.create');
+    Route::post('subtipo/store', 'SubtipoController@store')->name('subtipo.store');
+    Route::post('subtipo/edit', 'SubtipoController@edit')->name('subtipo.edit');
+    Route::put('subtipo/{tipo}', 'SubtipoController@update')->name('subtipo.update');
+    Route::delete('subtipo/{tipo}', 'SubtipoController@destroy')->name('subtipo.destroy');
+
+
+});
+
+
+Route::group(['prefix'=>'generales','as'=>'generales.'],function () {
+
+    Route::get('dependencia', 'DependenciaController@index')->name('dependencia.index');
+    Route::get('dependencia/tabla', 'DependenciaController@tabla')->name('dependencia.tabla');
+    Route::get('dependencia/create', 'DependenciaController@create')->name('dependencia.create');
+    Route::post('dependencia/store', 'DependenciaController@store')->name('dependencia.store');
+    Route::post('dependencia/edit', 'DependenciaController@edit')->name('dependencia.edit');
+    Route::put('dependencia/{marca}', 'DependenciaController@update')->name('dependencia.update');
+    Route::delete('dependencia/{marca}', 'DependenciaController@destroy')->name('dependencia.destroy');
 
 });
 

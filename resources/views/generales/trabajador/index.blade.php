@@ -5,25 +5,21 @@
 @section('script')
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js')}}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/pages/components/extended/sweetalert2.js')}}" type="text/javascript"></script>
-    <script src="{{ asset('assets/js/pages/crud/forms/widgets/bootstrap-select.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
-            tabla_modelos();
+            tabla_marcas();
         });
-        var tabla = $("#tabla_modelos").DataTable();
-        var tabla_modelos =() =>  {
+        var tabla = $("#tabla_marcas").DataTable();
+        var tabla_marcas =() =>  {
             ajaxRequest(
-                "{{ route('inventario.modelo.tabla') }}",
+                "{{ route('inventario.marca.tabla') }}",
                 'GET',
                 {},
                 function(data){
                     tabla.destroy();
-                    $("#tabla_modelos_body").html(data.html);
-                    tabla = $("#tabla_modelos").DataTable({
+                    $("#tabla_marcas_body").html(data.html);
+                    tabla = $("#tabla_marcas").DataTable({
                     "columns": [
-                        { "width": "20%" },
-                        { "width": "20%" },
-                        { "width": "20%" },
                         { "width": "20%" },
                         { "width": "20%" },
                         { "width": "20%" }
@@ -33,83 +29,80 @@
                 }
             );
         }
-        var agregarModelo = () => {
+        var agregarMarca = () => {
             $.ajax({
                 type:'get',
-                url:"{{ route('inventario.modelo.create') }}",
+                url:"{{ route('inventario.marca.create') }}",
                 dataType: "json",
                 data:{},
                 success:function(data){
-                    $("#modal_agregar_modelo").html(data.html);
-                    $("#modal_agregar_modelo").modal('show');
+                    $("#modal_agregar_marca").html(data.html);
+
+                    $("#modal_agregar_marca").modal('show');
                 }
             });
         };
 
-        $(document).on('click', '#btn_guardar_modelo', function(){
-            var createForm = $("#ModeloForm").serializeArray();
-
-
-            /*for (let i = 0; i < createForm.length; i++) {
-                if (createForm[i].value == "") {
-                    alert("se tiene que llenar todos los datos");
-                    return true;
-                }
-
-            }*/
+        $(document).on('click', '#btn_guardar_marca', function(){
+            var createForm = $("#MarcaForm");
             ajaxRequest(
-                    "{{ route('inventario.modelo.store') }}",
+                    "{{ route('inventario.marca.store') }}",
                     'POST',
-                    createForm,
+                    createForm.serializeArray(),
                     function(response){
-                        tabla_modelos()
-                        $("#modal_agregar_modelo").modal('hide');
+                        tabla_marcas()
+                        $("#modal_agregar_marca").modal('hide');
+
                 });
         })
 
-        var EditarModelo = (id) => {
+        var EditarMarca = (id) => {
             $.ajax({
                 type:'post',
-                url:"{{ route('inventario.modelo.edit') }}",
+                url:"{{ route('inventario.marca.edit') }}",
                 dataType: "json",
-                data:{modelo : id},
+                data:{marca : id},
                 success:function(data){
-                    $("#modal_editar_modelo").html(data.html);
-                    tabla_modelos();
-                    $("#modal_editar_modelo").modal('show');
+
+                    $("#modal_editar_marca").html(data.html);
+
+                    $("#modal_editar_marca").modal('show');
                 }
             });
         };
 
-        $(document).on('click', '#btn_actualizar_modelo', function(){
-            var url = "{{ route('inventario.modelo.update', ':id') }}";
-    		url = url.replace(':id', $("#ModeloId").val());
-            var createForm = $("#ModeloFormEdit");
+        $(document).on('click', '#btn_actualizar_marca', function(){
+            var url = "{{ route('inventario.marca.update', ':id') }}";
+    		url = url.replace(':id', $("#MarcaId").val());
+            var createForm = $("#MarcaFormEdit");
+
             ajaxRequest(
 	    		url,
 	    		'PUT',
 	    		createForm.serializeArray(),
 	    		function(response){
-
                         if(response == 1){
-                            tabla_modelos();
-                            $("#modal_editar_modelo").modal('hide');
+                            tabla_marcas();
+                            $("#modal_editar_marca").modal('hide');
                         }else{
-                            $("#modal_editar_modelo").modal('hide');
+                            $("#modal_editar_marca").modal('hide');
                         }
 	    	});
         })
 
-        var eliminarModelo = (id,nombre) => {
+
+
+        var EliminarMarca = (id,nombre) => {
             swal.fire({
                 title: "Seguro que desea eliminar?",
-                text: "eliminar",
+                text: `eliminar ${nombre}`,
                 type: "warning",
                 showCancelButton: !0,
                 confirmButtonText: "Si, Eliminar!"
             }).then((result) => {
+
                 if (result.value) {
-                        var url = "{{ route('inventario.modelo.destroy', ':id') }}";
+                        var url = "{{ route('inventario.marca.destroy', ':id') }}";
                         url = url.replace(':id', id);
                         $.ajax({
                             type:'delete',
@@ -117,6 +110,11 @@
                             dataType: "json",
                             data:{modelo : id},
                             success:function(data){
+
+                                $("#modal_editar_modelo").html(data.html);
+
+                                $("#modal_editar_modelo").modal('show');
+
                             }
                     });
                     Swal.fire(
@@ -125,14 +123,12 @@
                     'success'
                     ).then((result) => {
                         if (result.value) {
-                            tabla_modelos();
+                            tabla_marcas();
                         }
                     })
                 }
             })
         };
-
-
 
     </script>
 @endsection
@@ -147,7 +143,7 @@
                         <i class="kt-font-brand flaticon2-line-chart"></i>
                     </span>
                     <h3 class="kt-portlet__head-title">
-                        Modelo
+                        Marca
                         <small></small>
                     </h3>
                 </div>
@@ -197,27 +193,24 @@
                     </div>
                 </div>
                 &nbsp;
-                <button type="button" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" onclick="agregarModelo()">
+                <a class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" href=" {{ route('inventario.dependencias.create') }} ">
                     <i class="la la-plus"></i>
-                    Agregar Modelo
-                </button>
+                    Agregar Trabajador
+                </a>
             </div>
         </div>		 </div>
             </div>
             <div class="kt-portlet__body">
             <!--begin: Datatable -->
-            <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_modelos">
+            <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_marcas">
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Tipo</th>
-                        <th>SubTipo</th>
                         <th>Marca</th>
-                        <th>Modelo</th>
-                        <th>Acciones</th>
+                        <th>Accion </th>
                     </tr>
                 </thead>
-                <tbody id="tabla_modelos_body">
+                <tbody id="tabla_marcas_body">
                 </tbody>
             </table>
 
@@ -229,15 +222,15 @@
 
 
         <!--begin: Modal crear marca-->
-        <div class="modal fade" id="modal_agregar_modelo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="modal_agregar_marca" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
         </div>
         <!--end: Modal crear marca-->
-        <!--begin: Modal editar marca-->
-        <div class="modal fade" id="modal_editar_modelo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <!--begin: Modal crear marca-->
+        <div class="modal fade" id="modal_editar_marca" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
         </div>
-        <!--end: Modal editar marca-->
+        <!--end: Modal crear marca-->
     </div>
 </div>
 @endsection

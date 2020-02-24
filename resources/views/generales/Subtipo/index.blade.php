@@ -5,24 +5,21 @@
 @section('script')
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js')}}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/pages/components/extended/sweetalert2.js')}}" type="text/javascript"></script>
-    <script src="{{ asset('assets/js/pages/crud/forms/widgets/bootstrap-select.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
-            tabla_modelos();
+            tabla_subtipos();
         });
-        var tabla = $("#tabla_modelos").DataTable();
-        var tabla_modelos =() =>  {
+        var tabla = $("#tabla_subtipos").DataTable();
+        var tabla_subtipos =() =>  {
             ajaxRequest(
-                "{{ route('inventario.modelo.tabla') }}",
+                "{{ route('inventario.subtipo.tabla') }}",
                 'GET',
                 {},
                 function(data){
                     tabla.destroy();
-                    $("#tabla_modelos_body").html(data.html);
-                    tabla = $("#tabla_modelos").DataTable({
+                    $("#tabla_subtipos_body").html(data.html);
+                    tabla = $("#tabla_subtipos").DataTable({
                     "columns": [
-                        { "width": "20%" },
-                        { "width": "20%" },
                         { "width": "20%" },
                         { "width": "20%" },
                         { "width": "20%" },
@@ -33,105 +30,95 @@
                 }
             );
         }
-        var agregarModelo = () => {
+        var agregarSubTipo = () => {
             $.ajax({
                 type:'get',
-                url:"{{ route('inventario.modelo.create') }}",
+                url:"{{ route('inventario.subtipo.create') }}",
                 dataType: "json",
                 data:{},
                 success:function(data){
-                    $("#modal_agregar_modelo").html(data.html);
-                    $("#modal_agregar_modelo").modal('show');
+                    $("#modal_agregar_subtipo").html(data.html);
+                    tabla_subtipos();
+                    $("#modal_agregar_subtipo").modal('show');
                 }
             });
         };
 
-        $(document).on('click', '#btn_guardar_modelo', function(){
-            var createForm = $("#ModeloForm").serializeArray();
-
-
-            /*for (let i = 0; i < createForm.length; i++) {
-                if (createForm[i].value == "") {
-                    alert("se tiene que llenar todos los datos");
-                    return true;
-                }
-
-            }*/
+        $(document).on('click', '#btn_guardar_subtipo', function(){
+            var createForm = $("#SubTipoForm");
             ajaxRequest(
-                    "{{ route('inventario.modelo.store') }}",
+                    "{{ route('inventario.subtipo.store') }}",
                     'POST',
-                    createForm,
+                    createForm.serializeArray(),
                     function(response){
-                        tabla_modelos()
-                        $("#modal_agregar_modelo").modal('hide');
+                        tabla_subtipos()
+                        $("#modal_agregar_subtipo").modal('hide');
+
                 });
         })
 
-        var EditarModelo = (id) => {
+        var EditarTipo = (id) => {
             $.ajax({
                 type:'post',
-                url:"{{ route('inventario.modelo.edit') }}",
+                url:"{{ route('inventario.subtipo.edit') }}",
                 dataType: "json",
-                data:{modelo : id},
+                data:{subtipo : id},
                 success:function(data){
-                    $("#modal_editar_modelo").html(data.html);
-                    tabla_modelos();
-                    $("#modal_editar_modelo").modal('show');
+
+                    $("#modal_editar_subtipo").html(data.html);
+
+                    $("#modal_editar_subtipo").modal('show');
                 }
             });
         };
 
-        $(document).on('click', '#btn_actualizar_modelo', function(){
-            var url = "{{ route('inventario.modelo.update', ':id') }}";
-    		url = url.replace(':id', $("#ModeloId").val());
-            var createForm = $("#ModeloFormEdit");
+        $(document).on('click', '#btn_actualizar_subtipo', function(){
+            var url = "{{ route('inventario.subtipo.update', ':id') }}";
+    		url = url.replace(':id', $("#IdSubTipo").val());
+            var createForm = $("#SubTipoFormEdit");
+
             ajaxRequest(
 	    		url,
 	    		'PUT',
 	    		createForm.serializeArray(),
 	    		function(response){
 
-                        if(response == 1){
-                            tabla_modelos();
-                            $("#modal_editar_modelo").modal('hide');
-                        }else{
-                            $("#modal_editar_modelo").modal('hide');
+                        if(response==1){
+                            tabla_subtipos();
+                            $("#modal_editar_subtipo").modal('hide');
                         }
 	    	});
-        })
+        });
 
-        var eliminarModelo = (id,nombre) => {
+        var EliminarSubTipo = (id,nombre) => {
             swal.fire({
                 title: "Seguro que desea eliminar?",
-                text: "eliminar",
+                text: `eliminar ${nombre}`,
                 type: "warning",
                 showCancelButton: !0,
                 confirmButtonText: "Si, Eliminar!"
             }).then((result) => {
                 if (result.value) {
-                        var url = "{{ route('inventario.modelo.destroy', ':id') }}";
+                        var url = "{{ route('inventario.subtipo.destroy', ':id') }}";
                         url = url.replace(':id', id);
-                        $.ajax({
-                            type:'delete',
-                            url:url,
-                            dataType: "json",
-                            data:{modelo : id},
-                            success:function(data){
-                            }
-                    });
-                    Swal.fire(
-                    'Eliminado!',
-                    'El Archivo a sido eliminado',
-                    'success'
-                    ).then((result) => {
-                        if (result.value) {
-                            tabla_modelos();
-                        }
-                    })
-                }
-            })
-        };
 
+                        ajaxRequest(
+                            url,
+                            'delete',
+                            [],
+                            function(response){
+                                if (response==1) {
+                                    tabla_subtipos();
+                                    Swal.fire(
+                                    'Eliminado!',
+                                    'El Archivo a sido eliminado',
+                                    'success'
+                                    );
+                                }
+                        });
+                }
+            });
+        }
 
 
     </script>
@@ -147,7 +134,7 @@
                         <i class="kt-font-brand flaticon2-line-chart"></i>
                     </span>
                     <h3 class="kt-portlet__head-title">
-                        Modelo
+                        SubTipo
                         <small></small>
                     </h3>
                 </div>
@@ -197,27 +184,25 @@
                     </div>
                 </div>
                 &nbsp;
-                <button type="button" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" onclick="agregarModelo()">
+                <button type="button" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" onclick="agregarSubTipo()">
                     <i class="la la-plus"></i>
-                    Agregar Modelo
+                    Agregar SubTipo
                 </button>
             </div>
         </div>		 </div>
             </div>
             <div class="kt-portlet__body">
             <!--begin: Datatable -->
-            <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_modelos">
+            <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_subtipos">
                 <thead>
                     <tr>
                         <th>Id</th>
                         <th>Tipo</th>
                         <th>SubTipo</th>
-                        <th>Marca</th>
-                        <th>Modelo</th>
-                        <th>Acciones</th>
+                        <th>Accion </th>
                     </tr>
                 </thead>
-                <tbody id="tabla_modelos_body">
+                <tbody id="tabla_subtipos_body">
                 </tbody>
             </table>
 
@@ -229,15 +214,15 @@
 
 
         <!--begin: Modal crear marca-->
-        <div class="modal fade" id="modal_agregar_modelo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="modal_agregar_subtipo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
         </div>
         <!--end: Modal crear marca-->
-        <!--begin: Modal editar marca-->
-        <div class="modal fade" id="modal_editar_modelo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <!--begin: Modal crear marca-->
+        <div class="modal fade" id="modal_editar_subtipo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
         </div>
-        <!--end: Modal editar marca-->
+        <!--end: Modal crear marca-->
     </div>
 </div>
 @endsection
