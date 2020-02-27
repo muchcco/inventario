@@ -19,6 +19,26 @@ class DependenciaController extends Controller
         return view('generales.dependencia.index');
     }
 
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function tabla()
+    {
+        $dependencia = Dependencia::get();
+
+        for ($i=0; $i < $dependencia->count() ; $i++) {
+
+        }
+
+        return json_encode($dependencia);
+        $view = view('inventario.marca.tabla',compact('modelos'))->render();
+        return response()->json(['html'=>$view]);
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *

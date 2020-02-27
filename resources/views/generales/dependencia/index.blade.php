@@ -1,11 +1,15 @@
 @extends('layout')
 @section('style')
 <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/plugins/custom/jstree/jstree.bundle.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 @section('script')
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js')}}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/pages/components/extended/sweetalert2.js')}}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/pages/crud/forms/widgets/bootstrap-select.js')}}" type="text/javascript"></script>
+    <script src="{{ asset('assets/plugins/custom/jstree/jstree.bundle.js')}}" type="text/javascript"></script>
+
+
     <script>
         $(document).ready(function () {
             tabla_modelos();
@@ -13,7 +17,7 @@
         var tabla = $("#tabla_modelos").DataTable();
         var tabla_modelos =() =>  {
             ajaxRequest(
-                "{{ route('inventario.modelo.tabla') }}",
+                "{{ route('generales.dependencia.tabla') }}",
                 'GET',
                 {},
                 function(data){
