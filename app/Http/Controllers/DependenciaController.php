@@ -28,7 +28,7 @@ class DependenciaController extends Controller
     public function tabla()
     {
         $dependencia = Dependencia::get();
-
+        $arrdep =[];
         for ($i=0; $i < $dependencia->count() ; $i++) {
 
         }
