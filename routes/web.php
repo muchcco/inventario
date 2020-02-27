@@ -64,8 +64,8 @@ Route::group(['prefix'=>'generales','as'=>'generales.'],function () {
     Route::get('dependencia/create', 'DependenciaController@create')->name('dependencia.create');
     Route::post('dependencia/store', 'DependenciaController@store')->name('dependencia.store');
     Route::post('dependencia/edit', 'DependenciaController@edit')->name('dependencia.edit');
-    Route::put('dependencia/{marca}', 'DependenciaController@update')->name('dependencia.update');
-    Route::delete('dependencia/{marca}', 'DependenciaController@destroy')->name('dependencia.destroy');
+    Route::put('dependencia/{dependencia}', 'DependenciaController@update')->name('dependencia.update');
+    Route::delete('dependencia/{dependencia}', 'DependenciaController@destroy')->name('dependencia.destroy');
 
 });
 

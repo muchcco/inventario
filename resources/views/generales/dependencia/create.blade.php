@@ -12,11 +12,8 @@
                     <div class="form-group ">
                         <label class="form-control-label">Tipo</label>
 
-                            <select class="form-control kt-selectpicker" name="IdTipo" id="IdTipo">
+                            <select class="form-control kt-selectpicker" name="IdPadre" id="IdPadre">
 
-                                    <tr>
-                                        <option value=""></option>
-                                    </tr>
 
 
                             </select>

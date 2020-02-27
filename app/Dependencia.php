@@ -8,6 +8,9 @@ class Dependencia extends Model
 {
     protected $table = 'Dependencia';
 
-    protected $fillable = ['IdResponsable', 'Nombre', 'Codigo', 'IdPadre'];
+    protected $primaryKey = 'IdDependencia';
 
+    protected $fillable = ['Nombre', 'Codigo', 'IdPadre'];
+
+    public $timestamps = false;
 }

@@ -34,14 +34,16 @@
             );
         }
         var agregarDependencia = () => {
+
             $.ajax({
                 type:'get',
                 url:"{{ route('generales.dependencia.create') }}",
                 dataType: "json",
                 data:{},
                 success:function(data){
-                    $("#modal_agregar_modelo").html(data.html);
-                    $("#modal_agregar_modelo").modal('show');
+
+                    $("#modal_agregar_dependencia").html(data.html);
+                    $("#modal_agregar_dependencia").modal('show');
                 }
             });
         };
@@ -147,7 +149,7 @@
                         <i class="kt-font-brand flaticon2-line-chart"></i>
                     </span>
                     <h3 class="kt-portlet__head-title">
-                        Modelo
+                        Dependencia
                         <small></small>
                     </h3>
                 </div>
@@ -206,7 +208,7 @@
             </div>
             <div class="kt-portlet__body">
             <!--begin: Datatable -->
-            <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_modelos">
+            <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_dependencias">
                 <thead>
                     <tr>
                         <th>Id</th>
@@ -217,7 +219,7 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="tabla_modelos_body">
+                <tbody id="tabla_dependencias_body">
                 </tbody>
             </table>
 
@@ -229,7 +231,7 @@
 
 
         <!--begin: Modal crear marca-->
-        <div class="modal fade" id="modal_agregar_modelo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="modal_agregar_dependencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
         </div>
         <!--end: Modal crear marca-->
