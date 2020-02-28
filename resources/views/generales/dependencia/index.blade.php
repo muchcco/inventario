@@ -16,26 +16,36 @@
         });
         var tabla = $("#tabla_modelos").DataTable();
         var tabla_modelos =() =>  {
-            ajaxRequest(
-                "{{ route('generales.dependencia.tabla') }}",
-                'GET',
-                {},
-                function(data){
-                    tabla.destroy();
-                    $("#tabla_modelos_body").html(data.html);
-                    tabla = $("#tabla_modelos").DataTable({
-                    "columns": [
-                        { "width": "20%" },
-                        { "width": "20%" },
-                        { "width": "20%" },
-                        { "width": "20%" },
-                        { "width": "20%" },
-                        { "width": "20%" }
-                    ]
-                    });
-
+            $("#kt_tree_6").jstree( {
+            core: {
+                themes: {
+                    responsive: !1
                 }
-            );
+                , check_callback:!0, data: {
+                    url:function(e) {
+                        return  "{{ route('generales.dependencia.tabla') }}"
+                    }
+                    , data:function(e) {
+                        return {
+                            parent: e.id
+                        }
+                    }
+                }
+            }
+            , types: {
+                default: {
+                    icon: "fa fa-folder kt-font-brand"
+                }
+                , file: {
+                    icon: "fa fa-file  kt-font-brand"
+                }
+            }
+            , state: {
+                key: "demo3"
+            }
+            , plugins:["dnd", "state", "types"]
+        }
+        )
         }
         var agregarDependencia = () => {
 
@@ -212,20 +222,8 @@
             </div>
             <div class="kt-portlet__body">
             <!--begin: Datatable -->
-            <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_dependencias">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Tipo</th>
-                        <th>SubTipo</th>
-                        <th>Marca</th>
-                        <th>Modelo</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="tabla_dependencias_body">
-                </tbody>
-            </table>
+            <div id="kt_tree_6" class="tree-demo">
+            </div>
 
             <!--end: Datatable -->
         </div>
