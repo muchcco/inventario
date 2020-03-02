@@ -91,15 +91,14 @@ class UsuarioController extends Controller
      */
     public function edit(Request $request)
     {
-        $roles = Role::get();
-   
-        $users = Auth::user()->id;
-        
-        $usuarios = User::join('roles','roles.id','=','users.role_id')->select( 'users.id as uid' ,'users.name as un', 'users.email as ue','users.password as up', 'roles.id as ri' ,'roles.nombre as rn', 'users.estado as ues')->where('users.id', $users)->first();
+        $usuarios = User::select( 'users.id as uid' ,'users.name as un', 'users.email as ue','users.password as up', 'roles.id as ri' ,'roles.nombre as rn', 'users.estado as ues')
+                        ->join('roles','roles.id','=','users.role_id')
+                        ->where('users.id', $request->modelo)
+                        ->first();
 
-     
-      
-        $view = view('usuarios.edit',compact('roles','usuarios'))->render();
+        $roles = Role::get();
+
+        $view = view('usuarios.edit',compact('usuarios','roles'))->render();
         return response()->json(['html'=>$view]);
 
     }

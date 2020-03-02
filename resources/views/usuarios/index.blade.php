@@ -22,6 +22,7 @@
                     "columns": [
                         { "width": "20%" },
                         { "width": "20%" },
+                        { "width": "20%" },
                         { "width": "20%" }
                     ]
                     });
@@ -56,39 +57,71 @@
                 });
         })
 
-        var EditarMarca = (id) => {
+        var EditarModelo = (id) => {
             $.ajax({
                 type:'post',
                 url:"{{ route('usuarios.edit') }}",
                 dataType: "json",
-                data:{marca : id},
+                data:{modelo : id},
                 success:function(data){
-
-                    $("#modal_editar_marca").html(data.html);
-
-                    $("#modal_editar_marca").modal('show');
+                    $("#modal_editar_modelo").html(data.html);
+                    tabla_modelos();
+                    $("#modal_editar_modelo").modal('show');
                 }
             });
         };
 
-        $(document).on('click', '#btn_actualizar_marca', function(){
+        $(document).on('click', '#btn_actualizar_modelo', function(){
             var url = "{{ route('usuarios.update', ':id') }}";
-    		url = url.replace(':id', $("#MarcaId").val());
-            var createForm = $("#MarcaFormEdit");
-
+    		url = url.replace(':id', $("#ModeloId").val());
+            var createForm = $("#ModeloFormEdit");
             ajaxRequest(
 	    		url,
 	    		'PUT',
 	    		createForm.serializeArray(),
 	    		function(response){
+
                         if(response == 1){
-                            tabla_marcas();
-                            $("#modal_editar_marca").modal('hide');
+                            tabla_modelos();
+                            $("#modal_editar_modelo").modal('hide');
                         }else{
-                            $("#modal_editar_marca").modal('hide');
+                            $("#modal_editar_modelo").modal('hide');
                         }
 	    	});
         })
+
+        var eliminarModelo = (id,nombre) => {
+            swal.fire({
+                title: "Seguro que desea eliminar?",
+                text: "eliminar",
+                type: "warning",
+                showCancelButton: !0,
+                confirmButtonText: "Si, Eliminar!"
+            }).then((result) => {
+                if (result.value) {
+                        var url = "{{ route('usuarios.destroy', ':id') }}";
+                        url = url.replace(':id', id);
+                        $.ajax({
+                            type:'delete',
+                            url:url,
+                            dataType: "json",
+                            data:{modelo : id},
+                            success:function(data){
+                            }
+                    });
+                    Swal.fire(
+                    'Eliminado!',
+                    'El Archivo a sido eliminado',
+                    'success'
+                    ).then((result) => {
+                        if (result.value) {
+                            tabla_modelos();
+                        }
+                    })
+                }
+            })
+        };
+
 
 
     </script>
@@ -188,8 +221,8 @@
 
         </div>
         <!--end: Modal crear marca-->
-        <!--begin: Modal crear marca-->
-        <div class="modal fade" id="modal_editar_marca" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <!--begin: Modal editar marca-->
+        <div class="modal fade" id="modal_editar_modelo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
         </div>
         <!--end: Modal crear marca-->

@@ -7,7 +7,7 @@
         </div>
         <div class="modal-body">
             <div class="modal-body">
-                <input type="text" class="form-control" id="ModeloId" name="ModeloId" value="{{$usuarios->uid}}" style="display:none">
+                <input type="text" class="form-control" id="ModeloId" name="ModeloId" value="{{$usuarios->id}}" style="display:none">
                 <form id="ModeloFormEdit" name="ModeloFormEdit">
                     <div class="form-group ">
                         <label class="form-control-label">Modelo</label>
@@ -33,10 +33,6 @@
 
                             </select>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="nombre" class="form-control-label">Nombre Modelo:</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" value="{{$modelo->modelonombre}}">
                     </div>
                 </form>
             </div>
