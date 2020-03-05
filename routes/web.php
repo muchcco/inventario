@@ -73,6 +73,7 @@ Route::group(['prefix'=>'generales','as'=>'generales.'],function () {
     Route::get('personal/tabla', 'PersonalController@tabla')->name('personal.tabla');
     Route::get('personal/create', 'PersonalController@create')->name('personal.create');
     Route::post('personal/store', 'PersonalController@store')->name('personal.store');
+    Route::post('personal/buscar', 'PersonalController@buscar')->name('personal.buscar');
     Route::post('personal/edit', 'PersonalController@edit')->name('personal.edit');
     Route::put('personal/{personal}', 'PersonalController@update')->name('personal.update');
     Route::delete('personal/{personal}', 'PersonalController@destroy')->name('personal.destroy');

@@ -164,7 +164,16 @@
                                         <a href=" {{ route('generales.dependencia.index') }} " class="kt-menu__link ">
                                             <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                                 <span></span>
-                                            </i><span class="kt-menu__link-text">dependencia
+                                            </i><span class="kt-menu__link-text">Dependencia
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                    <li class="kt-menu__item nav-link @if (Request::is('generales/personal*')) kt-menu__item--active @endif" aria-haspopup="true">
+                                        <a href=" {{ route('generales.personal.index') }} " class="kt-menu__link ">
+                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
+                                                <span></span>
+                                            </i><span class="kt-menu__link-text">Personal
                                             </span>
                                         </a>
                                     </li>

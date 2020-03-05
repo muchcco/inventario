@@ -213,10 +213,10 @@
                     </div>
                 </div>
                 &nbsp;
-                <button type="button" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" onclick="agregarDependencia()">
+                <a href="{{ route('generales.personal.create') }}" class="btn btn-brand btn-elevate btn-icon-sm">
                     <i class="la la-plus"></i>
-                    Agregar Dependencia
-                </button>
+                    Agregar Personal
+                </a>
             </div>
         </div>		 </div>
             </div>

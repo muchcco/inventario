@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\App;
-
+use App\Usuario;
 
 use nusoap_client;
 use nusoap;
@@ -19,67 +19,46 @@ class PersonalController extends Controller
     {
 
 
-
-        $client = new nusoap_client("https://ws5.pide.gob.pe/services/ReniecConsultaDni?wsdl",'wsdl');
-
-
-
-
-
-
-        $result = $client->call("consultar", array('arg0' => array( "nuDniConsulta" => "74291643",
-                                                    'nuDniUsuario'          => "43840691",
-                                                    'nuRucUsuario'          => '20131365994',
-                                                    'password'              => '43840691')));
-dd($result['return']['datosPersona']);
-        return "";
-        if ($client->fault) {
-            echo 'Fallo';
-            print_r($result);
-        } else {	// Chequea errores
-            $err = $client->getError();
-            if ($err) {		// Muestra el error
-                echo 'Error' . $err ;
-            } else {		// Muestra el resultado
-                echo 'Resultado';
-                print_r ($result);
-            }
-        }
-
-
-
-
-        return "";
-        $client->http_encoding='utf-8';
-        $client->defencoding='utf-8';
-
-        $params = array("consultar" => array(
-            'nuDniConsulta'          => "74291643",
-            'nuDniUsuario'          => "43840691",
-            'nuRucUsuario'          => '20131365994',
-            'password'              => '43840691'
-
-        ));
-        $result = $client->call('consultarResponse', $params);
-        //print_r($client);
-
-        $client = new nusoap_client('https://ws5.pide.gob.pe/services/ReniecConsultaDni', 'wsdl');
-
-
-
-        $err = $client->getError();
-
-        $result = $client->call('consultar', $params);
-        var_dump($result);
-        return "123";
-        $client->soap_defencoding = 'UTF-8';
-        $client->decode_utf8 = FALSE;
-                                            return true;
-
-
-                                            return "hola";
-        var_dump(env('SOAP_DNI_USUARIO', false));
-
+        return view('generales.personal.index');
 
     }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function buscar(Request $request)
+    {
+        $datos = Usuario::select('Nombres')->where('DNI', $request->dni)->get();
+        if(count($datos) == 0){
+            $client = new nusoap_client(env('SOAP_RUTA'),'wsdl');
+            $result = $client->call("consultar", array('arg0' => array( "nuDniConsulta" => $request->dni,
+                                                    'nuDniUsuario'          => env('SOAP_DNI_USUARIO'),
+                                                    'nuRucUsuario'          => env('SOAP_RUC_USUARIO'),
+                                                    'password'              => env('SOAP_PASSWORD'))));
+            $datos = $result['return']['datosPersona'];
+        }
+
+        $dec = array_map("utf8_encode", $datos );
+        return ($dec);
+
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //$tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
+        //$marcas = Marca::select('Marca.IdMarca', 'Marca.Nombre')->get();
+        return view('generales.personal.create');
+    }
+
+
+
+
+
 }
