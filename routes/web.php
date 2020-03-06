@@ -72,6 +72,7 @@ Route::group(['prefix'=>'generales','as'=>'generales.'],function () {
     Route::get('personal', 'PersonalController@index')->name('personal.index');
     Route::get('personal/tabla', 'PersonalController@tabla')->name('personal.tabla');
     Route::get('personal/create', 'PersonalController@create')->name('personal.create');
+    Route::get('personal/dependencia', 'PersonalController@dependencia')->name('personal.dependencia');
     Route::post('personal/store', 'PersonalController@store')->name('personal.store');
     Route::post('personal/buscar', 'PersonalController@buscar')->name('personal.buscar');
     Route::post('personal/edit', 'PersonalController@edit')->name('personal.edit');

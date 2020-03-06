@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\App;
 use App\Usuario;
+use App\Dependencia;
 
 use nusoap_client;
 use nusoap;
@@ -37,12 +38,31 @@ class PersonalController extends Controller
                                                     'nuDniUsuario'          => env('SOAP_DNI_USUARIO'),
                                                     'nuRucUsuario'          => env('SOAP_RUC_USUARIO'),
                                                     'password'              => env('SOAP_PASSWORD'))));
-            $datos = $result['return']['datosPersona'];
+            $datos = $result['return']['deResultado'];
+
+            $codigo = $result['return']['coResultado'];
+            $datos->codigo = $codigo;
+
+
         }
+        //$dec = array_map("utf8_encode", $datos );
+        return ($datos);
+    }
 
-        $dec = array_map("utf8_encode", $datos );
-        return ($dec);
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dependencia(Request $request)
+    {
 
+        $busqueda = '%'.$request->q.'%';
+
+        $datos = Dependencia::select('IdDependencia as id','Nombre as text')->where('Nombre', 'like', '%' . $request->q . '%')->get();
+        //$tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
+        //$marcas = Marca::select('Marca.IdMarca', 'Marca.Nombre')->get();
+        return $datos;
     }
 
     /**

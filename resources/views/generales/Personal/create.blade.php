@@ -12,51 +12,20 @@
 
 
     $( document ).ready(function() {
-        $("#Dependencia").select2( {
-                placeholder:"Search for git repositories",
-                allowClear:!0,
-                ajax: {
-                    url:"https://api.github.com/search/repositories",
-                    dataType:"json",
-                    delay:250,
-                    data:function(e) {
-                        return {
-                            q: e.term, page: e.page
-                        }
-                    }
-                    , processResults:function(e, t) {
-                        return t.page=t.page||1, {
-                            results:e.items, pagination: {
-                                more: 30*t.page<e.total_count
-                            }
-                        }
-                    }
-                    , cache:!0
-                },
-                escapeMarkup:function(e) {
-                    return e
-                }
-                , minimumInputLength:1, templateResult:function(e) {
-                    if(e.loading)return e.text;
-                    var t="<div class='select2-result-repository clearfix'><div class='select2-result-repository__meta'><div class='select2-result-repository__title'>"+e.full_name+"</div>";
-                    return e.description&&(t+="<div class='select2-result-repository__description'>"+e.description+"</div>"), t+="<div class='select2-result-repository__statistics'><div class='select2-result-repository__forks'><i class='fa fa-flash'></i> "+e.forks_count+" Forks</div><div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> "+e.stargazers_count+" Stars</div><div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> "+e.watchers_count+" Watchers</div></div></div></div>"
-                }
-                , templateSelection:function(e) {
-                    return e.full_name||e.text
-                }
-            }
-            )
-
-
-
+        cargarDependencia()
     //cargar datos al al encontrar el dni
-        var  cargarDatos = () =>{
-            dni = document.getElementById("dni").value;
+
+    });
+
+    var  cargarDatos = () =>{
+
+            DNI = document.getElementById("DNI").value;
             ajaxRequest(
                 "{{ route('generales.personal.buscar') }}",
                 'POST',
-                {dni : dni},
+                {dni : DNI},
                 function(response){
+
                     document.getElementById("Nombres").value = response.prenombres;
                     document.getElementById("ApePat").value = response.apPrimer;
                     document.getElementById("ApeMat").value = response.apSegundo;
@@ -68,8 +37,30 @@
         //console.log(document.getElementById("dni").value);
         //alert("!3")
     }
-    });
 
+
+    var cargarDependencia = () => {
+            var url = "{{ route('generales.personal.dependencia') }}";
+
+            $("#Dependencia").select2( {
+                language: {
+                    noResults: function() {
+                    return "No hay resultado";
+                    },
+                    searching: function() {
+                    return "Buscando..";
+                    }
+                },
+                ajax: {
+                        url: url,
+                        processResults: function (data) {
+                        // Transforms the top-level key of the response object from 'items' to 'results'
+                        return {results: data}
+                        }
+                    }
+                }
+            )
+        }
 
     </script>
 @endsection
@@ -91,9 +82,9 @@
                     <div class="form-group">
 						<label>DNI</label>
 						<div class="input-group">
-							<input type="text" class="form-control" name="dni" id="dni">
+							<input type="text" class="form-control" name="DNI" id="DNI">
 							<div class="input-group-append">
-								<a class="btn btn-success "  onclick="cargarDatos()"  style="color: #fff">Buscar</a>
+								<a class="btn btn-success "  onclick="cargarDatos()" name="buscar" id="buscar"  style="color: #fff">Buscar</a>
 							</div>
 						</div>
 					</div>
@@ -109,26 +100,26 @@
 						<label>Apellido Paterno</label>
 						<input type="text" class="form-control" id="ApeMat" name="ApeMat"  disabled="disabled">
                     </div>
+                    <div class="form-group">
+						<label>Email</label>
+						<input type="email" class="form-control" id="Email" name="Email">
+                    </div>
 					<div class="form-group">
 						<label>Anexo</label>
 						<input type="text" class="form-control" id="Anexo" name="Anexo">
                     </div>
 					<div class="form-group">
 						<label >Contrato</label>
-						<select class="form-control" id="Contrato" id="Contrato">
+						<select class="form-control" id="TipoContr" id="TipoContr">
 							<option value="CAS">CAS</option>
 							<option value="CAP">CAP</option>
 							<option value="RHO">RHO</option>
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="exampleSelect2">Example multiple select</label>
+						<label for="exampleSelect2">Dependencia</label>
 						<select class="js-example-data-ajax form-control" id="Dependencia" name="Dependencia">
-                            <option value="1" selected="selected">select2/select2</option>
-                            <option value="2">select2/select2</option>
-                            <option value="3">select2/select2</option>
-                            <option value="4">select2/select2</option>
-                            <option value="5">select2/select2</option>
+                            <option  selected="selected">--SELECCIONE DIRECCION --</option>
                           </select>
 					</div>
 				</div>
