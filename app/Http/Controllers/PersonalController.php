@@ -49,26 +49,34 @@ class PersonalController extends Controller
     public function buscar(Request $request)
     {
         $datos = Personal::select('*')->where('DNI', $request->dni)->get();
-        $Dependencia = Dependencia::select('Nombre')->where('IdDependencia', $datos[0]["IdDependencia"])->first();
+
+
         if(count($datos) == 0){
             $client = new nusoap_client(env('SOAP_RUTA'),'wsdl');
             $result = $client->call("consultar", array('arg0' => array( "nuDniConsulta" => $request->dni,
                                                     'nuDniUsuario'          => env('SOAP_DNI_USUARIO'),
                                                     'nuRucUsuario'          => env('SOAP_RUC_USUARIO'),
                                                     'password'              => env('SOAP_PASSWORD'))));
-            $datos = $result['return']['deResultado'];
+            $soap_res = $result['return']['datosPersona'];
+            $datos = [];
+            $datos[0]["Nombres"] = $soap_res['prenombres'];
+            $datos[0]["ApePat"] = $soap_res['apPrimer'];
+            $datos[0]["ApeMat"] = $soap_res['apSegundo'];
+            $datos[0]["Nombres"] = $soap_res['prenombres'];
+            $datos[0]["codigo"] = $result['return']['coResultado'];
 
-            $codigo = $result['return']['coResultado'];
-            $datos->codigo = $codigo;
             return ($datos);
 
-        }else{
 
+
+        }else{
+            $Dependencia = Dependencia::select('Nombre')->where('IdDependencia', $datos[0]["IdDependencia"])->first();
+            $datos[0]["codigo"]="1";
+            $datos[0]["Dependencia"] = $Dependencia["Nombre"];
+            return ($datos);
         }
         //$dec = array_map("utf8_encode", $datos );
-        $datos[0]["codigo"]="1";
-        $datos[0]["Dependencia"] = $Dependencia["Nombre"];
-        return ($datos);
+
     }
 
     /**

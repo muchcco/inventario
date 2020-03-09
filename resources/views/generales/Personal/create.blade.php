@@ -30,7 +30,7 @@
                         document.getElementById("alerta_DNI").innerHTML = `<div class="alert alert-solid-warning alert-bold" role="alert">
                              <div class="alert-text">El usuario ${response[0]["Nombres"]} ya fue registrado </div>
                          </div>`
-                         document.getElementById("Nombres").value = response[0]["Nombres"];
+                        document.getElementById("Nombres").value = response[0]["Nombres"];
                         document.getElementById("ApePat").value = response[0]["ApePat"];
                         document.getElementById("ApeMat").value = response[0]["ApeMat"];
                         document.getElementById("Email").value = response[0]["Email"];
@@ -40,12 +40,15 @@
                         document.getElementById("guardar_personal").disabled = "true";
                         return true;
                     }else {
-
+                        console.log(response[0]["codigo"]);
+                        if (response[0]["codigo"] == "0000"){
+                            document.getElementById("Nombres").value = response[0]["Nombres"];
+                            document.getElementById("ApePat").value = response[0]["ApePat"];
+                            document.getElementById("ApeMat").value = response[0]["ApeMat"];
+                        }
                     }
 
-                    document.getElementById("Nombres").value = response.prenombres;
-                    document.getElementById("ApePat").value = response.apPrimer;
-                    document.getElementById("ApeMat").value = response.apSegundo;
+
             });
 
 
@@ -99,7 +102,7 @@
                     <div class="form-group">
 						<label>DNI</label>
 						<div class="input-group">
-                            <input type="text" class="form-control" name="DNI" id="DNI" value="74291643">
+                            <input type="text" class="form-control" name="DNI" id="DNI" value="44761105">
 
 							<div class="input-group-append">
                                 <a class="btn btn-success "  onclick="cargarDatos()" name="buscar" id="buscar"  style="color: #fff">Buscar</a>
@@ -111,15 +114,15 @@
 					</div>
 					<div class="form-group">
 						<label>Nombres</label>
-						<input type="text" class="form-control" id="Nombres" name="Nombres" disabled="disabled">
+						<input type="text" class="form-control" id="Nombres" name="Nombres" readonly="readonly">
 					</div>
 					<div class="form-group">
 						<label>Apellido Paterno</label>
-						<input type="text" class="form-control" id="ApePat" name="ApePat"  disabled="disabled">
+						<input type="text" class="form-control" id="ApePat" name="ApePat"  readonly="readonly">
 					</div>
 					<div class="form-group">
 						<label>Apellido Paterno</label>
-						<input type="text" class="form-control" id="ApeMat" name="ApeMat"  disabled="disabled">
+						<input type="text" class="form-control" id="ApeMat" name="ApeMat"  readonly="readonly">
                     </div>
                     <div class="form-group">
 						<label>Email</label>
