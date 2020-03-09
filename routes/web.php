@@ -8,6 +8,14 @@ Auth::routes();
 
 Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
 
+    Route::get('equipo', 'EquipoController@index')->name('equipo.index');
+    Route::get('equipo/tabla', 'EquipoController@tabla')->name('equipo.tabla');
+    Route::get('equipo/create', 'EquipoController@create')->name('equipo.create');
+    Route::post('equipo/store', 'EquipoController@store')->name('equipo.store');
+    Route::post('equipo/edit', 'EquipoController@edit')->name('equipo.edit');
+    Route::put('equipo/{equipo}', 'EquipoController@update')->name('equipo.update');
+    Route::delete('equipo/{equipo}', 'EquipoController@destroy')->name('equipo.destroy');
+
     Route::get('marca', 'MarcaController@index')->name('marca.index');
     Route::get('marca/tabla', 'MarcaController@tabla')->name('marca.tabla');
     Route::get('marca/create', 'MarcaController@create')->name('marca.create');
