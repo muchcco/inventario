@@ -148,17 +148,26 @@ class PersonalController extends Controller
     public function update(Request $request,$id)
     {
         $personal = Personal::find($id);
-
-
-
-
         $personal->update($request->all());
         return redirect()->route('generales.personal.index')
                         ->with('success','Usuario: '.$request->Nombres . ' datos actualizados correctamente ');
     }
 
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
 
+        $Marca = Personal::find($id)->forceDelete();
+
+        return 1;
+
+    }
 
 
 
