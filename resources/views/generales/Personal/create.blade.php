@@ -40,11 +40,11 @@
                         document.getElementById("guardar_personal").disabled = "true";
                         return true;
                     }else {
-                        console.log(response[0]["codigo"]);
                         if (response[0]["codigo"] == "0000"){
                             document.getElementById("Nombres").value = response[0]["Nombres"];
                             document.getElementById("ApePat").value = response[0]["ApePat"];
                             document.getElementById("ApeMat").value = response[0]["ApeMat"];
+                            return true;
                         }
                     }
 
