@@ -167,6 +167,7 @@
                 </div>
             </div>
             <div class="kt-portlet__body">
+                @include('includes/flash-message')
                 <!--begin: Datatable -->
                 <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_personal">
                     <thead>
