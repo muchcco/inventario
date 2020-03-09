@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\App;
-use App\Usuario;
+use App\Personal;
 use App\Dependencia;
 
 use nusoap_client;
@@ -24,6 +24,23 @@ class PersonalController extends Controller
 
     }
 
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function tabla()
+    {
+
+        $personal = Personal::join('Dependencia','Dependencia.IdDependencia','=','Personal.IdDependencia')
+                            ->select('IdPersonal','Personal.Nombres as NomPersonal','ApePat','ApeMat','DNI','Codigo')->get();
+
+        $view = view('generales.personal.tabla',compact('personal'))->render();
+        return response()->json(['html'=>$view]);
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -31,7 +48,8 @@ class PersonalController extends Controller
      */
     public function buscar(Request $request)
     {
-        $datos = Usuario::select('Nombres')->where('DNI', $request->dni)->get();
+        $datos = Personal::select('*')->where('DNI', $request->dni)->get();
+        $Dependencia = Dependencia::select('Nombre')->where('IdDependencia', $datos[0]["IdDependencia"])->first();
         if(count($datos) == 0){
             $client = new nusoap_client(env('SOAP_RUTA'),'wsdl');
             $result = $client->call("consultar", array('arg0' => array( "nuDniConsulta" => $request->dni,
@@ -42,10 +60,14 @@ class PersonalController extends Controller
 
             $codigo = $result['return']['coResultado'];
             $datos->codigo = $codigo;
+            return ($datos);
 
+        }else{
 
         }
         //$dec = array_map("utf8_encode", $datos );
+        $datos[0]["codigo"]="1";
+        $datos[0]["Dependencia"] = $Dependencia["Nombre"];
         return ($datos);
     }
 
@@ -56,12 +78,9 @@ class PersonalController extends Controller
      */
     public function dependencia(Request $request)
     {
-
+        //para llenar el select 2
         $busqueda = '%'.$request->q.'%';
-
         $datos = Dependencia::select('IdDependencia as id','Nombre as text')->where('Nombre', 'like', '%' . $request->q . '%')->get();
-        //$tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
-        //$marcas = Marca::select('Marca.IdMarca', 'Marca.Nombre')->get();
         return $datos;
     }
 
@@ -76,6 +95,42 @@ class PersonalController extends Controller
         //$marcas = Marca::select('Marca.IdMarca', 'Marca.Nombre')->get();
         return view('generales.personal.create');
     }
+
+        /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($IdPersonal)
+    {
+        $personal = Personal::join('Dependencia','Dependencia.IdDependencia','=','Personal.IdDependencia')
+                            ->select('IdPersonal','Personal.Nombres as Nombres','ApePat','ApeMat','DNI','Email','Anexo','TipoContr','Dependencia.Nombre as NomDependencia','Dependencia.IdDependencia as IdDependencia')->first();;
+        $view = view('generales.personal.edit',compact('personal'))->render();
+        return $view ;
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Personal  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request,$id)
+    {
+        return $request;
+        $request->validate([
+            'name' => 'required',
+            'detail' => 'required',
+        ]);
+
+        $product->update($request->all());
+
+        return redirect()->route('products.index')
+                        ->with('success','Product updated successfully');
+    }
+
 
 
 

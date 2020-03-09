@@ -26,6 +26,23 @@
                 {dni : DNI},
                 function(response){
 
+                    if (response[0]["codigo"] == 1){
+                        document.getElementById("alerta_DNI").innerHTML = `<div class="alert alert-solid-warning alert-bold" role="alert">
+                             <div class="alert-text">El usuario ${response[0]["Nombres"]} ya fue registrado </div>
+                         </div>`
+                         document.getElementById("Nombres").value = response[0]["Nombres"];
+                        document.getElementById("ApePat").value = response[0]["ApePat"];
+                        document.getElementById("ApeMat").value = response[0]["ApeMat"];
+                        document.getElementById("Email").value = response[0]["Email"];
+                        document.getElementById("Anexo").value = response[0]["Anexo"];
+                        document.getElementById("TipoContr").value = response[0]["TipoContr"];
+                        document.getElementById("Dependencia").innerHTML = `<option value="${response[0]["IdDependencia"]}">${response[0]["Dependencia"]}`;
+                        document.getElementById("guardar_personal").disabled = "true";
+                        return true;
+                    }else {
+
+                    }
+
                     document.getElementById("Nombres").value = response.prenombres;
                     document.getElementById("ApePat").value = response.apPrimer;
                     document.getElementById("ApeMat").value = response.apSegundo;
@@ -82,11 +99,15 @@
                     <div class="form-group">
 						<label>DNI</label>
 						<div class="input-group">
-							<input type="text" class="form-control" name="DNI" id="DNI">
+                            <input type="text" class="form-control" name="DNI" id="DNI" value="74291643">
+
 							<div class="input-group-append">
-								<a class="btn btn-success "  onclick="cargarDatos()" name="buscar" id="buscar"  style="color: #fff">Buscar</a>
-							</div>
-						</div>
+                                <a class="btn btn-success "  onclick="cargarDatos()" name="buscar" id="buscar"  style="color: #fff">Buscar</a>
+
+                            </div>
+
+                        </div>
+                        <span class="form-text text-muted" id="alerta_DNI" name="alerta_DNI"></span>
 					</div>
 					<div class="form-group">
 						<label>Nombres</label>
@@ -125,18 +146,14 @@
 				</div>
 				<div class="kt-portlet__foot">
 					<div class="kt-form__actions">
-						<button type="reset" class="btn btn-primary">Submit</button>
+						<button type="submit" name="guardar_personal" id="guardar_personal" class="btn btn-primary">Guardar</button>
 						<button type="reset" class="btn btn-secondary">Cancel</button>
 					</div>
 				</div>
 			</form>
 			<!--end::Form-->
 		</div>
-		<!--end::Portlet-->
 
-		<!--begin::Portlet-->
-
-		<!--end::Portlet-->
 	</div>
 
 </div>

@@ -1,16 +1,16 @@
 
 
 
-    @foreach( $modelos as $modelo )
+    @foreach( $personal as $persona )
         <tr>
-            <td> {{ $modelo->IdModelo }} </td>
-            <td> {{ $modelo->TipoNombre }} </td>
-            <td> {{ $modelo->SubTipoNombre }} </td>
-            <td> {{ $modelo->MarcaNombre }} </td>
-            <td> {{ $modelo->ModeloNombre }} </td>
+            <td> {{ $persona->IdPersonal }} </td>
+            <td> {{ $persona->DNI }} </td>
+            <td> {{ $persona->NomPersonal }} </td>
+            <td> {{ $persona->ApePat }} {{ $persona->ApeMat }}</td>
+            <td> {{ $persona->Codigo }} </td>
 
-            <td><button type="button" class="btn btn-success btn-font-sm" onclick="EditarModelo({{$modelo->IdModelo}})"><b>EDITAR</b> </button>
-                <button type="button" class="btn btn-danger btn-font-sm" id="btn_eliminar_modelo" name="btn_eliminar_modelo" onclick="eliminarModelo({{ $modelo->IdModelo }},'{{ $modelo->ModeloNombre }}')" ><b>ELIMINAR</b> </button>
+            <td><a style="color: #fff" class="btn btn-success btn-font-sm" href="{{route('generales.personal.edit', ['personal' => $persona->IdPersonal])}}"><b>EDITAR</b> </a>
+                <button type="button" class="btn btn-danger btn-font-sm" id="btn_eliminar_modelo" name="btn_eliminar_modelo" onclick="eliminarPersonal({{ $persona->IdPersonal }},'{{ $persona->NomPersonal }}')" ><b>ELIMINAR</b> </button>
             </td>
         </tr>
     @endforeach

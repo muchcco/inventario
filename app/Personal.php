@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Usuario extends Model
+class Personal extends Model
 {
-    protected $table = 'Usuario';
+    protected $table = 'Personal';
 
-    protected $primaryKey = 'IdUsuario';
+    protected $primaryKey = 'IdPersonal';
 
     protected $fillable = ['Nombres','ApePat','ApeMat','DNI','Email','Anexo','IdDependencia','TipoContr'];
 
