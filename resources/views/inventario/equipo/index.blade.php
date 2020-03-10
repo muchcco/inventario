@@ -8,11 +8,29 @@
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js')}}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/pages/components/extended/sweetalert2.js')}}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/pages/crud/forms/widgets/bootstrap-select.js')}}" type="text/javascript"></script>
-@endsection
+    <script>
+        $(document).ready(function () {
+            tabla_subtipos();
+        });
+        var tabla_subtipos =() =>  {
+            ajaxRequest(
+                "{{ route('inventario.equipo.tabla') }}",
+                'GET',
+                {},
+                function(data){
+
+                    $("#dash").html(data.html);
+
+
+                }
+            );
+        }
+    </script>
+    @endsection
 
 
 @section('content')
-<div class="row">
+<div class="row" id="dash" name="dash">
 
 </div>
 @endsection

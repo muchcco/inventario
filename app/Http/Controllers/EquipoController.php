@@ -45,15 +45,15 @@ class EquipoController extends Controller
 
     public function tabla()
     {
-        $tipo = Tipo::get();
+        $tipos = Tipo::get();
 
-        for ($i=0; $i < count($tipo); $i++) {
-            $subtipo = SubTipo::where('IdTipo', $tipo[$i]->IdTipo)->get();
-            $tipo[$i]["hijos"] = $subtipo;
+        for ($i=0; $i < count($tipos); $i++) {
+            $subtipo = SubTipo::where('IdTipo', $tipos[$i]->IdTipo)->get();
+            $tipos[$i]["hijos"] = $subtipo;
         }
 
 
-        $view = view('inventario.equipo.tabla',compact('tipo'))->render();
+        $view = view('inventario.equipo.tabla',compact('tipos'))->render();
         return response()->json(['html'=>$view]);
     }
 
