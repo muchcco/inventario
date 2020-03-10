@@ -104,6 +104,24 @@ class PersonalController extends Controller
         return view('generales.personal.create');
     }
 
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+
+
+        $attr = $request->all();
+
+        $response_data = Personal::create($attr);
+
+        return redirect()->route('generales.personal.index')->with('success','Usuario: '.$request->Nombres . ' registrado correctamente');
+    }
+
         /**
      * Show the form for editing the specified resource.
      *
@@ -113,7 +131,9 @@ class PersonalController extends Controller
     public function edit($IdPersonal)
     {
         $personal = Personal::join('Dependencia','Dependencia.IdDependencia','=','Personal.IdDependencia')
-                            ->select('IdPersonal','Personal.Nombres as Nombres','ApePat','ApeMat','DNI','Email','Anexo','TipoContr','Dependencia.Nombre as NomDependencia','Dependencia.IdDependencia as IdDependencia')->first();;
+                            ->select('IdPersonal','Personal.Nombres as Nombres','ApePat','ApeMat','DNI','Email','Anexo','TipoContr','Dependencia.Nombre as NomDependencia','Dependencia.IdDependencia as IdDependencia')
+                            ->where('IdPersonal', $IdPersonal)
+                            ->first();;
         $view = view('generales.personal.edit',compact('personal'))->render();
         return $view ;
     }
@@ -127,20 +147,27 @@ class PersonalController extends Controller
      */
     public function update(Request $request,$id)
     {
-        return $request;
-        $request->validate([
-            'name' => 'required',
-            'detail' => 'required',
-        ]);
-
-        $product->update($request->all());
-
-        return redirect()->route('products.index')
-                        ->with('success','Product updated successfully');
+        $personal = Personal::find($id);
+        $personal->update($request->all());
+        return redirect()->route('generales.personal.index')
+                        ->with('success','Usuario: '.$request->Nombres . ' datos actualizados correctamente ');
     }
 
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
 
+        $Marca = Personal::find($id)->forceDelete();
+
+        return 1;
+
+    }
 
 
 

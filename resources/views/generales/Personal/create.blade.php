@@ -20,12 +20,21 @@
     var  cargarDatos = () =>{
 
             DNI = document.getElementById("DNI").value;
+            document.getElementById("buscar").innerHTML = "Buscando ";
+            document.getElementById("buscar").disabled = true;
             ajaxRequest(
                 "{{ route('generales.personal.buscar') }}",
                 'POST',
                 {dni : DNI},
                 function(response){
-
+                    if (response[0]["codigo"] == null) {
+                        document.getElementById("alerta_DNI").innerHTML = `<div class="alert alert-solid-danger alert-bold" role="alert">
+                             <div class="alert-text">A ocurrido un error al buscar el DNI</div>
+                         </div>`
+                        document.getElementById("guardar_personal").disabled = true;
+                        document.getElementById("buscar").innerHTML = "Buscar ";
+                        document.getElementById("buscar").disabled = false;
+                    }
                     if (response[0]["codigo"] == 1){
                         document.getElementById("alerta_DNI").innerHTML = `<div class="alert alert-solid-warning alert-bold" role="alert">
                              <div class="alert-text">El usuario ${response[0]["Nombres"]} ya fue registrado </div>
@@ -36,14 +45,23 @@
                         document.getElementById("Email").value = response[0]["Email"];
                         document.getElementById("Anexo").value = response[0]["Anexo"];
                         document.getElementById("TipoContr").value = response[0]["TipoContr"];
-                        document.getElementById("Dependencia").innerHTML = `<option value="${response[0]["IdDependencia"]}">${response[0]["Dependencia"]}`;
-                        document.getElementById("guardar_personal").disabled = "true";
+                        document.getElementById("IdDependencia").innerHTML = `<option value="${response[0]["IdDependencia"]}">${response[0]["Dependencia"]}`;
+                        document.getElementById("guardar_personal").disabled = true;
+                        document.getElementById("buscar").innerHTML = "Buscar ";
+                        document.getElementById("buscar").disabled = false;
                         return true;
                     }else {
                         if (response[0]["codigo"] == "0000"){
+                            document.getElementById("alerta_DNI").innerHTML = ``;
                             document.getElementById("Nombres").value = response[0]["Nombres"];
                             document.getElementById("ApePat").value = response[0]["ApePat"];
                             document.getElementById("ApeMat").value = response[0]["ApeMat"];
+                            document.getElementById("Email").value = "";
+                            document.getElementById("Anexo").value = "";
+                            document.getElementById("IdDependencia").innerHTML = `<option  selected="selected">--SELECCIONE DIRECCION --</option>`;
+                            document.getElementById("guardar_personal").disabled = false;
+                            document.getElementById("buscar").innerHTML = "Buscar ";
+                            document.getElementById("buscar").disabled = false;
                             return true;
                         }
                     }
@@ -62,7 +80,7 @@
     var cargarDependencia = () => {
             var url = "{{ route('generales.personal.dependencia') }}";
 
-            $("#Dependencia").select2( {
+            $("#IdDependencia").select2( {
                 language: {
                     noResults: function() {
                     return "No hay resultado";
@@ -97,7 +115,9 @@
 				</div>
 			</div>
 			<!--begin::Form-->
-			<form class="kt-form">
+            <form class="kt-form" action="{{ route('generales.personal.store') }}" method="POST">
+                @method('POST')
+                @csrf
 				<div class="kt-portlet__body">
                     <div class="form-group">
 						<label>DNI</label>
@@ -105,7 +125,7 @@
                             <input type="text" class="form-control" name="DNI" id="DNI" value="44761105">
 
 							<div class="input-group-append">
-                                <a class="btn btn-success "  onclick="cargarDatos()" name="buscar" id="buscar"  style="color: #fff">Buscar</a>
+                                <button class="btn btn-success "  onclick="cargarDatos()" name="buscar" id="buscar"  style="color: #fff">Buscar</button>
 
                             </div>
 
@@ -134,22 +154,22 @@
                     </div>
 					<div class="form-group">
 						<label >Contrato</label>
-						<select class="form-control" id="TipoContr" id="TipoContr">
+						<select class="form-control" id="TipoContr" name="TipoContr">
 							<option value="CAS">CAS</option>
 							<option value="CAP">CAP</option>
-							<option value="RHO">RHO</option>
+							<option value="RHE">RHE</option>
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="exampleSelect2">Dependencia</label>
-						<select class="js-example-data-ajax form-control" id="Dependencia" name="Dependencia">
+						<label for="">Dependencia</label>
+						<select class="js-example-data-ajax form-control" id="IdDependencia" name="IdDependencia">
                             <option  selected="selected">--SELECCIONE DIRECCION --</option>
                           </select>
 					</div>
 				</div>
 				<div class="kt-portlet__foot">
 					<div class="kt-form__actions">
-						<button type="submit" name="guardar_personal" id="guardar_personal" class="btn btn-primary">Guardar</button>
+						<button type="submit" name="guardar_personal" id="guardar_personal" class="btn btn-primary" disabled>Guardar</button>
 						<button type="reset" class="btn btn-secondary">Cancel</button>
 					</div>
 				</div>

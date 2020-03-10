@@ -61,16 +61,16 @@
 	    	});
         })
 
-        var eliminarModelo = (id,nombre) => {
+        var eliminarPersonal = (id,nombre) => {
             swal.fire({
                 title: "Seguro que desea eliminar?",
-                text: "eliminar",
+                text: `Eliminar ${nombre}`,
                 type: "warning",
                 showCancelButton: !0,
                 confirmButtonText: "Si, Eliminar!"
             }).then((result) => {
                 if (result.value) {
-                        var url = "{{ route('inventario.modelo.destroy', ':id') }}";
+                        var url = "{{ route('generales.personal.destroy', ':id') }}";
                         url = url.replace(':id', id);
                         $.ajax({
                             type:'delete',
@@ -86,7 +86,7 @@
                     'success'
                     ).then((result) => {
                         if (result.value) {
-                            tabla_modelos();
+                            tabla_personal();
                         }
                     })
                 }
@@ -167,6 +167,7 @@
                 </div>
             </div>
             <div class="kt-portlet__body">
+                @include('includes/flash-message')
                 <!--begin: Datatable -->
                 <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_personal">
                     <thead>
