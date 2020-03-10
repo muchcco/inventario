@@ -33,8 +33,8 @@ class PersonalController extends Controller
     public function tabla()
     {
 
-        $personal = Personal::join('Dependencia','Dependencia.IdDependencia','=','Personal.IdDependencia')
-                            ->select('IdPersonal','Personal.Nombres as NomPersonal','ApePat','ApeMat','DNI','Codigo')->get();
+        $personal = Personal::select('IdPersonal','Personal.Nombres as NomPersonal','ApePat','ApeMat','DNI','Codigo')
+                            ->join('Dependencia','Dependencia.IdDependencia','=','Personal.IdDependencia')->get();
 
         $view = view('generales.personal.tabla',compact('personal'))->render();
         return response()->json(['html'=>$view]);

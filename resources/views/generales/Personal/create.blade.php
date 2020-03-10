@@ -170,7 +170,7 @@
 				<div class="kt-portlet__foot">
 					<div class="kt-form__actions">
 						<button type="submit" name="guardar_personal" id="guardar_personal" class="btn btn-primary" disabled>Guardar</button>
-						<button type="reset" class="btn btn-secondary">Cancel</button>
+						<a href="{{route('generales.personal.index')}}" class="btn btn-secondary">Cancel</a>
 					</div>
 				</div>
 			</form>
