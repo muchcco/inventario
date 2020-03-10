@@ -23,6 +23,12 @@ class EquipoController extends Controller
         return view('inventario.equipo.index');
     }
 
+    public function listar()
+    {
+        return view('inventario.equipo.listar');
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *

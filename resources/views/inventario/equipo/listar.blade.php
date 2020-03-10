@@ -2,18 +2,6 @@
 @section('style')
 <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/style.css')}}" rel="stylesheet" type="text/css" />
-<style>
-    .fieldset{
-        display: block;
-        margin-left: 2px;
-        margin-right: 2px;
-        padding-top: 0.35em;
-        padding-bottom: 0.625em;
-        padding-left: 0.75em;
-        padding-right: 0.75em;
-        border: 2px groove green;
-    }
-</style>
 @endsection
 @section('script')
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js')}}" type="text/javascript"></script>
@@ -24,7 +12,31 @@
             tabla_equipos();
         });
         var tabla = $("#tabla_equipos").DataTable();
-        
+        var tabla_equipos =() =>  {
+            ajaxRequest(
+                "{{ route('inventario.equipo.tabla') }}",
+                'GET',
+                {},
+                function(data){
+                    tabla.destroy();
+                    $("#tabla_equipos_body").html(data.html);
+                    tabla = $("#tabla_equipos").DataTable({
+                    "columns": [
+                        { "width": "20%" },
+                        { "width": "20%" },
+                        { "width": "20%" },
+                        { "width": "20%" },
+                        { "width": "20%" },
+                        { "width": "20%" },
+                        { "width": "20%" },
+                        { "width": "20%" },
+                        { "width": "20%" }
+                    ]
+                    });
+
+                }
+            );
+        }
 
 
 
@@ -99,66 +111,28 @@
             </div>
         </div>		 </div>
             </div>
-            <div class="kt-portlet__body">
-                <div class="row">
-                    <div class="col-sm-3">
-                       <fieldset class="fieldset">
-                            <legend>EQUIPOS DESKTOP</legend>
-                            <div class="form-group col-sm-3">
-                                <label for="">Email address</label>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div class="col-sm-3">
-                        <fieldset class="fieldset">
-                             <legend>EQUIPOS PORTATIL</legend>
-                             <div class="form-group col-sm-3">
-                                 <label for="">Email address</label>
-                             </div>
-                         </fieldset>
-                     </div>
-                     <div class="col-sm-3">
-                        <fieldset class="fieldset">
-                             <legend>EQUIPOS PEROFERICOS</legend>
-                             <div class="form-group col-sm-3">
-                                 <label for="">Email address</label>
-                             </div>
-                         </fieldset>
-                     </div>
-                     <div class="col-sm-3">
-                        <fieldset class="fieldset">
-                             <legend>SERVIDORES</legend>
-                             <div class="form-group col-sm-3">
-                                 <label for="">Email address</label>
-                             </div>
-                         </fieldset>
-                     </div>
-                </div>
-                
+            <div class="kt-portlet__body">                
+                <!--begin: Datatable -->
+                <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_equipos">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre Marca</th>
+                            <th>Codigo Patrimonial</th>
+                            <th>Fecha de Fabricación</th>
+                            <th>Perfil</th>
+                            <th>Host</th>
+                            <th>IP</th>
+                            <th>N° de Serie</th>
+                            <th>Accion </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla_equipos_body">
+                    </tbody>
+                </table>
 
-
-
-            <!--begin: Datatable -->
-            <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_equipos">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nombre Marca</th>
-                        <th>Codigo Patrimonial</th>
-                        <th>Fecha de Fabricación</th>
-                        <th>Perfil</th>
-                        <th>Host</th>
-                        <th>IP</th>
-                        <th>N° de Serie</th>
-                        <th>Accion </th>
-                    </tr>
-                </thead>
-                <tbody id="tabla_equipos_body">
-                </tbody>
-            </table>
-
-            <!--end: Datatable -->
-        </div>
+                <!--end: Datatable -->
+            </div>
         </div>
 
 

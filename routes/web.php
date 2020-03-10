@@ -10,6 +10,7 @@ Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
 
     Route::get('equipo', 'EquipoController@index')->name('equipo.index');
     Route::get('equipo/tabla', 'EquipoController@tabla')->name('equipo.tabla');
+    Route::get('equipo/listar', 'EquipoController@listar')->name('equipo.listar');
     Route::get('equipo/create', 'EquipoController@create')->name('equipo.create');
     Route::post('equipo/store', 'EquipoController@store')->name('equipo.store');
     Route::post('equipo/edit', 'EquipoController@edit')->name('equipo.edit');
