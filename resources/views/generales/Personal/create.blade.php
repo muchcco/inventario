@@ -27,7 +27,14 @@
                 'POST',
                 {dni : DNI},
                 function(response){
-
+                    if (response[0]["codigo"] == null) {
+                        document.getElementById("alerta_DNI").innerHTML = `<div class="alert alert-solid-danger alert-bold" role="alert">
+                             <div class="alert-text">A ocurrido un error al buscar el DNI</div>
+                         </div>`
+                        document.getElementById("guardar_personal").disabled = true;
+                        document.getElementById("buscar").innerHTML = "Buscar ";
+                        document.getElementById("buscar").disabled = false;
+                    }
                     if (response[0]["codigo"] == 1){
                         document.getElementById("alerta_DNI").innerHTML = `<div class="alert alert-solid-warning alert-bold" role="alert">
                              <div class="alert-text">El usuario ${response[0]["Nombres"]} ya fue registrado </div>
