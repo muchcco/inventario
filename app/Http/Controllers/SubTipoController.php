@@ -92,16 +92,10 @@ class SubTipoController extends Controller
     {
 
         $SubTipo = SubTipo::find($id);
+        $SubTipo->update($request->all());
 
-        $SubTipo->Nombre = $request->Nombre;
-
-        $SubTipo->IdTipo = $request->IdTipo;
-
-        if($SubTipo->save()){
             return 1;
-        }else{
-            return 0;
-        }
+
 
     }
 

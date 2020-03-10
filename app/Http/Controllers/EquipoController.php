@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 Use App\Equipo;
-
+use App\SubTipo;
+use App\Tipo;
 use Carbon\carbon;
 
 use Validator;
@@ -20,6 +21,7 @@ class EquipoController extends Controller
      */
     public function index()
     {
+
         return view('inventario.equipo.index');
     }
 
@@ -36,14 +38,22 @@ class EquipoController extends Controller
      */
     public function create()
     {
+        $personal = Tipo::join('Dependencia','Dependencia.IdDependencia','=','Personal.IdDependencia');
+
         return view('inventario.equipo.create');
     }
 
     public function tabla()
     {
-        $equipos = Equipo::all();
+        $tipo = Tipo::get();
 
-        $view = view('inventario.equipo.tabla',compact('equipos'))->render();
+        for ($i=0; $i < count($tipo); $i++) {
+            $subtipo = SubTipo::where('IdTipo', $tipo[$i]->IdTipo)->get();
+            $tipo[$i]["hijos"] = $subtipo;
+        }
+
+
+        $view = view('inventario.equipo.tabla',compact('tipo'))->render();
         return response()->json(['html'=>$view]);
     }
 

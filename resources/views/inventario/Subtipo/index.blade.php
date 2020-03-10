@@ -57,7 +57,7 @@
                 });
         })
 
-        var EditarTipo = (id) => {
+        var EditarSubTipo = (id) => {
             $.ajax({
                 type:'post',
                 url:"{{ route('inventario.subtipo.edit') }}",
