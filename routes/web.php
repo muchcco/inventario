@@ -16,6 +16,12 @@ Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
     Route::post('equipo/edit', 'EquipoController@edit')->name('equipo.edit');
     Route::put('equipo/{equipo}', 'EquipoController@update')->name('equipo.update');
     Route::delete('equipo/{equipo}', 'EquipoController@destroy')->name('equipo.destroy');
+    //Subtipo
+    Route::get('equipo/subtipo/{subtipo}', 'EquipoController@subtipo')->name('equipo.subtipo');
+    Route::get('equipo/subtipo/{subtipo}/create', 'EquipoController@subtipo_create')->name('equipo.subtipo_create');
+    //Route::get('equipo/subtipo/{subtipo}/create/{id}', 'EquipoController@subtipo_crtudp')->name('equipo.subtipo.crtudp');
+
+
 
     Route::get('marca', 'MarcaController@index')->name('marca.index');
     Route::get('marca/tabla', 'MarcaController@tabla')->name('marca.tabla');
@@ -31,6 +37,7 @@ Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
     Route::get('modelo/create', 'ModeloController@create')->name('modelo.create');
     Route::post('modelo/store', 'ModeloController@store')->name('modelo.store');
     Route::post('modelo/subtipos', 'ModeloController@subtipos')->name('modelo.subtipos');
+    Route::post('modelo/modelos', 'ModeloController@modelos')->name('modelo.modelos');
     Route::post('modelo/edit', 'ModeloController@edit')->name('modelo.edit');
     Route::put('modelo/{modelo}', 'ModeloController@update')->name('modelo.update');
     Route::delete('modelo/{modelo}', 'ModeloController@destroy')->name('modelo.destroy');

@@ -63,7 +63,7 @@ class ModeloController extends Controller
         return response()->json(['html'=>$view_create]);
     }
 
-    //Trae todos los sabtipos
+    //Trae todos los subtipos
     public function subtipos(Request $request)
     {
         $subtipo = SubTipo::select('SubTipo.IdSubTipo as IdSubTipo'  , 'SubTipo.IdTipo', 'SubTipo.Nombre')->where('IdTipo', $request->tipo)->get();
@@ -71,6 +71,13 @@ class ModeloController extends Controller
         exit;
     }
 
+    //Trae todos los modelo
+    public function modelos(Request $request)
+    {
+        $modelos = Modelo::where('IdMarca', $request->marca)->get();
+        return $modelos;
+        exit;
+    }
 
     /**
      * Store a newly created resource in storage.

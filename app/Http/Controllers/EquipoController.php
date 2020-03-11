@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 Use App\Equipo;
+use App\Marca;
 use App\SubTipo;
 use App\Tipo;
 use Carbon\carbon;
+//use Request;
 
 use Validator;
 use Response;
@@ -57,59 +59,38 @@ class EquipoController extends Controller
         return response()->json(['html'=>$view]);
     }
 
-    /**
+        /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function subtipo($subtipo)
     {
-        //
+        return view('inventario.equipo.subtipo.'.$subtipo.'.index',compact('subtipo'));
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for creating a new resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function subtipo_create($subtipo,Request $request)
     {
-        //
+        $crtpdt = "Nuevo";
+        $subt = SubTipo::where('Nombre',$subtipo)->first();
+        $tipo = Tipo::where('IdTipo',$subt->IdTipo)->first();
+        $marcas = Marca::get();
+        dump($request);
+
+        return $_SERVER['SERVER_ADDR'];
+        $equipo = new Equipo;
+        $equipo->IdEquipo = 0;
+
+        $view_create =  view('inventario.equipo.subtipo.'.$subtipo.'.create',compact('equipo','subt','tipo','crtpdt','marcas'));
+        return $view_create;
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
