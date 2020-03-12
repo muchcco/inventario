@@ -169,7 +169,7 @@
             <div class="kt-portlet__body">
                 @include('includes/flash-message')
                 <!--begin: Datatable -->
-                <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_personal">
+                <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_equipo">
                     <thead>
                         <tr>
                             <th>Id</th>
@@ -180,26 +180,13 @@
                             <th>Accion </th>
                         </tr>
                     </thead>
-                    <tbody id="tabla_personal_body">
+                    <tbody id="tabla_equipo_body">
                     </tbody>
                 </table>
                 <!--end: Datatable -->
             </div>
         </div>
 
-
-
-
-        <!--begin: Modal crear marca-->
-        <div class="modal fade" id="modal_agregar_personal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-
-        </div>
-        <!--end: Modal crear marca-->
-        <!--begin: Modal editar marca-->
-        <div class="modal fade" id="modal_editar_personal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-
-        </div>
-        <!--end: Modal editar marca-->
     </div>
 </div>
 @endsection

@@ -63,8 +63,8 @@
 					</h3>
 				</div>
 			</div>
-			<!--begin::Form-->
-            <form class="kt-form" action="{{ route('generales.personal.store') }}" method="POST">
+            <!--begin::Form-->
+            <form class="kt-form" action="{{ route('inventario.equipo.subtipo_store') }}" method="POST">
                 @method('POST')
                 @csrf
 				<div class="kt-portlet__body">
@@ -95,31 +95,29 @@
 						</select>
 					</div>
                     <div class="form-group">
-						<label>Email</label>
-						<input type="email" class="form-control" id="Email" name="Email">
+						<label>IP</label>
+						<input type="text" class="form-control" id="IP" name="IP" value="{{$equipo->IP}}">
                     </div>
-					<div class="form-group">
-						<label>Anexo</label>
-						<input type="text" class="form-control" id="Anexo" name="Anexo">
+                    <div class="form-group">
+						<label>Host</label>
+						<input type="text" class="form-control" id="Host" name="Host" value="{{$equipo->Host}}">
                     </div>
-					<div class="form-group">
-						<label >Contrato</label>
-						<select class="form-control" id="TipoContr" name="TipoContr">
-							<option value="CAS">CAS</option>
-							<option value="CAP">CAP</option>
-							<option value="RHE">RHE</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="">Dependencia</label>
-						<select class="js-example-data-ajax form-control" id="IdDependencia" name="IdDependencia">
-                            <option  selected="selected">--SELECCIONE DIRECCION --</option>
-                          </select>
-					</div>
+                    <div class="form-group">
+						<label>Codigo Patrimonial</label>
+						<input type="text" class="form-control" id="CodPatrimonial" name="CodPatrimonial" value="{{$equipo->CodPatrimonial}}">
+                    </div>
+                    <div class="form-group">
+						<label>Serie</label>
+						<input type="text" class="form-control" id="NumSerie" name="NumSerie" value="{{$equipo->NumSerie}}">
+                    </div>
+
 				</div>
 				<div class="kt-portlet__foot">
 					<div class="kt-form__actions">
-						<button type="submit" name="guardar_personal" id="guardar_personal" class="btn btn-primary" disabled>Guardar</button>
+                        <button type="submit" name="guardar_equipo" id="guardar_equipo" class="btn btn-primary">
+                            <i class="la la-check"></i>Guardar y Asignar
+                        </button>
+
 						<a href="{{route('generales.personal.index')}}" class="btn btn-secondary">Cancel</a>
 					</div>
 				</div>

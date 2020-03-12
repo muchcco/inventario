@@ -83,14 +83,35 @@ class EquipoController extends Controller
         $subt = SubTipo::where('Nombre',$subtipo)->first();
         $tipo = Tipo::where('IdTipo',$subt->IdTipo)->first();
         $marcas = Marca::get();
-        dump($request);
-
-        return $_SERVER['SERVER_ADDR'];
         $equipo = new Equipo;
         $equipo->IdEquipo = 0;
-
+        $equipo->Host = gethostname();
+        $equipo->IP = gethostbyname($equipo->Host);
         $view_create =  view('inventario.equipo.subtipo.'.$subtipo.'.create',compact('equipo','subt','tipo','crtpdt','marcas'));
         return $view_create;
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function subtipo_store(Request $request)
+    {
+
+        $attr = $request->all();
+
+        $tipo = Tipo::where('Nombre',$attr["NomTipo"])->first();
+        $attr["IdTipo"] = $tipo->IdTipo;
+        $subtipo = SubTipo::where('Nombre',$attr["NomSubTipo"])->first();
+        $attr["IdSubTipo"] = $subtipo->IdSubTipo;
+        $marca = Marca::where('IdMarca',$attr["IdMarca"])->first();
+        $attr["NomMarca"] = $marca->Nombre;
+
+        $equipo = Equipo::create($attr);
+
+        return redirect()->route('inventario.asignacion.create',['Equipo' => $equipo["IdEquipo"]]);
+
+
+    }
 }

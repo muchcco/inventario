@@ -19,9 +19,11 @@ Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
     //Subtipo
     Route::get('equipo/subtipo/{subtipo}', 'EquipoController@subtipo')->name('equipo.subtipo');
     Route::get('equipo/subtipo/{subtipo}/create', 'EquipoController@subtipo_create')->name('equipo.subtipo_create');
+    Route::post('equipo/subtipo/subtipo_store', 'EquipoController@subtipo_store')->name('equipo.subtipo_store');
     //Route::get('equipo/subtipo/{subtipo}/create/{id}', 'EquipoController@subtipo_crtudp')->name('equipo.subtipo.crtudp');
 
 
+    Route::get('equipo/asignacion/{Equipo}', 'AsignacionController@create')->name('asignacion.create');
 
     Route::get('marca', 'MarcaController@index')->name('marca.index');
     Route::get('marca/tabla', 'MarcaController@tabla')->name('marca.tabla');
