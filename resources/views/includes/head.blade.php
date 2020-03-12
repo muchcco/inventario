@@ -4,8 +4,8 @@
                     <div class="kt-header__topbar-item kt-header__topbar-item--user">
                         <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="0px,0px">
                             <div class="kt-header__topbar-user">
-                                <span class="kt-header__topbar-welcome kt-hidden-mobile">Hi, </span>
-                                <span class="kt-header__topbar-username kt-hidden-mobile">Sean </span>
+                                <span class="kt-header__topbar-welcome kt-hidden-mobile">Hola, </span>
+                                <span class="kt-header__topbar-username kt-hidden-mobile">{{ Auth::user()->name }} </span>
                                 <img class="kt-hidden" alt="Pic" src="{{ asset('assets/media/users/300_25.jpg')}}" />
                                 <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
                                 <span
@@ -31,7 +31,7 @@
                                     Sean Stone
                                 </div>
                                 <div class="kt-user-card__badge">
-                                    <span class="btn btn-success btn-sm btn-bold btn-font-md">23 messages </span>
+                                    <span class="btn btn-success btn-sm btn-bold btn-font-md"> {{ Auth::user()->role_id }} </span>
                                 </div>
                             </div>
                             <!--end: Head -->

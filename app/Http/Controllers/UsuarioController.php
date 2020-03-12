@@ -8,6 +8,8 @@ use App\User;
 use Auth;
 use Carbon\Carbon;
 
+use App\Middleware\TrusuProxies;
+
 use Illuminate\Support\Facades\Hash;
 
 use Response;
@@ -23,8 +25,18 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(Request $request)
+    {   
+        
+        
+
+        dd($_SERVER,
+        request()->getHost(),
+        request()->getClientIps(),
+        redirect('/somewhere')->getTargetUrl(),
+        url('/somewhere'),
+        action('HomeController@index',$_SERVER['REMOTE_ADDR']));
+
         return view('usuarios.index');
     }
 

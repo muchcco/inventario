@@ -137,7 +137,7 @@
                         <i class="kt-font-brand flaticon2-line-chart"></i>
                     </span>
                     <h3 class="kt-portlet__head-title">
-                        Marca
+                        Usuarios
                         <small></small>
                     </h3>
                 </div>
@@ -146,7 +146,7 @@
             <div class="kt-portlet__head-actions">
                 <div class="dropdown dropdown-inline">
                     <button type="button" class="btn btn-default btn-icon-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="la la-download"></i> Exportar
+                        <i class="la la-download"></i> Exportar 
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <ul class="kt-nav">
@@ -189,7 +189,7 @@
                 &nbsp;
                 <button type="button" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" onclick="agregarMarca()">
                     <i class="la la-plus"></i>
-                    Agregar Marca
+                    Agregar Usuarios
                 </button>
             </div>
         </div>		 </div>
