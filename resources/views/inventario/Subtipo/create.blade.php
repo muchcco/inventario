@@ -20,7 +20,7 @@
                     </div>
                     <div class="form-group">
                         <label for="recipient-name" class="form-control-label">Nombre:</label>
-                        <input type="text" class="form-control" id="Nombre" name="Nombre">
+                        <input type="text" class="form-control" id="Nombre" name="Nombre" onkeyup="javascript:this.value=this.value.toUpperCase();">
                     </div>
                 </form>
             </div>

@@ -133,7 +133,7 @@ class PersonalController extends Controller
         $personal = Personal::join('Dependencia','Dependencia.IdDependencia','=','Personal.IdDependencia')
                             ->select('IdPersonal','Personal.Nombres as Nombres','ApePat','ApeMat','DNI','Email','Anexo','TipoContr','Dependencia.Nombre as NomDependencia','Dependencia.IdDependencia as IdDependencia')
                             ->where('IdPersonal', $IdPersonal)
-                            ->first();;
+                            ->first();
         $view = view('generales.personal.edit',compact('personal'))->render();
         return $view ;
     }
@@ -166,6 +166,33 @@ class PersonalController extends Controller
         $Marca = Personal::find($id)->forceDelete();
 
         return 1;
+
+    }
+
+
+        /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function busqueda(Request $request)
+    {
+        $tipo = $request->tipo;
+        if (is_numeric($request->parametro)) {
+            $results = Personal::select('IdPersonal','Personal.Nombres as NomPersonal','ApePat','ApeMat','DNI','Codigo')
+                                ->join('Dependencia','Dependencia.IdDependencia','=','Personal.IdDependencia')
+                                ->where('DNI', $request->parametro)->get();
+        }else{
+            $results = Personal ::select('IdPersonal','Personal.Nombres as NomPersonal','ApePat','ApeMat','DNI','Codigo','Dependencia.Nombre as Dependencia')
+                                ->join('Dependencia','Dependencia.IdDependencia','=','Personal.IdDependencia')
+                                ->where('Nombres',"like", "%".$request->parametro."%")
+                                ->orWhere('ApePat',"like", "%".$request->parametro."%")
+                                ->orWhere('ApeMat',"like", "%".$request->parametro."%")
+                                ->get();
+        }
+
+        $view = view('inventario.asignacion.tabla_asignar_personal',compact('results','tipo'))->render();
+        return $view ;
 
     }
 

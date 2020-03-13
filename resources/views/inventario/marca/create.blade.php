@@ -11,7 +11,7 @@
                 <form id="MarcaForm" name="MarcaForm">
                     <div class="form-group">
                         <label for="recipient-name" class="form-control-label">Nombre:</label>
-                        <input type="text" class="form-control" id="MarcaNombre" name="Nombre">
+                        <input type="text" class="form-control" id="MarcaNombre" name="Nombre" onkeyup="javascript:this.value=this.value.toUpperCase();">
                     </div>
                 </form>
             </div>

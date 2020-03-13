@@ -25,6 +25,8 @@ Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
 
     Route::get('equipo/asignacion/{Equipo}', 'AsignacionController@create')->name('asignacion.create');
 
+
+
     Route::get('marca', 'MarcaController@index')->name('marca.index');
     Route::get('marca/tabla', 'MarcaController@tabla')->name('marca.tabla');
     Route::get('marca/create', 'MarcaController@create')->name('marca.create');
@@ -63,14 +65,6 @@ Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
     Route::delete('subtipo/{tipo}', 'SubtipoController@destroy')->name('subtipo.destroy');
 
 
-    Route::get('subtipo', 'SubtipoController@index')->name('subtipo.index');
-    Route::get('subtipo/tabla', 'SubtipoController@tabla')->name('subtipo.tabla');
-    Route::get('subtipo/create', 'SubtipoController@create')->name('subtipo.create');
-    Route::post('subtipo/store', 'SubtipoController@store')->name('subtipo.store');
-    Route::post('subtipo/edit', 'SubtipoController@edit')->name('subtipo.edit');
-    Route::put('subtipo/{tipo}', 'SubtipoController@update')->name('subtipo.update');
-    Route::delete('subtipo/{tipo}', 'SubtipoController@destroy')->name('subtipo.destroy');
-
 
 });
 
@@ -96,6 +90,7 @@ Route::group(['prefix'=>'generales','as'=>'generales.'],function () {
     Route::get('personal/edit/{personal}', 'PersonalController@edit')->name('personal.edit');
     Route::put('personal/{personal}', 'PersonalController@update')->name('personal.update');
     Route::delete('personal/{personal}', 'PersonalController@destroy')->name('personal.destroy');
+    Route::post('personal/busqueda', 'PersonalController@busqueda')->name('personal.busqueda');
 });
 
     Route::get('usuarios', 'UsuarioController@index')->name('usuarios.index');

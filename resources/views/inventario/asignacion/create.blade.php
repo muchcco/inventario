@@ -3,9 +3,11 @@
 
 @section('style')
 <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
-
+<link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 @section('script')
+<script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js')}}" type="text/javascript"></script>
+<script src="{{ asset('assets/js/pages/components/extended/sweetalert2.js')}}" type="text/javascript"></script>
 <script href="{{ asset('assets/js/pages/crud/forms/widgets/select2.js')}}" rel="stylesheet" type="text/css" ></script>
 <script>
 
@@ -65,41 +67,40 @@
                             return true;
                         }
                     }
-
-
             });
-
-
-
-
-        //console.log(document.getElementById("dni").value);
-        //alert("!3")
     }
 
+    //Cargar datos usando del responsable y usuario
+    var BuscarPersonal = (tipo) => {
+        var url = "{{ route('generales.personal.busqueda') }}";
+        var parametro = document.getElementById("parametro").value;
+        ajaxRequest(
+            url,
+            "post",
+            {tipo: tipo,parametro: parametro},
+            function(data){
+                $("#tipo").html(`Asignar ${tipo}`);
+                $("#tabla_asignar_personal_body").html(data);
+                $("#asignar_personal").modal('show');
+            }
+        );
+    };
 
-    var cargarDependencia = () => {
-            var url = "{{ route('generales.personal.dependencia') }}";
-
-            $("#IdDependencia").select2( {
-                language: {
-                    noResults: function() {
-                    return "No hay resultado";
-                    },
-                    searching: function() {
-                    return "Buscando..";
-                    }
-                },
-                ajax: {
-                        url: url,
-                        processResults: function (data) {
-                        // Transforms the top-level key of the response object from 'items' to 'results'
-                        return {results: data}
-                        }
-                    }
-                }
-            )
-        }
-
+    //Cargar datos del ASIGNADO
+    var AsignarPersonal = (tipo,IdPersonal,Nombres,dependencia) => {
+        var url = "{{ route('generales.personal.busqueda') }}";
+        var parametro = document.getElementById("parametro").value;
+        ajaxRequest(
+            url,
+            "post",
+            {tipo: tipo,parametro: parametro},
+            function(data){
+                $("#tipo").html(`Asignar ${tipo}`);
+                $("#tabla_asignar_personal_body").html(data);
+                $("#asignar_personal").modal('show');
+            }
+        );
+    };
     </script>
 @endsection
 @section('content')
@@ -110,7 +111,7 @@
 			<div class="kt-portlet__head">
 				<div class="kt-portlet__head-label">
 					<h3 class="kt-portlet__head-title">
-						Nuevo Personal
+						Asignacion
 					</h3>
 				</div>
 			</div>
@@ -120,18 +121,28 @@
                 @csrf
 				<div class="kt-portlet__body">
                     <div class="form-group">
-						<label>DNI</label>
+						<label>Resposable</label>
 						<div class="input-group">
-                            <input type="text" class="form-control" name="DNI" id="DNI" value="44761105">
+                            <input type="text" class="form-control" name="parametro" id="parametro" placeholder="Digite DNI o Nombre del personal" onkeyup="javascript:this.value=this.value.toUpperCase();">
 
 							<div class="input-group-append">
-                                <button class="btn btn-success "  onclick="cargarDatos()" name="buscar" id="buscar"  style="color: #fff">Buscar</button>
+                                <a class="btn btn-success "  onclick="BuscarPersonal('responsable')" name="buscar" id="buscar"  style="color: #fff">Buscar</a>
 
                             </div>
-
                         </div>
                         <span class="form-text text-muted" id="alerta_DNI" name="alerta_DNI"></span>
-					</div>
+                    </div>
+                    <div>
+                        <div class="kt-wizard-v2__review-item">
+                            <div class="kt-wizard-v2__review-title">
+                                Account Details
+                            </div>
+                            <div class="kt-wizard-v2__review-content"  name="datos_responsable" id="datos_responsable">
+
+                            </div>
+                        </div>
+
+                    </div>
 					<div class="form-group">
 						<label>Nombres</label>
 						<input type="text" class="form-control" id="Nombres" name="Nombres" readonly="readonly">
@@ -163,7 +174,7 @@
 					<div class="form-group">
 						<label for="">Dependencia</label>
 						<select class="js-example-data-ajax form-control" id="IdDependencia" name="IdDependencia">
-                            <option  selected="selected">--SELECCIONE DIRECCION --</option>
+
                           </select>
 					</div>
 				</div>
@@ -180,6 +191,32 @@
 	</div>
 
 </div>
-
+<!--begin: Modal crear marca-->
+<div class="modal fade" id="asignar_personal" name="asignar_personal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tipo" name="tipo"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_asignar_personal">
+                    <thead>
+                        <tr>
+                            <th>DNI</th>
+                            <th>Nombre</th>
+                            <th>Dependencia</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla_asignar_personal_body">
+                    </tbody>
+                </table>
+            <div class="modal-body">
+        </div>
+    </div>
+</div>
+<!--end: Modal crear marca-->
 
 @endsection
