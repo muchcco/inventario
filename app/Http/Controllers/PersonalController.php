@@ -178,6 +178,7 @@ class PersonalController extends Controller
     public function busqueda(Request $request)
     {
         $tipo = $request->tipo;
+        $parametro = $request->parametro;
         if (is_numeric($request->parametro)) {
             $results = Personal::select('IdPersonal','Personal.Nombres as NomPersonal','ApePat','ApeMat','DNI','Codigo')
                                 ->join('Dependencia','Dependencia.IdDependencia','=','Personal.IdDependencia')
@@ -191,7 +192,7 @@ class PersonalController extends Controller
                                 ->get();
         }
 
-        $view = view('inventario.asignacion.tabla_asignar_personal',compact('results','tipo'))->render();
+        $view = view('inventario.asignacion.tabla_asignar_personal',compact('results','tipo','parametro'))->render();
         return $view ;
 
     }

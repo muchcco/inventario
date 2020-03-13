@@ -71,15 +71,21 @@
     }
 
     //Cargar datos usando del responsable y usuario
-    var BuscarPersonal = (tipo) => {
+    var BuscarPersonal = (tipo,tip) => {
         var url = "{{ route('generales.personal.busqueda') }}";
-        var parametro = document.getElementById("parametro").value;
+        var parametro = document.getElementById(`parametro${tip}`).value;
         ajaxRequest(
             url,
             "post",
             {tipo: tipo,parametro: parametro},
             function(data){
-                $("#tipo").html(`Asignar ${tipo}`);
+
+                inputparametro =document.querySelectorAll(`[id^='parametro']`);
+                inputparametro.forEach(element => {
+                    element.value = parametro;
+                });
+                //console.log(inputparametro);
+                $("#tipo").html(tipo);
                 $("#tabla_asignar_personal_body").html(data);
                 $("#asignar_personal").modal('show');
             }
@@ -87,19 +93,14 @@
     };
 
     //Cargar datos del ASIGNADO
-    var AsignarPersonal = (tipo,IdPersonal,Nombres,dependencia) => {
-        var url = "{{ route('generales.personal.busqueda') }}";
-        var parametro = document.getElementById("parametro").value;
-        ajaxRequest(
-            url,
-            "post",
-            {tipo: tipo,parametro: parametro},
-            function(data){
-                $("#tipo").html(`Asignar ${tipo}`);
-                $("#tabla_asignar_personal_body").html(data);
-                $("#asignar_personal").modal('show');
-            }
-        );
+    var AsignarPersonal = (tipo,IdPersonal,dni,Nombres,dependencia) => {
+        document.getElementById(`tipo_datos_${tipo}`).innerHTML = `<b>DATOS DEL ${tipo.toUpperCase()}</b>`;
+        document.getElementById(`datos_${tipo}`).innerHTML =    `<b>DNI: </b> ${dni}<br>`+
+                                                                `<b>Nombre: </b> ${Nombres}<br>`+
+                                                                `<b>Dependencia: </b> ${dependencia} <br>`+
+                                                                `<div class="border-top my-3"></div>`
+        document.getElementById("IdUsuarioActual").value = IdPersonal;
+        $("#asignar_personal").modal('hide');
     };
     </script>
 @endsection
@@ -126,22 +127,26 @@
                             <input type="text" class="form-control" name="parametro" id="parametro" placeholder="Digite DNI o Nombre del personal" onkeyup="javascript:this.value=this.value.toUpperCase();">
 
 							<div class="input-group-append">
-                                <a class="btn btn-success "  onclick="BuscarPersonal('responsable')" name="buscar" id="buscar"  style="color: #fff">Buscar</a>
+                                <a class="btn btn-success "  onclick="BuscarPersonal('responsable','')" name="buscar" id="buscar"  style="color: #fff">Buscar</a>
 
                             </div>
                         </div>
                         <span class="form-text text-muted" id="alerta_DNI" name="alerta_DNI"></span>
                     </div>
                     <div>
-                        <div class="kt-wizard-v2__review-item">
-                            <div class="kt-wizard-v2__review-title">
-                                Account Details
-                            </div>
-                            <div class="kt-wizard-v2__review-content"  name="datos_responsable" id="datos_responsable">
+                        <div class="kt-wizard-v2__content">
+                            <div class="kt-form__section kt-form__section--first">
+                                <div class="kt-wizard-v2__review-item">
+                                    <div class="kt-wizard-v2__review-title" name="tipo_datos_responsable" id="tipo_datos_responsable">
 
+                                    </div>
+                                    <div class="kt-wizard-v2__review-content"  name="datos_responsable" id="datos_responsable">
+
+                                    </div>
+                                </div>
                             </div>
+                            <input type="hidden" class="form-control" name="IdUsuarioActual" id="IdUsuarioActual">
                         </div>
-
                     </div>
 					<div class="form-group">
 						<label>Nombres</label>
@@ -201,6 +206,21 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="parametro_modal" id="parametro_modal" onkeyup="javascript:this.value=this.value.toUpperCase();">
+
+                            <div class="input-group-append">
+                                <a class="btn btn-success "  onclick="BuscarPersonal('responsable','_modal')" name="buscar" id="buscar"  style="color: #fff">Buscar</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="offset-md-3">
+
+                    </div>
+                </div>
                 <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_asignar_personal">
                     <thead>
                         <tr>
