@@ -69,7 +69,7 @@ $(document).ready(function () {
             'POST',
             {tipo : tipo.value},
             function(response){
-                let SubTipos = '<option value="">Seleccione SubTipo</option>'
+                let SubTipos = ''
                 for (var i=0; i<response.length;i++){
                     SubTipos+='<option value="'+response[i].IdSubTipo+'">'+response[i].Nombre+'</option>';
                 }
@@ -84,7 +84,7 @@ $(document).ready(function () {
             'POST',
             {tipo : event.target.value},
             function(response){
-                let SubTipos = '<option value="">Seleccione SubTipo</option>'
+                let SubTipos = ''
                 for (var i=0; i<response.length;i++){
                     SubTipos+='<option value="'+response[i].IdSubTipo+'">'+response[i].Nombre+'</option>';
                 }

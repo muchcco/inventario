@@ -113,7 +113,9 @@ class TipoController extends Controller
      */
     public function destroy($id)
     {
-        DB::delete('exec [udp_Tipo_del] ?',array($id));
+        $Tipo = Tipo::find($id)->forceDelete();
+        return $Tipo;
+
 
 
     }

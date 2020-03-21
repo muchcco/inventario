@@ -21,9 +21,10 @@
 
         $("#FAsignacion").datepicker( {
                 language:"es",
-                rtl: KTUtil.isRTL(),
                 todayHighlight: !0,
+                format: "dd/mm/yyyy",
                 orientation: "bottom left",
+                startDate: "{{ date('d/m/Y', strtotime($asignado->FAsignacion)) }}"
             }
             ).on('changeDate', function(e) {
                 document.getElementById('valid_fasignacion').innerHTML = "";
@@ -187,7 +188,7 @@
 			</div>
 			<!--begin::Form-->
             <div class="kt-portlet__body">
-            <form class="kt-form" action="{{ route('inventario.asignacion.update',['asignacion'=>$asignado->IdAsignacion]) }}" method="POST" onsubmit="return validar_formulario_asignacion()" id="crear_asignacion" name="crear_asignacion">
+            <form class="kt-form" action="{{ route('inventario.asignacion.reasignado',['asignacion'=>$asignado->IdAsignacion]) }}" method="POST" onsubmit="return validar_formulario_asignacion()" id="crear_asignacion" name="crear_asignacion">
                 @method('PUT')
                 @csrf
                     <input type="hidden" name="IdEquipo" id="IdEquipo" value="{{$asignado->IdEquipo}}">
@@ -267,7 +268,7 @@
 
 				<div class="kt-portlet__foot">
 					<div class="kt-form__actions">
-						<button type="submit" name="guardar_asignacion" id="guardar_asignacion" class="btn btn-primary">Guardar</button>
+						<button type="submit" name="guardar_asignacion" id="guardar_asignacion" class="btn btn-primary">Reasignar</button>
 						<a href="{{route('inventario.equipo.subtipo', ['subtipo'=> $subTipos->Nombre])}}" class="btn btn-secondary">Cancel</a>
 					</div>
 				</div>

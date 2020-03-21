@@ -35,7 +35,7 @@
             ajaxRequest(
                 "{{ route('inventario.modelo.modelos') }}",
                 'POST',
-                {marca : event.target.value,subtipo: "{{$subt->IdSubTipo}}"},
+                {marca : marca.value,subtipo: "{{$subt->IdSubTipo}}"},
                 function(response){
 
                     let Modelos = `<option value="">--SELECCIONAR MODELOS--</option>`
@@ -54,7 +54,9 @@
 
 
 @section('content')
+
 <div class="row">
+
 	<div class="col-md-6 offset-md-3">
 		<!--begin::Portlet-->
 		<div class="kt-portlet">
@@ -107,10 +109,6 @@
                     <div class="form-group">
 						<label>IP</label>
 						<input type="text" class="form-control" id="IP" name="IP" value="{{$equipo->IP}}">
-                    </div>
-                    <div class="form-group">
-						<label>Host</label>
-						<input type="text" class="form-control" id="Host" name="Host" value="{{$equipo->Host}}">
                     </div>
                     <div class="form-group">
 						<label>Codigo Patrimonial</label>

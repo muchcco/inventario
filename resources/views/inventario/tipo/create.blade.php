@@ -9,9 +9,10 @@
         <div class="modal-body">
             <div class="modal-body">
                 <form id="TipoForm" name="TipoForm">
-                    <div class="form-group">
+                    <div class="form-group validated">
                         <label for="recipient-name" class="form-control-label">Nombre:</label>
-                        <input type="text" class="form-control" id="Nombre" name="Nombre onkeyup="javascript:this.value=this.value.toUpperCase();"">
+                        <input type="text" class="form-control" id="Nombre" name="Nombre" onkeyup="MayusculaGuiones(this)">
+                        <div class="invalid-feedback" id="valid_nombre" name="valid_nombre"></div>
                     </div>
                 </form>
             </div>
@@ -22,3 +23,4 @@
         </div>
     </div>
 </div>
+

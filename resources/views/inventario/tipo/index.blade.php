@@ -1,6 +1,7 @@
 @extends('layout')
 @section('style')
 <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+<link href="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js" rel="stylesheet" type="text/css" />
 @endsection
 @section('script')
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js')}}" type="text/javascript"></script>
@@ -8,6 +9,7 @@
     <script>
         $(document).ready(function () {
             tabla_tipos();
+
         });
         var tabla = $("#tabla_tipos").DataTable();
         var tabla_tipos =() =>  {
@@ -25,7 +27,76 @@
                         { "width": "20%" }
                     ]
                     });
-
+                    new $.fn.dataTable.Buttons( tabla, {
+                        buttons: [
+                            {
+                            extend:    'copy',
+                            text:      '<i class="kt-nav__link-icon la la-copy"></i> Copiar',
+                            titleAttr: 'Copy',
+                            className: 'dropdown-item',
+                            title : "Tipos",
+                            init: function(api, node, config) {
+                                    $(node).removeClass('btn btn-secondary')
+                                },
+                            exportOptions: {
+                                columns: [ 0, 1]
+                            }
+                            },
+                            {
+                            extend:    'csv',
+                            text:      '<i class="kt-nav__link-icon la la-file-text-o"></i> CSV',
+                            titleAttr: 'CSV',
+                            className: 'dropdown-item',
+                            title : "Tipos",
+                            init: function(api, node, config) {
+                                    $(node).removeClass('btn btn-secondary')
+                                },
+                            exportOptions: {
+                                columns: [ 0, 1]
+                            }
+                            },
+                            {
+                            extend:    'excel',
+                            text:      '<i class="kt-nav__link-icon la la-file-excel-o"></i> Excel',
+                            titleAttr: 'Excel',
+                            className: 'dropdown-item',
+                            title : "Tipos",
+                            init: function(api, node, config) {
+                                    $(node).removeClass('btn btn-secondary')
+                                },
+                            exportOptions: {
+                                columns: [ 0, 1]
+                            }
+                            },
+                            {
+                            extend:    'pdf',
+                            text:      '<i class="kt-nav__link-icon la la-file-pdf-o"></i> PDF',
+                            titleAttr: 'PDF',
+                            className: 'dropdown-item',
+                            title : "Tipos",
+                            init: function(api, node, config) {
+                                    $(node).removeClass('btn btn-secondary')
+                                },
+                            exportOptions: {
+                                columns: [ 0, 1]
+                            }
+                            },
+                            {
+                            extend:    'print',
+                            text:      '<i class="kt-nav__link-icon la la-print"></i> Imprimir',
+                            titleAttr: 'Print',
+                            className: 'dropdown-item',
+                            title : "Tipos",
+                            init: function(api, node, config) {
+                                    $(node).removeClass('btn btn-secondary')
+                                },
+                            exportOptions: {
+                                columns: [ 0, 1]
+                            }
+                            },
+                        ]
+                    } );
+        tabla.buttons().container().appendTo('#exportar');
                 }
             );
         }
@@ -44,12 +115,20 @@
         };
 
         $(document).on('click', '#btn_guardar_tipo', function(){
-            var createForm = $("#TipoForm");
+            var createForm = $("#TipoForm").serializeArray();
+
+            if (createForm[0].value == "" || createForm[0].value == "_") {
+
+                            document.getElementById('valid_nombre').innerHTML = "Debe llenar el campo Nombre"
+                            return false;
+
+            }
             ajaxRequest(
                     "{{ route('inventario.tipo.store') }}",
                     'POST',
-                    createForm.serializeArray(),
+                    createForm,
                     function(response){
+
                         tabla_tipos()
                         $("#modal_agregar_tipo").modal('hide');
 
@@ -118,7 +197,13 @@
             })
         };
 
+        var MayusculaGuiones = (valor) => {
+            valor.value = valor.value.toUpperCase();
+            valor.value = valor.value.replace(/\s/g,"_");
+            console.log(valor);
 
+            //javascript:this.value=this.value.toUpperCase();
+        }
     </script>
 @endsection
 
@@ -143,42 +228,7 @@
                     <button type="button" class="btn btn-default btn-icon-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="la la-download"></i> Exportar
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <ul class="kt-nav">
-                            <li class="kt-nav__section kt-nav__section--first">
-                                <span class="kt-nav__section-text">Choose an option </span>
-                            </li>
-                            <li class="kt-nav__item">
-                                <a href="#" class="kt-nav__link">
-                                    <i class="kt-nav__link-icon la la-print"></i>
-                                    <span class="kt-nav__link-text">Print </span>
-                                </a>
-                            </li>
-                            <li class="kt-nav__item">
-                                <a href="#" class="kt-nav__link">
-                                    <i class="kt-nav__link-icon la la-copy"></i>
-                                    <span class="kt-nav__link-text">Copy </span>
-                                </a>
-                            </li>
-                            <li class="kt-nav__item">
-                                <a href="#" class="kt-nav__link">
-                                    <i class="kt-nav__link-icon la la-file-excel-o"></i>
-                                    <span class="kt-nav__link-text">Excel </span>
-                                </a>
-                            </li>
-                            <li class="kt-nav__item">
-                                <a href="#" class="kt-nav__link">
-                                    <i class="kt-nav__link-icon la la-file-text-o"></i>
-                                    <span class="kt-nav__link-text">CSV </span>
-                                </a>
-                            </li>
-                            <li class="kt-nav__item">
-                                <a href="#" class="kt-nav__link">
-                                    <i class="kt-nav__link-icon la la-file-pdf-o"></i>
-                                    <span class="kt-nav__link-text">PDF </span>
-                                </a>
-                            </li>
-                        </ul>
+                    <div class="dropdown-menu dropdown-menu-right" id="exportar" name="exportar">
                     </div>
                 </div>
                 &nbsp;

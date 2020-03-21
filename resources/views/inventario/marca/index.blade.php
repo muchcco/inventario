@@ -26,6 +26,77 @@
                     ]
                     });
 
+                    new $.fn.dataTable.Buttons( tabla, {
+                        buttons: [
+                            {
+                            extend:    'copy',
+                            text:      '<i class="kt-nav__link-icon la la-copy"></i> Copiar',
+                            titleAttr: 'Copy',
+                            className: 'dropdown-item',
+                            title : "Marcas",
+                            init: function(api, node, config) {
+                                    $(node).removeClass('btn btn-secondary')
+                                },
+                            exportOptions: {
+                                columns: [ 0, 1]
+                            }
+                            },
+                            {
+                            extend:    'csv',
+                            text:      '<i class="kt-nav__link-icon la la-file-text-o"></i> CSV',
+                            titleAttr: 'CSV',
+                            className: 'dropdown-item',
+                            title : "Marcas",
+                            init: function(api, node, config) {
+                                    $(node).removeClass('btn btn-secondary')
+                                },
+                            exportOptions: {
+                                columns: [ 0, 1]
+                            }
+                            },
+                            {
+                            extend:    'excel',
+                            text:      '<i class="kt-nav__link-icon la la-file-excel-o"></i> Excel',
+                            titleAttr: 'Excel',
+                            className: 'dropdown-item',
+                            title : "Marcas",
+                            init: function(api, node, config) {
+                                    $(node).removeClass('btn btn-secondary')
+                                },
+                            exportOptions: {
+                                columns: [ 0, 1]
+                            }
+                            },
+                            {
+                            extend:    'pdf',
+                            text:      '<i class="kt-nav__link-icon la la-file-pdf-o"></i> PDF',
+                            titleAttr: 'PDF',
+                            className: 'dropdown-item',
+                            title : "Marcas",
+                            init: function(api, node, config) {
+                                    $(node).removeClass('btn btn-secondary')
+                                },
+                            exportOptions: {
+                                columns: [ 0, 1]
+                            }
+                            },
+                            {
+                            extend:    'print',
+                            text:      '<i class="kt-nav__link-icon la la-print"></i> Imprimir',
+                            titleAttr: 'Print',
+                            className: 'dropdown-item',
+                            title : "Marcas",
+                            init: function(api, node, config) {
+                                    $(node).removeClass('btn btn-secondary')
+                                },
+                            exportOptions: {
+                                columns: [ 0, 1]
+                            }
+                            },
+                        ]
+                    } );
+                    tabla.buttons().container().appendTo('#exportar');
+
                 }
             );
         }
@@ -59,9 +130,9 @@
         var EditarMarca = (id) => {
             $.ajax({
                 type:'post',
-                url:"{{ route('inventario.marca.edit') }}",
+                url:"{{ route('inventario.equipo.subtipo_delete') }}",
                 dataType: "json",
-                data:{marca : id},
+                data:{equipo : id},
                 success:function(data){
 
                     $("#modal_editar_marca").html(data.html);
@@ -130,6 +201,14 @@
             })
         };
 
+        var MayusculaGuiones = (valor) => {
+            valor.value = valor.value.toUpperCase();
+            valor.value = valor.value.replace(/\s/g,"_");
+            console.log(valor);
+
+            //javascript:this.value=this.value.toUpperCase();
+        }
+
     </script>
 @endsection
 
@@ -154,43 +233,7 @@
                     <button type="button" class="btn btn-default btn-icon-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="la la-download"></i> Exportar
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <ul class="kt-nav">
-                            <li class="kt-nav__section kt-nav__section--first">
-                                <span class="kt-nav__section-text">Choose an option </span>
-                            </li>
-                            <li class="kt-nav__item">
-                                <a href="#" class="kt-nav__link">
-                                    <i class="kt-nav__link-icon la la-print"></i>
-                                    <span class="kt-nav__link-text">Print </span>
-                                </a>
-                            </li>
-                            <li class="kt-nav__item">
-                                <a href="#" class="kt-nav__link">
-                                    <i class="kt-nav__link-icon la la-copy"></i>
-                                    <span class="kt-nav__link-text">Copy </span>
-                                </a>
-                            </li>
-                            <li class="kt-nav__item">
-                                <a href="#" class="kt-nav__link">
-                                    <i class="kt-nav__link-icon la la-file-excel-o"></i>
-                                    <span class="kt-nav__link-text">Excel </span>
-                                </a>
-                            </li>
-                            <li class="kt-nav__item">
-                                <a href="#" class="kt-nav__link">
-                                    <i class="kt-nav__link-icon la la-file-text-o"></i>
-                                    <span class="kt-nav__link-text">CSV </span>
-                                </a>
-                            </li>
-                            <li class="kt-nav__item">
-                                <a href="#" class="kt-nav__link">
-                                    <i class="kt-nav__link-icon la la-file-pdf-o"></i>
-                                    <span class="kt-nav__link-text">PDF </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <div class="dropdown-menu dropdown-menu-right" id="exportar" name="exportar"></div>
                 </div>
                 &nbsp;
                 <button type="button" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" onclick="agregarMarca()">

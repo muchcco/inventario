@@ -8,13 +8,23 @@
 @section('script')
 <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js')}}" type="text/javascript"></script>
 <script src="{{ asset('assets/js/pages/components/extended/sweetalert2.js')}}" type="text/javascript"></script>
-<script href="{{ asset('assets/js/pages/crud/forms/widgets/select2.js')}}" rel="stylesheet" type="text/css" ></script>
+<script src="{{ asset('assets/js/pages/crud/forms/widgets/select2.js')}}" type="text/javascript"></script>
+<script src="{{ asset('assets/js/pages/crud/forms/widgets/bootstrap-datepicker.es.js')}}" charset="UTF-8" ></script>
+
 <script>
 
 
 
     $( document ).ready(function() {
-        cargarDependencia()
+        $("#FAsignacion").datepicker( {
+                language:"es",
+                rtl: KTUtil.isRTL(),
+                todayHighlight: !0,
+                orientation: "bottom left",
+            }
+            ).on('changeDate', function(e) {
+                document.getElementById('valid_fasignacion').innerHTML = "";
+            });
     //cargar datos al al encontrar el dni
 
     });
@@ -70,6 +80,28 @@
             });
     }
 
+    var cargarDependencia = () => {
+            var url = "{{ route('generales.personal.dependencia') }}";
+
+            $("#IdDependencia").select2( {
+                language: {
+                    noResults: function() {
+                    return "No hay resultado";
+                    },
+                    searching: function() {
+                    return "Buscando..";
+                    }
+                },
+                ajax: {
+                        url: url,
+                        processResults: function (data) {
+                        // Transforms the top-level key of the response object from 'items' to 'results'
+                        return {results: data}
+                        }
+                    }
+                }
+            )
+        }
     //Cargar datos usando del responsable y usuario
     var BuscarPersonal = (tipo,tip) => {
         var url = "{{ route('generales.personal.busqueda') }}";
@@ -79,12 +111,6 @@
             "post",
             {tipo: tipo,parametro: parametro},
             function(data){
-
-                inputparametro =document.querySelectorAll(`[id^='parametro']`);
-                inputparametro.forEach(element => {
-                    element.value = parametro;
-                });
-                //console.log(inputparametro);
                 $("#tipo").html(tipo);
                 $("#tabla_asignar_personal_body").html(data);
                 $("#asignar_personal").modal('show');
@@ -99,9 +125,49 @@
                                                                 `<b>Nombre: </b> ${Nombres}<br>`+
                                                                 `<b>Dependencia: </b> ${dependencia} <br>`+
                                                                 `<div class="border-top my-3"></div>`
-        document.getElementById("IdUsuarioActual").value = IdPersonal;
+        document.getElementById(tipo).value = IdPersonal;
+        document.getElementById(`valid_${tipo}`).innerHTML = "";
         $("#asignar_personal").modal('hide');
     };
+    //Agregar personal
+    var CrearPersonal = () => {
+        var url = "{{ route('generales.personal.agregarmodal') }}";
+        ajaxRequest(
+            url,
+            "post",
+            {},
+            function(data){
+                $("#crear_personal_modal_body").html(data);
+                $("#asignar_personal").modal('hide');
+                $("#crear_personal_modal").modal('show');
+                return true;
+                //console.log(inputparametro);
+
+                $("#tabla_asignar_personal_body").html(data);
+                $("#asignar_personal").modal('show');
+            }
+        );
+    }
+
+    //Validar crear Asignacion
+    var validar_formulario_asignacion = () => {
+        var usuario = document.forms["crear_asignacion"]["responsable"].value;
+        if (usuario == "") {
+            document.getElementById('valid_responsable').innerHTML = "Se debe seleccionar un responsable"
+            return false;
+        }
+        var responsable = document.forms["crear_asignacion"]["usuario"].value;
+        if (responsable == "") {
+            document.getElementById('valid_usuario').innerHTML = "Se debe seleccionar un usuario"
+            return false;
+        }
+        var responsable = document.forms["crear_asignacion"]["FAsignacion"].value;
+        if (responsable == "") {
+            document.getElementById('valid_fasignacion').innerHTML = "Se debe seleccionar una fecha de asignación"
+            return false;
+        }
+    }
+
     </script>
 @endsection
 @section('content')
@@ -117,21 +183,20 @@
 				</div>
 			</div>
 			<!--begin::Form-->
-            <form class="kt-form" action="{{ route('generales.personal.store') }}" method="POST">
+            <div class="kt-portlet__body">
+            <form class="kt-form" action="{{ route('inventario.asignacion.store') }}" method="POST" onsubmit="return validar_formulario_asignacion()" id="crear_asignacion" name="crear_asignacion">
                 @method('POST')
                 @csrf
-				<div class="kt-portlet__body">
-                    <div class="form-group">
+                    <input type="hidden" name="IdEquipo" id="IdEquipo" value="{{$Equipo}}">
+                    <div class="form-group validated" >
 						<label>Resposable</label>
 						<div class="input-group">
                             <input type="text" class="form-control" name="parametro" id="parametro" placeholder="Digite DNI o Nombre del personal" onkeyup="javascript:this.value=this.value.toUpperCase();">
-
 							<div class="input-group-append">
                                 <a class="btn btn-success "  onclick="BuscarPersonal('responsable','')" name="buscar" id="buscar"  style="color: #fff">Buscar</a>
-
                             </div>
                         </div>
-                        <span class="form-text text-muted" id="alerta_DNI" name="alerta_DNI"></span>
+                        <div class="invalid-feedback" id="valid_responsable" name="valid_responsable"></div>
                     </div>
                     <div>
                         <div class="kt-wizard-v2__content">
@@ -145,57 +210,72 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="hidden" class="form-control" name="IdUsuarioActual" id="IdUsuarioActual">
+                            <input type="hidden" class="form-control" name="responsable" id="responsable">
                         </div>
                     </div>
-					<div class="form-group">
-						<label>Nombres</label>
-						<input type="text" class="form-control" id="Nombres" name="Nombres" readonly="readonly">
-					</div>
-					<div class="form-group">
-						<label>Apellido Paterno</label>
-						<input type="text" class="form-control" id="ApePat" name="ApePat"  readonly="readonly">
-					</div>
-					<div class="form-group">
-						<label>Apellido Paterno</label>
-						<input type="text" class="form-control" id="ApeMat" name="ApeMat"  readonly="readonly">
-                    </div>
-                    <div class="form-group">
-						<label>Email</label>
-						<input type="email" class="form-control" id="Email" name="Email">
-                    </div>
-					<div class="form-group">
-						<label>Anexo</label>
-						<input type="text" class="form-control" id="Anexo" name="Anexo">
-                    </div>
-					<div class="form-group">
-						<label >Contrato</label>
-						<select class="form-control" id="TipoContr" name="TipoContr">
-							<option value="CAS">CAS</option>
-							<option value="CAP">CAP</option>
-							<option value="RHE">RHE</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="">Dependencia</label>
-						<select class="js-example-data-ajax form-control" id="IdDependencia" name="IdDependencia">
 
-                          </select>
-					</div>
-				</div>
+
+                    <div class="form-group validated">
+						<label>Usuario</label>
+						<div class="input-group">
+                            <input type="text" class="form-control" name="parametro" id="parametro" placeholder="Digite DNI o Nombre del personal" onkeyup="javascript:this.value=this.value.toUpperCase();">
+							<div class="input-group-append">
+                                <a class="btn btn-success "  onclick="BuscarPersonal('usuario','')" name="buscar" id="buscar"  style="color: #fff">Buscar</a>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback" id="valid_usuario" name="valid_usuario"></div>
+                    </div>
+                    <div>
+                        <div class="kt-wizard-v2__content">
+                            <div class="kt-form__section kt-form__section--first">
+                                <div class="kt-wizard-v2__review-item">
+                                    <div class="kt-wizard-v2__review-title" name="tipo_datos_usuario" id="tipo_datos_usuario">
+
+                                    </div>
+                                    <div class="kt-wizard-v2__review-content"  name="datos_usuario" id="datos_usuario">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" class="form-control" name="usuario" id="usuario">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group validated">
+                        <label>Fecha Inicio</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="FAsignacion" name="FAsignacion" readonly="" autocomplete="off" placeholder="Seleccionar Fecha" />
+                        </div>
+                        <div class="invalid-feedback" id="valid_fasignacion" name="valid_fasignacion"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-3 col-form-label">Utilizado</label>
+                        <div class="col-3">
+                            <span class="kt-switch">
+                                <label>
+                                    <input type="checkbox"  name="Utilizado" id="Utilizado" />
+                                    <span></span>
+                                </label>
+                            </span>
+                        </div>
+                    </div>
+
 				<div class="kt-portlet__foot">
 					<div class="kt-form__actions">
-						<button type="submit" name="guardar_personal" id="guardar_personal" class="btn btn-primary" disabled>Guardar</button>
-						<a href="{{route('generales.personal.index')}}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" name="guardar_asignacion" id="guardar_asignacion" class="btn btn-primary">Actualizar</button>
+						<a href="{{route('inventario.equipo.subtipo', ['subtipo'=> $subTipos->Nombre])}}" class="btn btn-secondary">Cancel</a>
 					</div>
 				</div>
 			</form>
-			<!--end::Form-->
-		</div>
-
-	</div>
+            <!--end::Form-->
+        </div>
+    </div>
 
 </div>
+
+
 <!--begin: Modal crear marca-->
 <div class="modal fade" id="asignar_personal" name="asignar_personal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
@@ -213,12 +293,11 @@
 
                             <div class="input-group-append">
                                 <a class="btn btn-success "  onclick="BuscarPersonal('responsable','_modal')" name="buscar" id="buscar"  style="color: #fff">Buscar</a>
-
                             </div>
                         </div>
                     </div>
-                    <div class="offset-md-3">
-
+                    <div class="offset-md-7 col-md-2">
+                        <a class="btn btn-success "  name="buscar" id="buscar" onclick="CrearPersonal()"  style="color: #fff">Agregar</a>
                     </div>
                 </div>
                 <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_asignar_personal">
@@ -233,10 +312,26 @@
                     <tbody id="tabla_asignar_personal_body">
                     </tbody>
                 </table>
-            <div class="modal-body">
+            </div>
         </div>
     </div>
 </div>
 <!--end: Modal crear marca-->
+<!--begin: Modal crear personal-->
+<div class="modal fade" id="crear_personal_modal" name="crear_personal_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar Personal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body" id="crear_personal_modal_body" name="crear_personal_modal_body">
 
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--end: Modal crear personal-->
 @endsection

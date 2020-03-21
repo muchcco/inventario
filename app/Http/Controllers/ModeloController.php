@@ -74,7 +74,10 @@ class ModeloController extends Controller
     //Trae todos los modelo
     public function modelos(Request $request)
     {
-        $modelos = Modelo::where('IdMarca', $request->marca)->get();
+
+        $modelos = Modelo::where('IdMarca',"=", $request->marca)
+        ->where('IdSubTipo',"=", $request->subtipo)
+        ->get();
         return $modelos;
         exit;
     }

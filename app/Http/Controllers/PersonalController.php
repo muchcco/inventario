@@ -180,7 +180,7 @@ class PersonalController extends Controller
         $tipo = $request->tipo;
         $parametro = $request->parametro;
         if (is_numeric($request->parametro)) {
-            $results = Personal::select('IdPersonal','Personal.Nombres as NomPersonal','ApePat','ApeMat','DNI','Codigo')
+            $results = Personal::select('IdPersonal','Personal.Nombres as NomPersonal','ApePat','ApeMat','DNI','Codigo','Dependencia.Nombre as Dependencia')
                                 ->join('Dependencia','Dependencia.IdDependencia','=','Personal.IdDependencia')
                                 ->where('DNI', $request->parametro)->get();
         }else{
@@ -191,12 +191,22 @@ class PersonalController extends Controller
                                 ->orWhere('ApeMat',"like", "%".$request->parametro."%")
                                 ->get();
         }
-
         $view = view('inventario.asignacion.tabla_asignar_personal',compact('results','tipo','parametro'))->render();
         return $view ;
 
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function agregarmodal()
+    {
+        //$tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
+        //$marcas = Marca::select('Marca.IdMarca', 'Marca.Nombre')->get();
+        return view('generales.personal.create_modal')->render();
+    }
 
 
 }

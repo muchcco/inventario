@@ -8,24 +8,25 @@
     <script src="{{ asset('assets/js/pages/components/extended/sweetalert2.js')}}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/pages/crud/forms/widgets/bootstrap-select.js')}}" type="text/javascript"></script>
     <script src="{{ asset('assets/plugins/custom/jstree/jstree.bundle.js')}}" type="text/javascript"></script>
+    <script src="{{ asset('assets/js/pages/crud/forms/widgets/bootstrap-datepicker.es.js')}}" charset="UTF-8" ></script>
 
 
     <script>
         $(document).ready(function () {
-            tabla_personal();
+            tabla_equipo();
         });
-        var tabla = $("#tabla_personal").DataTable();
+        var tabla = $("#tabla_equipo").DataTable();
 
         //GENERA LA TABLA PERSONAL
-        var tabla_personal =() =>  {
+        var tabla_equipo =() =>  {
             ajaxRequest(
-                "{{ route('generales.personal.tabla') }}",
-                'GET',
-                {},
+                "{{ route('inventario.equipo.tabla') }}",
+                'POST',
+                {subtipo: "{{$subtipo}}"},
                 function(data){
                     tabla.destroy();
-                    $("#tabla_personal_body").html(data.html);
-                    tabla = $("#tabla_personal").DataTable({
+                    $("#tabla_equipo_body").html(data.html);
+                    tabla = $("#tabla_equipo").DataTable({
                     "columns": [
                         { "width": "5%" },
                         { "width": "20%" },
@@ -40,61 +41,77 @@
             );
         }
 
+        var EliminarEquipo = (id) => {
+            $.ajax({
+                type:'post',
+                url:"{{ route('inventario.equipo.subtipo_delete') }}",
+                dataType: "json",
+                data:{equipo : id},
+                success:function(data){
 
+                    $("#modal_equipo").html(data.html);
 
-        $(document).on('click', '#btn_actualizar_modelo', function(){
-            var url = "{{ route('inventario.modelo.update', ':id') }}";
-    		url = url.replace(':id', $("#ModeloId").val());
-            var createForm = $("#ModeloFormEdit");
-            ajaxRequest(
-	    		url,
-	    		'PUT',
-	    		createForm.serializeArray(),
-	    		function(response){
-
-                        if(response == 1){
-                            tabla_modelos();
-                            $("#modal_editar_modelo").modal('hide');
-                        }else{
-                            $("#modal_editar_modelo").modal('hide');
-                        }
-	    	});
-        })
-
-        var eliminarPersonal = (id,nombre) => {
-            swal.fire({
-                title: "Seguro que desea eliminar?",
-                text: `Eliminar ${nombre}`,
-                type: "warning",
-                showCancelButton: !0,
-                confirmButtonText: "Si, Eliminar!"
-            }).then((result) => {
-                if (result.value) {
-                        var url = "{{ route('generales.personal.destroy', ':id') }}";
-                        url = url.replace(':id', id);
-                        $.ajax({
-                            type:'delete',
-                            url:url,
-                            dataType: "json",
-                            data:{modelo : id},
-                            success:function(data){
-                            }
-                    });
-                    Swal.fire(
-                    'Eliminado!',
-                    'El Archivo a sido eliminado',
-                    'success'
-                    ).then((result) => {
-                        if (result.value) {
-                            tabla_personal();
-                        }
-                    })
+                    $("#modal_equipo").modal('show');
                 }
-            })
+            });
         };
 
 
+        var DestroyEquipo = (id) => {
+            var url = "{{ route('inventario.equipo.subtipo_destroy', ':id') }}";
+    		url = url.replace(':id', id);
+            $.ajax({
+                type:'delete',
+                url: url,
+                dataType: "json",
+                data:{equipo : id},
+                success:function(data){
+                    if(data == 1){
+                        tabla_equipo();
+                            $("#modal_equipo").modal('hide');
+                            $("#modal_equipo").html("");
+                        }
 
+                }
+            });
+
+        };
+
+
+        var QuitarAsignacion = (idAsignacion) => {
+            $.ajax({
+                type:'post',
+                url:"{{ route('inventario.asignacion.desasignar') }}",
+                dataType: "json",
+                data:{asignacion : idAsignacion},
+                success:function(data){
+
+                    $("#modal_equipo").html(data.html);
+
+                    $("#modal_equipo").modal('show');
+                }
+            });
+        }
+
+        var DesAsignado = () => {
+
+            var FormDesasignar = $("#FormDesasignar").serializeArray();
+            if (FormDesasignar[0]["value"]== "") {
+                document.getElementById('valid_fasignacion').innerHTML = "Se debe seleccionar una fecha de devolución"
+                return false;
+            }
+            ajaxRequest(
+                    "{{ route('inventario.asignacion.desasignado') }}",
+                    'POST',
+                    FormDesasignar,
+                    function(response){
+                        if(response == 1){
+                        tabla_equipo();
+                            $("#modal_equipo").modal('hide');
+                            $("#modal_equipo").html("");
+                        }
+                });
+        }
     </script>
 @endsection
 
@@ -108,7 +125,7 @@
                         <i class="kt-font-brand flaticon2-line-chart"></i>
                     </span>
                     <h3 class="kt-portlet__head-title">
-                        Personal
+                        {{ $subtipo }}
                         <small></small>
                     </h3>
                 </div>
@@ -173,10 +190,10 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>DNI</th>
-                            <th>Nombres</th>
-                            <th>Apellidos </th>
-                            <th>Oficina </th>
+                            <th>Cod. Patrimonial</th>
+                            <th>Responsable</th>
+                            <th>Usuario</th>
+                            <th>Fecha Asignacion</th>
                             <th>Accion </th>
                         </tr>
                     </thead>
@@ -189,4 +206,12 @@
 
     </div>
 </div>
+
+
+    <!--begin: Modal Equipo-->
+    <div class="modal fade" id="modal_equipo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+    </div>
+    <!--end: Modal Equipo->
+
 @endsection

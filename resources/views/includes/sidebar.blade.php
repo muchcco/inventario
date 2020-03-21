@@ -102,7 +102,7 @@
                                         <a href=" {{ route('inventario.equipo.index') }} " class="kt-menu__link ">
                                             <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                                 <span></span>
-                                            </i><span class="kt-menu__link-text">Equipo PC
+                                            </i><span class="kt-menu__link-text">Equipo
                                             </span>
                                         </a>
                                     </li>

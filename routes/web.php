@@ -9,7 +9,8 @@ Auth::routes();
 Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
 
     Route::get('equipo', 'EquipoController@index')->name('equipo.index');
-    Route::get('equipo/tabla', 'EquipoController@tabla')->name('equipo.tabla');
+    Route::get('equipo/dashboard', 'EquipoController@dashboard')->name('equipo.dashboard');
+    Route::post('equipo/tabla', 'EquipoController@tabla')->name('equipo.tabla');
     Route::get('equipo/listar', 'EquipoController@listar')->name('equipo.listar');
     Route::get('equipo/create', 'EquipoController@create')->name('equipo.create');
     Route::post('equipo/store', 'EquipoController@store')->name('equipo.store');
@@ -20,10 +21,21 @@ Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
     Route::get('equipo/subtipo/{subtipo}', 'EquipoController@subtipo')->name('equipo.subtipo');
     Route::get('equipo/subtipo/{subtipo}/create', 'EquipoController@subtipo_create')->name('equipo.subtipo_create');
     Route::post('equipo/subtipo/subtipo_store', 'EquipoController@subtipo_store')->name('equipo.subtipo_store');
+    Route::get('equipo/subtipo/{subtipo}/edit/{Equipo}', 'EquipoController@subtipo_edit')->name('equipo.subtipo_edit');
+    Route::put('equipo/subtipo/subtipo_update/{Equipo}', 'EquipoController@subtipo_update')->name('equipo.subtipo_update');
+    Route::post('equipo/subtipo/delete', 'EquipoController@subtipo_delete')->name('equipo.subtipo_delete');
+    Route::delete('equipo/subtipo/{equipo}', 'EquipoController@subtipo_destroy')->name('equipo.subtipo_destroy');
     //Route::get('equipo/subtipo/{subtipo}/create/{id}', 'EquipoController@subtipo_crtudp')->name('equipo.subtipo.crtudp');
 
 
     Route::get('equipo/asignacion/{Equipo}', 'AsignacionController@create')->name('asignacion.create');
+    Route::post('equipo/asignacion/store', 'AsignacionController@store')->name('asignacion.store');
+    Route::get('equipo/asignacion/edit/{asignacion}', 'AsignacionController@edit')->name('asignacion.edit');
+    Route::put('equipo/asignacion/{asignacion}', 'AsignacionController@update')->name('asignacion.update');
+    Route::post('equipo/asignacion/desasignar', 'AsignacionController@desasignar')->name('asignacion.desasignar');
+    Route::post('equipo/asignacion/desasignado', 'AsignacionController@desasignado')->name('asignacion.desasignado');
+    Route::get('equipo/asignacion/reasignar/{asignacion}', 'AsignacionController@reasignar')->name('asignacion.reasignar');
+    Route::put('equipo/asignacion/reasignado/{asignacion}', 'AsignacionController@reasignado')->name('asignacion.reasignado');
 
 
 
@@ -91,6 +103,7 @@ Route::group(['prefix'=>'generales','as'=>'generales.'],function () {
     Route::put('personal/{personal}', 'PersonalController@update')->name('personal.update');
     Route::delete('personal/{personal}', 'PersonalController@destroy')->name('personal.destroy');
     Route::post('personal/busqueda', 'PersonalController@busqueda')->name('personal.busqueda');
+    Route::post('personal/agregarmodal', 'PersonalController@agregarmodal')->name('personal.agregarmodal');
 });
 
     Route::get('usuarios', 'UsuarioController@index')->name('usuarios.index');

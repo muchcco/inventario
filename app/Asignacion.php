@@ -8,7 +8,10 @@ class Asignacion extends Model
 {
     protected $table = 'Asignacion';
 
-    protected $fillable = ['FAsignacion', 'FDevolucion', 'IdEquipo', 'IdUsuarioActual', 'IdUsuarioResponsable'];
+    protected $primaryKey = 'IdAsignacion';
 
+    protected $fillable = ['FAsignacion', 'FDevolucion', 'IdEquipo', 'Usuario', 'Responsable','Utilizado'];
+
+    public $timestamps = false;
 
 }

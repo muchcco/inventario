@@ -14,7 +14,7 @@
         });
         var tabla_subtipos =() =>  {
             ajaxRequest(
-                "{{ route('inventario.equipo.tabla') }}",
+                "{{ route('inventario.equipo.dashboard') }}",
                 'GET',
                 {},
                 function(data){

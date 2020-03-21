@@ -27,7 +27,9 @@ class DependenciaController extends Controller
      */
     public function tabla()
     {
+
         $dependencia = Dependencia::get();
+
         $arrdep =array();
         $a = 0;
         for ($i=0; $i < $dependencia->count() ; $i++) {
@@ -35,6 +37,7 @@ class DependenciaController extends Controller
                 $dep = array();
                 $dep['id'] = $dependencia[$i]['IdDependencia'];
                 $dep['text'] = $dependencia[$i]['Nombre'];
+                $dep['state'] = array("opened"=>"true");
                 //array_push($arrdep,$dep);
                 $cant = 0;
                 for ($j=0; $j < $dependencia->count() ; $j++) {
@@ -46,6 +49,7 @@ class DependenciaController extends Controller
                         $hijo1 = array();
                         $hijo1['id'] = $dependencia[$j]['IdDependencia'];
                         $hijo1['text'] = $dependencia[$j]['Nombre'];
+                        $hijo1['state'] =  array("opened"=>"true");
                         $cant2 = 0;
                         for ($k=0; $k < $dependencia->count() ; $k++) {
 
