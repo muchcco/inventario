@@ -11,7 +11,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 Renew Support: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
 License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
 -->
- <html lang="en">
+ <html lang="es">
      <!-- begin::Head -->
      <head>
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -46,7 +46,59 @@ License: You must have a valid license purchased only from themeforest(the above
         @yield('style')
         <!--End::style-->
          <link rel="shortcut icon" href="{{ asset('assets/media/logos/favicon.ico')}}" />
+         <style>
+            .paginate_button {
+                margin-left: .4rem !important;
+            }
+            .last,.first {
+                background: #ebe9f2;
 
+            }
+            .paginate_button.current{
+                background: #5d78ff;
+                color: #fff;
+            }
+            .paginate_button.disabled{
+                opacity: .6;
+            }
+
+            div.dataTables_pager>.dataTables_paginate *,.dataTables_paginate,.dataTables_pager  {
+                display: flex !important;
+            }
+
+            .paginate_button:hover{
+                background: #5d78ff;
+                color: #fff;
+            }
+
+            .dataTables_pager,.dataTables_paginate {
+                justify-content: space-between;
+            }
+            .paginate_button {
+                color: #595d6e;
+                border-radius: 3px;
+                cursor: pointer;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-pack: center;
+                -ms-flex-pack: center;
+                justify-content: center;
+                -webkit-box-align: center;
+                -ms-flex-align: center;
+                align-items: center;
+                height: 2.25rem;
+                min-width: 2.25rem;
+                vertical-align: middle;
+                padding: .5rem;
+                text-align: center;
+                position: relative;
+                font-size: 1rem;
+                line-height: 1rem;
+                font-weight: 400;
+                display: flex;
+            }
+            </style>
          <!-- Hotjar Tracking Code for keenthemes.com -->
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -214,7 +266,36 @@ License: You must have a valid license purchased only from themeforest(the above
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         }
                     });
-                    </script>
+                    var datatable_es = {
+                                        "sProcessing":     "Procesando...",
+                                        "sLengthMenu":     "Mostrar _MENU_ registros",
+                                        "sZeroRecords":    "No se encontraron resultados",
+                                        "sEmptyTable":     "Ningún dato disponible en esta tabla =(",
+                                        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                                        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                                        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                                        "sInfoPostFix":    "",
+                                        "sSearch":         "Buscar:",
+                                        "sUrl":            "",
+                                        "sInfoThousands":  ",",
+                                        "sLoadingRecords": "Cargando...",
+                                        "oPaginate": {
+                                            "sFirst":    "Primero",
+                                            "sLast":     "Último",
+                                            "sNext":     "Siguiente",
+                                            "sPrevious": "Anterior"
+                                        },
+                                        "oAria": {
+                                            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                                        },
+                                        "buttons": {
+                                            "copy": "Copiar",
+                                            "colvis": "Visibilidad"
+                                        }
+                                    }
+</script>
              </body>
      <!-- end::Body -->
  </html>
+<

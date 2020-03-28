@@ -45,7 +45,7 @@
                         Fecha de Devolución
                     </span>
                     <span class="kt-widget13__text kt-font-brand">
-                    <input type="text" value="{{date('d/m/Y')}}" class="form-control" id="FDevolucion" name="FDevolucion" readonly="" autocomplete="off" placeholder="Seleccionar Fecha" />
+                    <input type="text"  class="form-control" id="FDevolucion" name="FDevolucion" readonly="" autocomplete="off" placeholder="Seleccionar Fecha" />
                     </span>
                 </div>
                 <div class="invalid-feedback" id="valid_fasignacion" name="valid_fasignacion"></div>
@@ -62,6 +62,8 @@
 <script>
 $("#FDevolucion").datepicker( {
                 language:"es",
+                todayHighlight: !0,
+                format: "dd/mm/yyyy",
                 todayHighlight: !0,
                 format: "dd/mm/yyyy",
                 orientation: "bottom left",

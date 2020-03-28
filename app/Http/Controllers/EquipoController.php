@@ -264,4 +264,43 @@ class EquipoController extends Controller
         return 1;
     }
 
+        /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function modalbaja(Request $request)
+    {
+
+        $equipo = Equipo::select('eq.IdEquipo as IdEquipo','tip.Nombre as Tipo','subt.Nombre as SubTipo','mod.Nombre as Modelo','mar.Nombre as Marca','CodPatrimonial','NumSerie')
+                            ->from('Equipo as eq')
+                            ->join('Modelo as mod','eq.IdModelo','=','mod.IdModelo')
+                            ->join('Marca as mar','mod.IdMarca','=','mar.IdMarca')
+                            ->join('SubTipo as subt','mod.IdSubTipo','=','subt.IdSubTipo')
+                            ->join('Tipo as tip','subt.IdTipo','=','tip.IdTipo')
+                            ->where('eq.IdEquipo','=',$request->IdEquipo)
+                            ->first();
+        $view = view('inventario.equipo.subtipo.modal_baja',compact('equipo'))->render();
+        return response()->json(['html'=>$view]);
+    }
+
+        /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function baja(Request $request)
+    {
+
+        $equipo = Equipo::find($request->IdEquipo);
+        $attr["Baja"] = 1;
+        $attr["FBaja"] = $request->FBaja;
+
+
+        $equipo->update($attr);
+
+        return 1;
+    }
+
 }

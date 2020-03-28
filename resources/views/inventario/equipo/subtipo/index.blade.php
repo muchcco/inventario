@@ -112,6 +112,41 @@
                         }
                 });
         }
+
+        var ModalBaja = (IdEquipo) => {
+            ajaxRequest(
+                    "{{ route('inventario.equipo.modalbaja') }}",
+                    'POST',
+                    {IdEquipo : IdEquipo},
+                    function(data){
+
+                        $("#modal_equipo").html(data.html);
+                        $("#modal_equipo").modal('show');
+
+                });
+        }
+
+        var darBaja = () => {
+            var FormBaja = $("#FormBaja").serializeArray();
+
+
+            if (FormBaja[0]["value"]== "") {
+                document.getElementById('valid_fbaja').innerHTML = "Se debe seleccionar una fecha"
+                return false;
+            }
+            ajaxRequest(
+                    "{{ route('inventario.equipo.baja') }}",
+                    'POST',
+                    FormBaja,
+                    function(response){
+
+                        if(response == 1){
+                            tabla_equipo();
+                            $("#modal_equipo").modal('hide');
+                            $("#modal_equipo").html("");
+                        }
+                });
+        }
     </script>
 @endsection
 

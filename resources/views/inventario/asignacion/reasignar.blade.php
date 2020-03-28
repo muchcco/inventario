@@ -23,6 +23,8 @@
                 language:"es",
                 todayHighlight: !0,
                 format: "dd/mm/yyyy",
+                todayHighlight: !0,
+                format: "dd/mm/yyyy",
                 orientation: "bottom left",
                 startDate: "{{ date('d/m/Y', strtotime($asignado->FAsignacion)) }}"
             }

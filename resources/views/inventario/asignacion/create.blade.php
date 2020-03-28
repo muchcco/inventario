@@ -18,6 +18,8 @@
     $( document ).ready(function() {
         $("#FAsignacion").datepicker( {
                 language:"es",
+                todayHighlight: !0,
+                format: "dd/mm/yyyy",
                 rtl: KTUtil.isRTL(),
                 todayHighlight: !0,
                 orientation: "bottom left",

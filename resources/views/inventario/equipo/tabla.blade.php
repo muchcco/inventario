@@ -23,7 +23,9 @@
                     <a class="dropdown-item" href="{{route('inventario.asignacion.reasignar', ['asignacion' => $equipo->IdAsignacion])}}">Reasignar</a>
                 @endif
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Dar de baja</a>
+                @if ( $equipo->Responsable == "" && $equipo->Usuario == "")
+                    <a class="dropdown-item" href="#" onclick="ModalBaja('{{$equipo->IdEquipo}}')">Dar de baja</a>
+                @endif
             </div>
         </div>
         <div class="dropdown dropdown-inline" style="float: right;">

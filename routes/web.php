@@ -17,6 +17,8 @@ Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
     Route::post('equipo/edit', 'EquipoController@edit')->name('equipo.edit');
     Route::put('equipo/{equipo}', 'EquipoController@update')->name('equipo.update');
     Route::delete('equipo/{equipo}', 'EquipoController@destroy')->name('equipo.destroy');
+    Route::post('equipo/modalbaja', 'EquipoController@modalbaja')->name('equipo.modalbaja');
+    Route::post('equipo/baja', 'EquipoController@baja')->name('equipo.baja');
     //Subtipo
     Route::get('equipo/subtipo/{subtipo}', 'EquipoController@subtipo')->name('equipo.subtipo');
     Route::get('equipo/subtipo/{subtipo}/create', 'EquipoController@subtipo_create')->name('equipo.subtipo_create');
@@ -27,7 +29,7 @@ Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
     Route::delete('equipo/subtipo/{equipo}', 'EquipoController@subtipo_destroy')->name('equipo.subtipo_destroy');
     //Route::get('equipo/subtipo/{subtipo}/create/{id}', 'EquipoController@subtipo_crtudp')->name('equipo.subtipo.crtudp');
 
-
+//lista de equipos y sus asignaciones
     Route::get('equipo/asignacion/{Equipo}', 'AsignacionController@create')->name('asignacion.create');
     Route::post('equipo/asignacion/store', 'AsignacionController@store')->name('asignacion.store');
     Route::get('equipo/asignacion/edit/{asignacion}', 'AsignacionController@edit')->name('asignacion.edit');
@@ -37,45 +39,60 @@ Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
     Route::get('equipo/asignacion/reasignar/{asignacion}', 'AsignacionController@reasignar')->name('asignacion.reasignar');
     Route::put('equipo/asignacion/reasignado/{asignacion}', 'AsignacionController@reasignado')->name('asignacion.reasignado');
 
+//asignacion historico
+    Route::get('asignacionhistorico', 'AsignacionHistoricoController@index')->name('asignacionhistorico.index');
+    Route::any('asignacionhistorico/tabla', 'AsignacionHistoricoController@tabla')->name('asignacionhistorico.tabla');
+    Route::get('asignacionhistorico/buscar_personal', 'AsignacionHistoricoController@buscar_personal')->name('asignacionhistorico.buscar_personal');
+
+//buscar por usuario
+    Route::get('busquedaxusuario', 'BusquedaxUsuarioController@buscarusuario')->name('busquedaxusuario.buscarusuario');
+    Route::any('busquedaxusuario/tabla', 'BusquedaxUsuarioController@tabla')->name('busquedaxusuario.tabla');
+    Route::any('busquedaxusuario/reasignar', 'BusquedaxUsuarioController@modal_reasignar')->name('busquedaxusuario.modal_reasignar');
+    Route::put('busquedaxusuario/reasignado/{asignacion}', 'BusquedaxUsuarioController@modal_reasignado')->name('busquedaxusuario.modal_reasignado');
+    Route::get('busquedaxusuario/asignacion/{Equipo}', 'BusquedaxUsuarioController@modal_create')->name('busquedaxusuario.modal_create');
+    Route::post('busquedaxusuario/asignacion/moda_store', 'BusquedaxUsuarioController@modal_store')->name('busquedaxusuario.modal_store');
 
 
-    Route::get('marca', 'MarcaController@index')->name('marca.index');
-    Route::get('marca/tabla', 'MarcaController@tabla')->name('marca.tabla');
-    Route::get('marca/create', 'MarcaController@create')->name('marca.create');
-    Route::post('marca/store', 'MarcaController@store')->name('marca.store');
-    Route::post('marca/edit', 'MarcaController@edit')->name('marca.edit');
-    Route::put('marca/{marca}', 'MarcaController@update')->name('marca.update');
-    Route::delete('marca/{marca}', 'MarcaController@destroy')->name('marca.destroy');
 
 
-    Route::get('modelo', 'ModeloController@index')->name('modelo.index');
-    Route::get('modelo/tabla', 'ModeloController@tabla')->name('modelo.tabla');
-    Route::get('modelo/create', 'ModeloController@create')->name('modelo.create');
-    Route::post('modelo/store', 'ModeloController@store')->name('modelo.store');
-    Route::post('modelo/subtipos', 'ModeloController@subtipos')->name('modelo.subtipos');
-    Route::post('modelo/modelos', 'ModeloController@modelos')->name('modelo.modelos');
-    Route::post('modelo/edit', 'ModeloController@edit')->name('modelo.edit');
-    Route::put('modelo/{modelo}', 'ModeloController@update')->name('modelo.update');
-    Route::delete('modelo/{modelo}', 'ModeloController@destroy')->name('modelo.destroy');
+    Route::group(['prefix'=>'parametro'],function () {
+        Route::get('marca', 'MarcaController@index')->name('marca.index');
+        Route::get('marca/tabla', 'MarcaController@tabla')->name('marca.tabla');
+        Route::get('marca/create', 'MarcaController@create')->name('marca.create');
+        Route::post('marca/store', 'MarcaController@store')->name('marca.store');
+        Route::post('marca/edit', 'MarcaController@edit')->name('marca.edit');
+        Route::put('marca/{marca}', 'MarcaController@update')->name('marca.update');
+        Route::delete('marca/{marca}', 'MarcaController@destroy')->name('marca.destroy');
 
 
-    Route::get('tipo', 'TipoController@index')->name('tipo.index');
-    Route::get('tipo/tabla', 'TipoController@tabla')->name('tipo.tabla');
-    Route::get('tipo/create', 'TipoController@create')->name('tipo.create');
-    Route::post('tipo/store', 'TipoController@store')->name('tipo.store');
-    Route::post('tipo/edit', 'TipoController@edit')->name('tipo.edit');
-    Route::put('tipo/{tipo}', 'TipoController@update')->name('tipo.update');
-    Route::delete('tipo/{tipo}', 'TipoController@destroy')->name('tipo.destroy');
+        Route::get('modelo', 'ModeloController@index')->name('modelo.index');
+        Route::get('modelo/tabla', 'ModeloController@tabla')->name('modelo.tabla');
+        Route::get('modelo/create', 'ModeloController@create')->name('modelo.create');
+        Route::post('modelo/store', 'ModeloController@store')->name('modelo.store');
+        Route::post('modelo/subtipos', 'ModeloController@subtipos')->name('modelo.subtipos');
+        Route::post('modelo/modelos', 'ModeloController@modelos')->name('modelo.modelos');
+        Route::post('modelo/edit', 'ModeloController@edit')->name('modelo.edit');
+        Route::put('modelo/{modelo}', 'ModeloController@update')->name('modelo.update');
+        Route::delete('modelo/{modelo}', 'ModeloController@destroy')->name('modelo.destroy');
 
 
-    Route::get('subtipo', 'SubtipoController@index')->name('subtipo.index');
-    Route::get('subtipo/tabla', 'SubtipoController@tabla')->name('subtipo.tabla');
-    Route::get('subtipo/create', 'SubtipoController@create')->name('subtipo.create');
-    Route::post('subtipo/store', 'SubtipoController@store')->name('subtipo.store');
-    Route::post('subtipo/edit', 'SubtipoController@edit')->name('subtipo.edit');
-    Route::put('subtipo/{tipo}', 'SubtipoController@update')->name('subtipo.update');
-    Route::delete('subtipo/{tipo}', 'SubtipoController@destroy')->name('subtipo.destroy');
+        Route::get('tipo', 'TipoController@index')->name('tipo.index');
+        Route::get('tipo/tabla', 'TipoController@tabla')->name('tipo.tabla');
+        Route::get('tipo/create', 'TipoController@create')->name('tipo.create');
+        Route::post('tipo/store', 'TipoController@store')->name('tipo.store');
+        Route::post('tipo/edit', 'TipoController@edit')->name('tipo.edit');
+        Route::put('tipo/{tipo}', 'TipoController@update')->name('tipo.update');
+        Route::delete('tipo/{tipo}', 'TipoController@destroy')->name('tipo.destroy');
 
+
+        Route::get('subtipo', 'SubtipoController@index')->name('subtipo.index');
+        Route::get('subtipo/tabla', 'SubtipoController@tabla')->name('subtipo.tabla');
+        Route::get('subtipo/create', 'SubtipoController@create')->name('subtipo.create');
+        Route::post('subtipo/store', 'SubtipoController@store')->name('subtipo.store');
+        Route::post('subtipo/edit', 'SubtipoController@edit')->name('subtipo.edit');
+        Route::put('subtipo/{tipo}', 'SubtipoController@update')->name('subtipo.update');
+        Route::delete('subtipo/{tipo}', 'SubtipoController@destroy')->name('subtipo.destroy');
+    });
 
 
 });

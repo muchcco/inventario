@@ -66,6 +66,10 @@ class ModeloController extends Controller
     //Trae todos los subtipos
     public function subtipos(Request $request)
     {
+        if ($request->tipo == "") {
+            $subtipo = SubTipo::select('SubTipo.IdSubTipo as IdSubTipo'  , 'SubTipo.IdTipo', 'SubTipo.Nombre')->get();
+            return $subtipo;
+        }
         $subtipo = SubTipo::select('SubTipo.IdSubTipo as IdSubTipo'  , 'SubTipo.IdTipo', 'SubTipo.Nombre')->where('IdTipo', $request->tipo)->get();
         return $subtipo;
         exit;
@@ -74,10 +78,21 @@ class ModeloController extends Controller
     //Trae todos los modelo
     public function modelos(Request $request)
     {
+        $modelos = Modelo::select('Modelo.IdModelo as IdModelo','Modelo.Nombre as Nombre')
+                ->Join('SubTipo as subt','Modelo.IdSubTipo','=','subt.IdSubTipo')
+                ->where(function ($query) use ($request) {
+                    if ($request->marca != '') {
+                        $query->where('IdMarca',"=", $request->marca);
+                    }
+                    if ($request->subtipo != '') {
+                        $query->where('subt.IdSubtipo',"=", $request->subtipo);
+                    }
+                    if ($request->tipo != '') {
+                        $query->where('IdTipo',"=", $request->tipo);
+                    }
+                })
+                ->get();
 
-        $modelos = Modelo::where('IdMarca',"=", $request->marca)
-        ->where('IdSubTipo',"=", $request->subtipo)
-        ->get();
         return $modelos;
         exit;
     }

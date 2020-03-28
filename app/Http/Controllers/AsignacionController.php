@@ -40,7 +40,7 @@ class AsignacionController extends Controller
         }else{
             $request["Utilizado"] = 0;
         }
-        $subTipos = Equipo::select('SubTipo.Nombre')
+        $subTipos = Equipo::select('SubTipo.Nombre','Equipo.CodPatrimonial')
                     ->join('Modelo','Equipo.IdModelo','=','Modelo.IdModelo')
                     ->join('SubTipo','SubTipo.IdSubTipo','=','Modelo.IdSubTipo')
                     ->where('IdEquipo', '=', $request->IdEquipo)
@@ -50,7 +50,8 @@ class AsignacionController extends Controller
 
         $subtipo = $subTipos->Nombre;
         $response_data = Asignacion::create($attr);
-        return redirect()->route('inventario.equipo.subtipo',['subtipo' => $subtipo]);
+        return redirect()->route('inventario.equipo.subtipo',['subtipo' => $subtipo])
+                        ->with('success',$subtipo.' con codigo Patrimonial: '.$subTipos->CodPatrimonial . '  asignado correctamente ');
     }
 
 
@@ -132,7 +133,7 @@ class AsignacionController extends Controller
                                 ->where('IdAsignacion',$request->asignacion)
                                 ->first();
 
-        $view = view('inventario.equipo.subtipo.modal_desasignar',compact('asignado'))->render();
+        $view = view('inventario.asignacion.modal_desasignar',compact('asignado'))->render();
         return response()->json(['html'=>$view]);
 
     }
