@@ -26,16 +26,11 @@ class UsuarioController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {   
-        
-        
+    {
 
-        dd($_SERVER,
-        request()->getHost(),
-        request()->getClientIps(),
-        redirect('/somewhere')->getTargetUrl(),
-        url('/somewhere'),
-        action('HomeController@index',$_SERVER['REMOTE_ADDR']));
+
+
+
 
         return view('usuarios.index');
     }
@@ -48,7 +43,7 @@ class UsuarioController extends Controller
 
         $view = view('usuarios.tabla',compact('usuarios'))->render();
 
-        
+
         return response()->json(['html'=>$view]);
     }
 
@@ -124,7 +119,7 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
     }
 
     /**
@@ -135,7 +130,7 @@ class UsuarioController extends Controller
      */
     public function destroy($id)
     {
-        
+
 
     }
 }
