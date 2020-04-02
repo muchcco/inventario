@@ -21,7 +21,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
          <meta charset="utf-8" />
 
-         <title>Metronic | Dashboard </title>
+         <title>Instituto Nacional de Innovacion Agraria</title>
          <meta name="description" content="Updates and statistics" />
          <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
@@ -46,7 +46,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <!--Begin::style-->
         @yield('style')
         <!--End::style-->
-         <link rel="shortcut icon" href="{{ asset('assets/media/logos/favicon.ico')}}" />
+         <link rel="shortcut icon" href="{{ asset('assets/media/logos/inia.jpg')}}" />
          <style>
             .paginate_button {
                 margin-left: .4rem !important;

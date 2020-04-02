@@ -28,18 +28,19 @@
         <div class="row kt-login__extra">
             <div class="col">
                 <label class="kt-checkbox">
-                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>{{ __('Remember Me') }}
+                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>{{ __('Recordarme') }}
                     <span></span>
                 </label>
             </div>
             <div class="col kt-align-right">
                 <a class="kt-login__link"  href="{{ route('password.request') }}">
-                    {{ __('Forgot Your Password?') }}
+                    {{ __('Olvidaste tu contraseña?') }}
                 </a>
             </div>
         </div>
         <div class="kt-login__actions">
-            <button type="submit"  class="btn btn-brand btn-pill kt-login__btn-primary">
+            <button type="submit" style="     background-color: #067854;
+            border-color: #09402e;"  class="btn btn-brand btn-pill kt-login__btn-primary">
                 {{ __('Login') }}
             </button>
 

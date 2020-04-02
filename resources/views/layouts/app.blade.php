@@ -102,7 +102,7 @@
 					<div class="kt-login__container">
 						<div class="kt-login__logo">
 							<a href="#">
-								<img src="{{ asset('assets/media/logos/logo-5.png')}}" />
+								<img style="    width: 190px;" src="{{ asset('assets/media/logos/logo_inia.png')}}" />
 							</a>
 						</div>
         <!--<nav class="navbar navbar-expand-md navbar-light navbar-laravel">

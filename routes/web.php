@@ -142,4 +142,7 @@ Route::group(['prefix'=>'graficos','as'=>'graficos.'],function () {
     Route::delete('usuarios/{usuarios}', 'UsuarioController@destroy')->name('usuarios.destroy');
 
 
+
+
+    Route::any('logout', 'Auth\LoginController@logout')->name('logout');
 ?>
