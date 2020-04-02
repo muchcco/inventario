@@ -5,6 +5,8 @@
 @section('script')
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js')}}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/pages/components/extended/sweetalert2.js')}}" type="text/javascript"></script>
+    <script href="{{ asset('assets/js/pages/crud/forms/widgets/select2.js')}}" rel="stylesheet" type="text/css" ></script>
+
     <script>
         $(document).ready(function () {
             tabla_marcas();
@@ -19,6 +21,7 @@
                     tabla.destroy();
                     $("#tabla_marcas_body").html(data.html);
                     tabla = $("#tabla_marcas").DataTable({
+                    language: datatable_es,
                     "columns": [
                         { "width": "20%" },
                         { "width": "20%" },
@@ -65,24 +68,24 @@
                 data:{modelo : id},
                 success:function(data){
                     $("#modal_editar_modelo").html(data.html);
-                    tabla_modelos();
+                    tabla_marcas();
                     $("#modal_editar_modelo").modal('show');
                 }
             });
         };
 
-        $(document).on('click', '#btn_actualizar_modelo', function(){
+        $(document).on('click', '#btn_actualizar_usuario', function(){
             var url = "{{ route('usuarios.update', ':id') }}";
-    		url = url.replace(':id', $("#ModeloId").val());
-            var createForm = $("#ModeloFormEdit");
+    		url = url.replace(':id', $("#UpdateUsuarioId").val());
+            var createForm = $("#UsuarioFormEdit").serializeArray();
             ajaxRequest(
 	    		url,
 	    		'PUT',
-	    		createForm.serializeArray(),
+	    		createForm,
 	    		function(response){
 
                         if(response == 1){
-                            tabla_modelos();
+                            tabla_marcas();
                             $("#modal_editar_modelo").modal('hide');
                         }else{
                             $("#modal_editar_modelo").modal('hide');
@@ -115,7 +118,7 @@
                     'success'
                     ).then((result) => {
                         if (result.value) {
-                            tabla_modelos();
+                            tabla_marcas();
                         }
                     })
                 }
@@ -146,7 +149,7 @@
             <div class="kt-portlet__head-actions">
                 <div class="dropdown dropdown-inline">
                     <button type="button" class="btn btn-default btn-icon-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="la la-download"></i> Exportar 
+                        <i class="la la-download"></i> Exportar
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <ul class="kt-nav">

@@ -20,6 +20,7 @@
                     tabla.destroy();
                     $("#tabla_modelos_body").html(data.html);
                     tabla = $("#tabla_modelos").DataTable({
+                    language: datatable_es,
                     "columns": [
                         { "width": "5%" },
                         { "width": "20%" },
@@ -207,6 +208,7 @@
 @endsection
 
 @section('content')
+
 <div class="row">
     <div class="col-xl-12">
         <div class="kt-portlet kt-portlet--mobile">

@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <input style="display:none" type="text" class="form-control" id="MarcaId" name="MarcaId" value="{{$marca->IdMarca}}">
                 <form id="MarcaFormEdit" name="MarcaFormEdit">
-
+                    @csrf
                     <div class="form-group">
                         <label for="recipient-name" class="form-control-label">Nombre:</label>
                         <input type="text" class="form-control" id="Nombre" name="Nombre" value="{{$marca->Nombre}}" onkeyup="MayusculaGuiones(this)">

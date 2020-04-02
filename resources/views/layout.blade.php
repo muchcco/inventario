@@ -15,6 +15,7 @@ License: You must have a valid license purchased only from themeforest(the above
      <!-- begin::Head -->
      <head>
         <meta name="csrf-token" content="{{ csrf_token() }}">
+
         <!-- Original URL: https://keenthemes.com/metronic/preview/demo1/
         Date Downloaded: 11/12/2019 15:20:00 !-->
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -113,14 +114,14 @@ License: You must have a valid license purchased only from themeforest(the above
      }
     ?>
 <!-- begin::Body -->
-<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--fixed kt-subheader--solid kt-aside--enabled kt-aside--fixed" style="">
+<body style="" class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--fixed kt-subheader--solid kt-aside--enabled kt-aside--fixed" style="">
     <!-- begin:: Page -->
 <!-- begin:: Header Mobile -->
 
 <div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
     <div class="kt-header-mobile__logo">
         <a href="index.html">
-            <img alt="Logo" src="{{ asset('assets/media/logos/logo-light.png')}}" />
+            <img alt="Logo"  style="padding: 20px;display: block;height: 77px;" src="{{ asset('assets/media/logos/logo-INIA-horizontal.png')}}" />
         </a>
     </div>
     <div class="kt-header-mobile__toolbar">
@@ -248,7 +249,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
 		    	    <script src="{{ asset('assets/js/scripts.bundle.js')}}" type="text/javascript"></script>
                 <!--end::Global Theme Bundle -->
-
+                    <script src="{{ asset('assets/highchart/code/highcharts.js')}}"></script>
                     <!--Begin::style-->
                         @yield('script')
                     <!--End::style-->
@@ -294,8 +295,42 @@ License: You must have a valid license purchased only from themeforest(the above
                                             "colvis": "Visibilidad"
                                         }
                                     }
-</script>
-             </body>
+
+                        Highcharts.setOptions({
+                            colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+                            lang: {
+                                loading: 'Cargando...',
+                                months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                                weekdays: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                                shortMonths: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                                exportButtonTitle: "Exportar",
+                                printButtonTitle: "Importar",
+                                rangeSelectorFrom: "Desde",
+                                rangeSelectorTo: "Hasta",
+                                rangeSelectorZoom: "Período",
+                                downloadPNG: 'Descargar imagen PNG',
+                                downloadJPEG: 'Descargar imagen JPEG',
+                                downloadPDF: 'Descargar imagen PDF',
+                                downloadSVG: 'Descargar imagen SVG',
+                                downloadCSV: 'Descargar CSV',
+                                downloadXLS: 'Descargar XLS',
+                                viewData: 'Ver datos',
+                                viewFullscreen: 'Ver en pantalla completa',
+                                printChart: 'Imprimir',
+                                resetZoom: 'Reiniciar zoom',
+                                resetZoomTitle: 'Reiniciar zoom',
+                                thousandsSep: ",",
+                                decimalPoint: '.'
+                            } ,
+                            credits: false,
+                            chart: {
+                                style: {
+                                    fontFamily: 'Poppins,Helvetica,sans-serif'
+                                }
+                            }
+                        });
+        </script>
+    </body>
      <!-- end::Body -->
  </html>
 <

@@ -10,7 +10,7 @@
             <div class="kt-aside__brand kt-grid__item " id="kt_aside_brand">
                 <div class="kt-aside__brand-logo">
                     <a href="index.html">
-                        <img alt="Logo" src="{{ asset('assets/media/logos/logo-light.png')}}" />
+                        <img width="100%" style="padding: 20px;" alt="Logo" src="{{ asset('assets/media/logos/logo-INIA-horizontal.png')}}" />
                     </a>
                 </div>
 
@@ -114,6 +114,17 @@
                                             </span>
                                         </a>
                                     </li>
+                                    <li class="kt-menu__item nav-link @if (Request::is('inventario/busquedaxusuario*')) kt-menu__item--active @endif" aria-haspopup="true">
+                                        <a href=" {{ route('inventario.busquedaxusuario.buscarusuario') }} " class="kt-menu__link ">
+                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
+                                                <span></span>
+                                            </i><span class="kt-menu__link-text">Busqueda personalizada
+                                            </span>
+                                        </a>
+                                    </li>
+                                    @if ( Auth::user()->role->nombre == "Administrador" )
+
+
                                     <li class="kt-menu__item  kt-menu__item--submenu @if (Request::is('inventario/parametro*')) kt-menu__item--open @endif" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                                         <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                                             <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
@@ -159,7 +170,9 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                    </ul>
+                                    </li>
+                                    @endif
+                                </ul>
                             </div>
 
                         </li>
@@ -210,7 +223,7 @@
                         </li>
 
 
-
+                        @if ( Auth::user()->role->nombre == "Administrador" )
                         <li class="kt-menu__section ">
                             <h4 class="kt-menu__section-text">CONFIGURACION </h4>
                             <i class="kt-menu__section-icon flaticon-more-v2"></i>
@@ -218,6 +231,7 @@
 
                         <li class="kt-menu__item " aria-haspopup="true"><a href=" {{ route('usuarios.index') }}" class="kt-menu__link "><i class="kt-menu__link-icon flaticon2-expand"></i><span class="kt-menu__link-text">Usuarios </span></a>
                         </li>
+                        @endif
                     </ul>
                 </div>
             </div>

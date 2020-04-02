@@ -10,7 +10,7 @@ class AsignacionHistorico extends Model
 
     protected $primaryKey = 'IdAsignacionHistorico';
 
-    protected $fillable = ['IdAsignacion','FAsignacion', 'FDevolucion', 'IdEquipo', 'Usuario', 'Responsable','Utilizado'];
+    protected $fillable = ['IdAsignacion','FAsignacion', 'FDevolucion', 'IdEquipo', 'Usuario', 'Responsable','Utilizado','IdDependencia'];
 
     public $timestamps = false;
 }

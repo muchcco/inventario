@@ -9,6 +9,8 @@
         <div class="modal-body">
             <div class="modal-body">
                 <form id="MarcaForm" name="MarcaForm">
+
+                    @csrf
                     <div class="form-group">
                         <label for="recipient-name" class="form-control-label">Nombre:</label>
                         <input type="text" class="form-control" id="MarcaNombre" name="Nombre" onkeyup="MayusculaGuiones(this)">

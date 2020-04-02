@@ -22,6 +22,7 @@
                         <input type="password" class="form-control" id="UsuarioPassword" name="password">
                     </div>
                     <div class="form-group">
+                        <label for="recipient-name" class="form-control-label">Rol:</label>
                         <select class="form-control kt-selectpicker" name="role_id" id="role_id">
                             @foreach( $roles as $role )
                                 <tr>
@@ -31,6 +32,12 @@
 
                         </select>
                     </div>
+                    <div class="form-group">
+						<label style="width: 100%">Dependencia</label>
+						<select style="width: 100%" class=" form-control " id="IdDependencia" name="IdDependencia">
+                            <option  selected="selected">--SELECCIONE DIRECCION --</option>
+                          </select>
+					</div>
                 </form>
             </div>
         </div>
@@ -40,3 +47,30 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        cargarDependencia()
+    });
+    var cargarDependencia = () => {
+        var url = "{{ route('usuarios.dependencia') }}";
+
+        $("#IdDependencia").select2( {
+            language: {
+                noResults: function() {
+                return "No hay resultado";
+                },
+                searching: function() {
+                return "Buscando..";
+                }
+            },
+            ajax: {
+                    url: url,
+                    processResults: function (data) {
+                    // Transforms the top-level key of the response object from 'items' to 'results'
+                    return {results: data}
+                    }
+                }
+            }
+        )
+    }
+</script>

@@ -8,6 +8,7 @@ use App\SubTipo;
 use App\Tipo;
 use App\Asignacion;
 use App\Modelo;
+use App\User;
 use App\Personal;
 use Carbon\carbon;
 //use Request;
@@ -19,18 +20,24 @@ use Illuminate\Http\Request;
 
 class EquipoController extends Controller
 {
+    public function __construct()
+    {
+
+         $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
 
         return view('inventario.equipo.index');
     }
 
-    public function listar()
+    public function listar(Request $request)
     {
         return view('inventario.equipo.listar');
     }
@@ -41,20 +48,44 @@ class EquipoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $personal = Tipo::join('Dependencia','Dependencia.IdDependencia','=','Personal.IdDependencia');
 
         return view('inventario.equipo.create');
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         $tipos = Tipo::get();
 
         for ($i=0; $i < count($tipos); $i++) {
             $subtipo = SubTipo::where('IdTipo', $tipos[$i]->IdTipo)->get();
             $tipos[$i]["hijos"] = $subtipo;
+            for ($j=0; $j < count($subtipo); $j++) {
+                $cantidad_eq_sin_asginar =  Equipo::from('Equipo as eq')
+                ->select('*')
+                ->join('Modelo as mod','eq.IdModelo','=','mod.IdModelo')
+                ->join('SubTipo as subt','mod.IdSubTipo','=','subt.IdSubTipo')
+                ->join('Asignacion as asi','eq.IdEquipo','=','asi.IdEquipo')
+                ->where('subt.IdSubTipo','=',$subtipo[$j]["IdSubTipo"])
+                ->where('eq.IdDependencia','=',$request->user()->dependencias->IdDependencia)
+                ->where('eq.baja','=',0)
+                ->count();
+
+                $equipos =  Equipo::from('Equipo as eq')
+                ->select('*')
+                ->join('Modelo as mod','eq.IdModelo','=','mod.IdModelo')
+                ->join('SubTipo as subt','mod.IdSubTipo','=','subt.IdSubTipo')
+                ->where('subt.IdSubTipo','=',$subtipo[$j]["IdSubTipo"])
+                ->where('eq.IdDependencia','=',$request->user()->dependencias->IdDependencia)
+                ->where('eq.baja','=',0)
+                ->count();
+                $tipos[$i]["hijos"][$j]["noasignados"] =  $equipos-$cantidad_eq_sin_asginar;
+            }
+
+
+
         }
 
 
@@ -77,14 +108,15 @@ class EquipoController extends Controller
                                 'Usuario','asi.FAsignacion as FAsignacion','IdAsignacion')
                             ->leftJoin('Asignacion as asi','Equipo.IdEquipo','=','asi.IdEquipo')
                             ->where('Equipo.IdSubTipo','=',$subt->IdSubTipo)
+                            ->where('Equipo.IdDependencia','=',$request->user()->dependencias->IdDependencia)
                             ->where('Equipo.Baja','=',"0");
+
 
         $equipos = Personal::from('Personal as usu')->RightJoinSub($soloequipos,'Equipo',function($join){
                     $join->on('usu.IdPersonal','=','Equipo.Usuario');
         })->leftJoin('Personal as resp','Equipo.Responsable','=','resp.IdPersonal')
         ->select('Equipo.IdEquipo as IdEquipo','Equipo.CodPatrimonial', 'resp.Nombres as Responsable','usu.Nombres as Usuario','Equipo.FAsignacion as FAsignacion','IdAsignacion')
         ->get();
-
 
         $subtipo = $request["subtipo"];
 
@@ -99,7 +131,7 @@ class EquipoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function subtipo($subtipo)
+    public function subtipo(Request $request,$subtipo)
     {
         return view('inventario.equipo.subtipo.index',compact('subtipo'));
 
@@ -151,8 +183,10 @@ class EquipoController extends Controller
         $marca = Marca::where('IdMarca',$attr["IdMarca"])->first();
         $attr["NomMarca"] = $marca->Nombre;
 
-        $equipo = Equipo::create($attr);
 
+        $attr["IdDependencia"] = $request->user()->dependencias->IdDependencia;
+
+        $equipo = Equipo::create($attr);
         return redirect()->route('inventario.asignacion.create',['Equipo' => $equipo["IdEquipo"]]);
 
 
@@ -165,7 +199,7 @@ class EquipoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function subtipo_edit($subtipo,$Equipo)
+    public function subtipo_edit(Request $request,$subtipo,$Equipo)
     {
 
         $crtpdt = "Editar";
@@ -255,7 +289,7 @@ class EquipoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function subtipo_destroy($id)
+    public function subtipo_destroy(Request $request,$id)
     {
         $asignado = Asignacion::where('IdEquipo',$id)->forceDelete();
         $eq = Equipo::find($id)->forceDelete();

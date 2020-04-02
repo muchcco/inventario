@@ -58,6 +58,7 @@ class BusquedaxUsuarioController extends Controller
                                     if ($request->CodPatrimonial != '') {
                                         $query->where('eq.CodPatrimonial',"like", $request->CodPatrimonial);
                                     }
+                                    $query->where('eq.IdDependencia',"=", $request->user()->dependencias->IdDependencia);
                                 });
     $equipos = Personal::from('Personal as usu')
                         ->RightJoinSub($soloequipos,'eq',function($join){

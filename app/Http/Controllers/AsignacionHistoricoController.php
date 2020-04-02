@@ -75,6 +75,7 @@ class AsignacionHistoricoController extends Controller
                                     if ($request->IdUsuario) {
                                         $query->where('usu.IdPersonal',"=", $request->IdUsuario);
                                     }
+                                    $query->where('eq.IdDependencia',"=", $request->user()->dependencias->IdDependencia);
 
 
 

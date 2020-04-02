@@ -19,6 +19,7 @@
                     tabla.destroy();
                     $("#tabla_marcas_body").html(data.html);
                     tabla = $("#tabla_marcas").DataTable({
+                    language: datatable_es,
                     "columns": [
                         { "width": "20%" },
                         { "width": "20%" },
@@ -116,11 +117,13 @@
 
         $(document).on('click', '#btn_guardar_marca', function(){
             var createForm = $("#MarcaForm");
+
             ajaxRequest(
                     "{{ route('inventario.marca.store') }}",
                     'POST',
                     createForm.serializeArray(),
                     function(response){
+
                         tabla_marcas()
                         $("#modal_agregar_marca").modal('hide');
 
@@ -128,19 +131,17 @@
         })
 
         var EditarMarca = (id) => {
-            $.ajax({
-                type:'post',
-                url:"{{ route('inventario.equipo.subtipo_delete') }}",
-                dataType: "json",
-                data:{equipo : id},
-                success:function(data){
-
-                    $("#modal_editar_marca").html(data.html);
+            ajaxRequest(
+                    "{{ route('inventario.marca.edit') }}",
+                    'POST',
+                    {marca : id},
+                    function(response){
+                    $("#modal_editar_marca").html(response.html);
 
                     $("#modal_editar_marca").modal('show');
-                }
-            });
-        };
+
+                });
+        }
 
         $(document).on('click', '#btn_actualizar_marca', function(){
             var url = "{{ route('inventario.marca.update', ':id') }}";

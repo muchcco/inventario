@@ -14,7 +14,7 @@ class Equipo extends Model
 
     protected $fillable = ['NomMarca', 'IdMarca', 'FFabricacion', 'Descripcion', 'IdModelo', 'NomModelo', 'IdUsuarioActual',
                             'IdUsuarioResponsable','Utilizado','IdTipo','NomTipo','IdSubTipo','NomSubTipo','Host',
-                            'Perfil','IP','CodPatrimonial','NumSerie','SistOperativo','Imei','NumCel','Anexo','Baja','FBaja'];
+                            'Perfil','IP','CodPatrimonial','NumSerie','SistOperativo','Imei','NumCel','Anexo','Baja','FBaja','IdDependencia'];
 
 
     public $timestamps = false;

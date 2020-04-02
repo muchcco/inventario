@@ -9,13 +9,20 @@ use Illuminate\Http\Request;
 
 class DependenciaController extends Controller
 {
+    public function __construct()
+    {
+
+         $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
         return view('generales.dependencia.index');
     }
 
@@ -25,7 +32,7 @@ class DependenciaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function tabla()
+    public function tabla(Request $request)
     {
 
         $dependencia = Dependencia::get();
@@ -106,7 +113,7 @@ class DependenciaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $modelos = Dependencia::select('Dependencia.IdDependencia', 'Dependencia.Nombre')->get();
         $cantidad = count($modelos);

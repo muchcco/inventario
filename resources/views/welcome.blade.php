@@ -1,4 +1,4 @@
 @extends('layout')
 @section('content')
-<h1>kevin se la  c</h1>
+<h1></h1>
 @endsection

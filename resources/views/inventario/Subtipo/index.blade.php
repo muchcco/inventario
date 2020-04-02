@@ -19,6 +19,7 @@
                     tabla.destroy();
                     $("#tabla_subtipos_body").html(data.html);
                     tabla = $("#tabla_subtipos").DataTable({
+                    language: datatable_es,
                     "columns": [
                         { "width": "20%" },
                         { "width": "20%" },

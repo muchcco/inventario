@@ -11,15 +11,10 @@ use Illuminate\Http\Request;
 
 class TipoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        return view('inventario.tipo.index');
 
+         $this->middleware('auth');
     }
 
     /**
@@ -27,8 +22,21 @@ class TipoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function tabla()
+    public function index(Request $request)
     {
+        $request->user()->authorizeRoles('Administrador');
+        return view('inventario.tipo.index');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function tabla(Request $request)
+    {
+        $request->user()->authorizeRoles('Administrador');
+
         $tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
 
         $view = view('inventario.tipo.tabla',compact('tipos'))->render();
@@ -40,8 +48,9 @@ class TipoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $request->user()->authorizeRoles('Administrador');
         $view_create =  view('inventario.tipo.create')->render();
         return response()->json(['html'=>$view_create]);
     }
@@ -54,6 +63,8 @@ class TipoController extends Controller
      */
     public function store(Request $request)
     {
+        $request->user()->authorizeRoles('Administrador');
+            $request->user()->authorizeRoles('Administrador');
             $attr = $request->all();
             $response_data = Tipo::create($attr);
             return Response::json( $response_data );
@@ -67,6 +78,7 @@ class TipoController extends Controller
      */
     public function shows($id)
     {
+
         //
                 var_dump("234");
     die();
@@ -80,6 +92,8 @@ class TipoController extends Controller
      */
     public function edit(Request $request)
     {
+
+        $request->user()->authorizeRoles('Administrador');
         $tipo = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->where('IdTipo', $request->tipo)->first();
         $view = view('inventario.tipo.edit',compact('tipo'))->render();
         return response()->json(['html'=>$view]);
@@ -96,6 +110,7 @@ class TipoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->user()->authorizeRoles('Administrador');
 
 
        $tipo = DB::select('exec [udp_Tipo_ups] ?,?',array($id,$request->input('Nombre')));
@@ -111,8 +126,9 @@ class TipoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
+        $request->user()->authorizeRoles('Administrador');
         $Tipo = Tipo::find($id)->forceDelete();
         return $Tipo;
 

@@ -11,13 +11,19 @@ use Illuminate\Http\Request;
 
 class SubTipoController extends Controller
 {
+    public function __construct()
+    {
+
+         $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $request->user()->authorizeRoles('Administrador');
         return view('inventario.subtipo.index');
 
     }
@@ -27,9 +33,9 @@ class SubTipoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function tabla()
+    public function tabla(Request $request)
     {
-
+        $request->user()->authorizeRoles('Administrador');
         $subtipos = SubTipo::join('Tipo','Tipo.idTipo','=','SubTipo.IdTipo')->select('Tipo.nombre as TipoNom'  , 'SubTipo.IdSubTipo', 'SubTipo.Nombre')->get();
 
 
@@ -42,8 +48,9 @@ class SubTipoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $request->user()->authorizeRoles('Administrador');
         $tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
         $view_create =  view('inventario.subtipo.create',compact('tipos'))->render();
         return response()->json(['html'=>$view_create]);
@@ -57,6 +64,7 @@ class SubTipoController extends Controller
      */
     public function store(Request $request)
     {
+        $request->user()->authorizeRoles('Administrador');
 
             $attr = $request->all();
             $response_data = SubTipo::create($attr);
@@ -71,6 +79,7 @@ class SubTipoController extends Controller
      */
     public function edit(Request $request)
     {
+        $request->user()->authorizeRoles('Administrador');
         $subtipo = SubTipo::select('SubTipo.IdSubTipo as IdSubTipo'  , 'SubTipo.IdTipo', 'SubTipo.Nombre')->where('IdSubTipo', $request->subtipo)->first();
         $tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
 
@@ -90,6 +99,7 @@ class SubTipoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->user()->authorizeRoles('Administrador');
 
         $SubTipo = SubTipo::find($id);
         $SubTipo->update($request->all());
@@ -105,8 +115,9 @@ class SubTipoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
+        $request->user()->authorizeRoles('Administrador');
 
         $Marca = SubTipo::find($id)->forceDelete();
 

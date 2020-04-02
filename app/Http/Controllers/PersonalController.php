@@ -11,14 +11,18 @@ use nusoap_client;
 use nusoap;
 class PersonalController extends Controller
 {
+    public function __construct()
+    {
+
+         $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-
 
         return view('generales.personal.index');
 
@@ -30,9 +34,8 @@ class PersonalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function tabla()
+    public function tabla(Request $request)
     {
-
         $personal = Personal::select('IdPersonal','Personal.Nombres as NomPersonal','ApePat','ApeMat','DNI','Codigo')
                             ->join('Dependencia','Dependencia.IdDependencia','=','Personal.IdDependencia')->get();
 
@@ -86,6 +89,7 @@ class PersonalController extends Controller
      */
     public function dependencia(Request $request)
     {
+
         //para llenar el select 2
         $busqueda = '%'.$request->q.'%';
         $datos = Dependencia::select('IdDependencia as id','Nombre as text')->where('Nombre', 'like', '%' . $request->q . '%')->get();
@@ -97,10 +101,8 @@ class PersonalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //$tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
-        //$marcas = Marca::select('Marca.IdMarca', 'Marca.Nombre')->get();
         return view('generales.personal.create');
     }
 
@@ -113,7 +115,6 @@ class PersonalController extends Controller
      */
     public function store(Request $request)
     {
-
 
         $attr = $request->all();
 
@@ -128,7 +129,7 @@ class PersonalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function edit($IdPersonal)
+    public function edit(Request $request,$IdPersonal)
     {
         $personal = Personal::join('Dependencia','Dependencia.IdDependencia','=','Personal.IdDependencia')
                             ->select('IdPersonal','Personal.Nombres as Nombres','ApePat','ApeMat','DNI','Email','Anexo','TipoContr','Dependencia.Nombre as NomDependencia','Dependencia.IdDependencia as IdDependencia')
@@ -160,9 +161,9 @@ class PersonalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-
+        $request->user()->authorizeRoles('Administrador');
         $Marca = Personal::find($id)->forceDelete();
 
         return 1;
@@ -177,6 +178,7 @@ class PersonalController extends Controller
      */
     public function busqueda(Request $request)
     {
+
         $tipo = $request->tipo;
         $parametro = $request->parametro;
         if (is_numeric($request->parametro)) {
@@ -201,8 +203,9 @@ class PersonalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function agregarmodal()
+    public function agregarmodal(Request $request)
     {
+        $request->user()->authorizeRoles('Administrador');
         //$tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
         //$marcas = Marca::select('Marca.IdMarca', 'Marca.Nombre')->get();
         return view('generales.personal.create_modal')->render();

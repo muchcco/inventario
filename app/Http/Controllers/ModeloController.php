@@ -12,13 +12,19 @@ use Illuminate\Http\Request;
 
 class ModeloController extends Controller
 {
+    public function __construct()
+    {
+
+         $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $request->user()->authorizeRoles('Administrador');
         return view('inventario.modelo.index');
 
     }
@@ -29,9 +35,9 @@ class ModeloController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function tabla()
+    public function tabla(Request $request)
     {
-
+        $request->user()->authorizeRoles('Administrador');
         $modelos = Modelo::select(  'Modelo.IdModelo as IdModelo',
                                     'Modelo.Nombre as ModeloNombre',
                                     'Marca.Nombre as MarcaNombre',
@@ -55,8 +61,9 @@ class ModeloController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $request->user()->authorizeRoles('Administrador');
         $tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
         $marcas = Marca::select('Marca.IdMarca', 'Marca.Nombre')->get();
         $view_create =  view('inventario.modelo.create',compact('tipos','marcas'))->render();
@@ -66,6 +73,7 @@ class ModeloController extends Controller
     //Trae todos los subtipos
     public function subtipos(Request $request)
     {
+
         if ($request->tipo == "") {
             $subtipo = SubTipo::select('SubTipo.IdSubTipo as IdSubTipo'  , 'SubTipo.IdTipo', 'SubTipo.Nombre')->get();
             return $subtipo;
@@ -78,6 +86,7 @@ class ModeloController extends Controller
     //Trae todos los modelo
     public function modelos(Request $request)
     {
+
         $modelos = Modelo::select('Modelo.IdModelo as IdModelo','Modelo.Nombre as Nombre')
                 ->Join('SubTipo as subt','Modelo.IdSubTipo','=','subt.IdSubTipo')
                 ->where(function ($query) use ($request) {
@@ -105,6 +114,7 @@ class ModeloController extends Controller
      */
     public function store(Request $request)
     {
+        $request->user()->authorizeRoles('Administrador');
             $attr = $request->all();
             $response_data = Modelo::create($attr);
             return Response::json( $response_data );
@@ -119,6 +129,7 @@ class ModeloController extends Controller
      */
     public function edit(Request $request)
     {
+        $request->user()->authorizeRoles('Administrador');
         $modelo = Modelo::select('Modelo.IdModelo as IdModelo','Modelo.IdMarca as IdMarca', 'Modelo.Nombre as ModeloNombre', 'Modelo.IdSubTipo','Tipo.IdTipo')
                         ->join('SubTipo','SubTipo.IdSubTipo','=','Modelo.IdSubTipo')
                         ->join('Tipo','Tipo.IdTipo','=','SubTipo.IdTipo')
@@ -141,6 +152,7 @@ class ModeloController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->user()->authorizeRoles('Administrador');
 
         $modelo = Modelo::find($id);
 
@@ -163,8 +175,9 @@ class ModeloController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
+        $request->user()->authorizeRoles('Administrador');
 
         $Marca = Modelo::find($id)->forceDelete();
 

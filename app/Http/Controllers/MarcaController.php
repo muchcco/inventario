@@ -10,13 +10,20 @@ use Illuminate\Http\Request;
 
 class MarcaController extends Controller
 {
+
+    public function __construct()
+    {
+
+         $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $request->user()->authorizeRoles('Administrador');
 
         return view('inventario.marca.index');
     }
@@ -26,8 +33,9 @@ class MarcaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function tabla()
+    public function tabla(Request $request)
     {
+        $request->user()->authorizeRoles('Administrador');
         $modelos = Marca::select('Marca.IdMarca', 'Marca.Nombre')->get();
 
         $view = view('inventario.marca.tabla',compact('modelos'))->render();
@@ -39,8 +47,9 @@ class MarcaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $request->user()->authorizeRoles('Administrador');
         $view_create =  view('inventario.marca.create')->render();
         return response()->json(['html'=>$view_create]);
     }
@@ -53,9 +62,8 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
-
+            $request->user()->authorizeRoles('Administrador');
             $attr = $request->all();
-
             $response_data = Marca::create($attr);
             return Response::json( $response_data );
     }
@@ -81,6 +89,7 @@ class MarcaController extends Controller
      */
     public function edit(Request $request)
     {
+        $request->user()->authorizeRoles('Administrador');
 
         $marca = Marca::select('marca.IdMarca', 'marca.Nombre')->where('IdMarca', $request->marca)->first();
         $view = view('inventario.marca.edit',compact('marca'))->render();
@@ -97,6 +106,7 @@ class MarcaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->user()->authorizeRoles('Administrador');
         $Marca = Marca::find($id);
 
         $Marca->Nombre = $request->Nombre;
@@ -117,8 +127,9 @@ class MarcaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
+        $request->user()->authorizeRoles('Administrador');
 
         $Marca = Marca::find($id)->forceDelete();
         return true;

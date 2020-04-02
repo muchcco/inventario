@@ -49,7 +49,7 @@
                                             {{$subtipo->Nombre}}
                                         </span>
                                         <span class="kt-widget17__desc">
-                                            15 New Paskages
+                                            Cantidad de Equipos sin asignar: {{$subtipo->noasignados}}
                                         </span>
                                     </div>
                                 </div>

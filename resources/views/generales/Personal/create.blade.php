@@ -122,7 +122,7 @@
                     <div class="form-group">
 						<label>DNI</label>
 						<div class="input-group">
-                            <input type="text" class="form-control" name="DNI" id="DNI" value="44761105">
+                            <input type="text" class="form-control" name="DNI" id="DNI" value="">
 
 							<div class="input-group-append">
                                 <button class="btn btn-success "  onclick="cargarDatos()" name="buscar" id="buscar"  style="color: #fff">Buscar</button>
