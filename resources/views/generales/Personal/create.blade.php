@@ -58,7 +58,7 @@
                             document.getElementById("ApeMat").value = response[0]["ApeMat"];
                             document.getElementById("Email").value = "";
                             document.getElementById("Anexo").value = "";
-                            document.getElementById("IdDependencia").innerHTML = `<option  selected="selected">--SELECCIONE DIRECCION --</option>`;
+                            document.getElementById("IdDependencia").innerHTML = `<option value="0"  selected="selected">--SELECCIONE DIRECCION --</option>`;
                             document.getElementById("guardar_personal").disabled = false;
                             document.getElementById("buscar").innerHTML = "Buscar ";
                             document.getElementById("buscar").disabled = false;
@@ -78,6 +78,7 @@
 
 
     var cargarDependencia = () => {
+        console.log(document.forms["crear_personal"]["IdDependencia"].value)
             var url = "{{ route('generales.personal.dependencia') }}";
 
             $("#IdDependencia").select2( {
@@ -99,7 +100,27 @@
                 }
             )
         }
+//VALIDAR FORMULARIO PERSONAL
 
+    var validar_formulario_personal = () => {
+
+        var personal = document.forms["crear_personal"]["Nombres"].value;
+
+        if (personal == "") {
+
+            document.getElementById('valid_personal').innerHTML = "Debe buscar un personal por su DNI"
+            return false;
+        }
+        var dependencia = document.forms["crear_personal"]["IdDependencia"].value;
+
+
+        if (dependencia == 0) {
+
+            document.getElementById('valid_dependencia').innerHTML = "Debe seleccionar una dependencia"
+            return false;
+        }
+
+    }
     </script>
 @endsection
 @section('content')
@@ -115,11 +136,11 @@
 				</div>
 			</div>
 			<!--begin::Form-->
-            <form class="kt-form" action="{{ route('generales.personal.store') }}" method="POST">
+            <form class="kt-form" id="crear_personal" name="crear_personal" onsubmit="return validar_formulario_personal()"  action="{{ route('generales.personal.store') }}" method="POST">
                 @method('POST')
                 @csrf
 				<div class="kt-portlet__body">
-                    <div class="form-group">
+                    <div class="form-group validated">
 						<label>DNI</label>
 						<div class="input-group">
                             <input type="text" class="form-control" name="DNI" id="DNI" value="">
@@ -131,6 +152,7 @@
 
                         </div>
                         <span class="form-text text-muted" id="alerta_DNI" name="alerta_DNI"></span>
+                        <div class="invalid-feedback" id="valid_personal" name="valid_personal"></div>
 					</div>
 					<div class="form-group">
 						<label>Nombres</label>
@@ -150,21 +172,24 @@
                     </div>
 					<div class="form-group">
 						<label>Anexo</label>
-						<input type="text" class="form-control" id="Anexo" name="Anexo">
+                        <input type="text" class="form-control" id="Anexo" name="Anexo">
+
                     </div>
-					<div class="form-group">
+					<div class="form-group validated">
 						<label >Contrato</label>
 						<select class="form-control" id="TipoContr" name="TipoContr">
 							<option value="CAS">CAS</option>
 							<option value="CAP">CAP</option>
 							<option value="RHE">RHE</option>
-						</select>
+                        </select>
+                        <div class="invalid-feedback" id="valid_contrato" name="valid_contrato"></div>
 					</div>
-					<div class="form-group">
+					<div class="form-group validated">
 						<label for="">Dependencia</label>
 						<select class="js-example-data-ajax form-control" id="IdDependencia" name="IdDependencia">
-                            <option  selected="selected">--SELECCIONE DIRECCION --</option>
+                            <option title="0" value="0">--SELECCIONE DIRECCION --</option>
                           </select>
+                          <div class="invalid-feedback" id="valid_dependencia" name="valid_dependencia"></div>
 					</div>
 				</div>
 				<div class="kt-portlet__foot">

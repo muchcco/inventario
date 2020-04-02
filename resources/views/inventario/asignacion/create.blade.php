@@ -72,7 +72,7 @@
                             document.getElementById("ApeMat").value = response[0]["ApeMat"];
                             document.getElementById("Email").value = "";
                             document.getElementById("Anexo").value = "";
-                            document.getElementById("IdDependencia").innerHTML = `<option  selected="selected">--SELECCIONE DIRECCION --</option>`;
+                            document.getElementById("IdDependencia").innerHTML = `<option value="0" selected="selected">--SELECCIONE DIRECCION --</option>`;
                             document.getElementById("guardar_personal").disabled = false;
                             document.getElementById("buscar").innerHTML = "Buscar ";
                             document.getElementById("buscar").disabled = false;
@@ -153,6 +153,21 @@
 
 
     var GuardarPersonal = (tipo) => {
+        var personal = document.forms["FormCrearPersonal"]["Nombres"].value;
+
+        if (personal == "") {
+
+            document.getElementById('valid_personal').innerHTML = "Debe buscar un personal por su DNI"
+            return false;
+        }
+        var dependencia = document.forms["FormCrearPersonal"]["IdDependencia"].value;
+
+
+        if (dependencia == 0) {
+
+            document.getElementById('valid_dependencia').innerHTML = "Debe seleccionar una dependencia"
+            return false;
+        }
         var createForm = $("#FormCrearPersonal").serializeArray();
         var url = "{{ route('generales.personal.guardarmodal') }}";
         ajaxRequest(
@@ -162,15 +177,9 @@
             function(data){
                 AsignarPersonal(tipo,data["IdPersonal"],`${data["DNI"]}`,`${data["Nombres"]} ${data["ApePat"]} ${data["ApeMat"]}`,`${data["Dependencia"]}`)
 
-                return "13"
-                $("#crear_personal_modal_body").html(data);
-                $("#asignar_personal").modal('hide');
-                $("#crear_personal_modal").modal('show');
+                $("#crear_personal_modal").modal('hide');
                 return true;
-                //console.log(inputparametro);
 
-                $("#tabla_asignar_personal_body").html(data);
-                $("#asignar_personal").modal('show');
             }
         );
     }

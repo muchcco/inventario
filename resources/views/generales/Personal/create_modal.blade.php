@@ -4,7 +4,7 @@
                 @method('POST')
                 @csrf
 				<div class="kt-portlet__body">
-                    <div class="form-group">
+                    <div class="form-group validated">
 						<label>DNI</label>
 						<div class="input-group">
                             <input type="text" class="form-control" name="DNI" id="DNI">
@@ -16,6 +16,7 @@
 
                         </div>
                         <span class="form-text text-muted" id="alerta_DNI" name="alerta_DNI"></span>
+                        <div class="invalid-feedback" id="valid_personal" name="valid_personal"></div>
 					</div>
 					<div class="form-group">
 						<label>Nombres</label>
@@ -45,11 +46,12 @@
 							<option value="RHE">RHE</option>
 						</select>
 					</div>
-					<div class="form-group col-md-12">
+					<div class="form-group validated">
 						<label for="IdDependencia" class="col-md-12">Dependencia</label>
-						<select class="form-control" id="IdDependencia" name="IdDependencia">
-                            <option  selected="selected">--SELECCIONE DIRECCION --</option>
+						<select class="form-control" style="width:100%" id="IdDependencia" name="IdDependencia">
+                            <option value="0"  selected="selected">--SELECCIONE DIRECCION --</option>
                           </select>
+                          <div class="invalid-feedback" id="valid_dependencia" name="valid_dependencia"></div>
 					</div>
 				</div>
 				<div class="kt-portlet__foot">
@@ -65,5 +67,8 @@
             <script>
 
                 cargarDependencia()
+
+                //VALIDAR FORMULARIO PERSONAL
+
             </script>
 
