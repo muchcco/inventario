@@ -205,11 +205,30 @@ class PersonalController extends Controller
      */
     public function agregarmodal(Request $request)
     {
-        $request->user()->authorizeRoles('Administrador');
+        $tipo = $request->tipo;
         //$tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
         //$marcas = Marca::select('Marca.IdMarca', 'Marca.Nombre')->get();
-        return view('generales.personal.create_modal')->render();
+        return view('generales.personal.create_modal',compact('tipo'))->render();
     }
 
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function guardarmodal(Request $request)
+    {
+        $attr = $request->all();
+
+        $response_data = Personal::create($attr);
+        $dependencia = Dependencia::where('IdDependencia','=',$response_data->IdDependencia)->first();
+        $response_data["Dependencia"] = $dependencia->Nombre;
+        return $response_data;
+        //$tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
+        //$marcas = Marca::select('Marca.IdMarca', 'Marca.Nombre')->get();
+
+    }
 
 }

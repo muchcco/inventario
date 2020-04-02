@@ -121,6 +121,7 @@ Route::group(['prefix'=>'generales','as'=>'generales.'],function () {
     Route::delete('personal/{personal}', 'PersonalController@destroy')->name('personal.destroy');
     Route::post('personal/busqueda', 'PersonalController@busqueda')->name('personal.busqueda');
     Route::post('personal/agregarmodal', 'PersonalController@agregarmodal')->name('personal.agregarmodal');
+    Route::post('personal/guardarmodal', 'PersonalController@guardarmodal')->name('personal.guardarmodal');
 });
 
 Route::group(['prefix'=>'graficos','as'=>'graficos.'],function () {

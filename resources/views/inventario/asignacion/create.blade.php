@@ -132,12 +132,12 @@
         $("#asignar_personal").modal('hide');
     };
     //Agregar personal
-    var CrearPersonal = () => {
+    var CrearPersonal = (tipo) => {
         var url = "{{ route('generales.personal.agregarmodal') }}";
         ajaxRequest(
             url,
             "post",
-            {},
+            {tipo:tipo},
             function(data){
                 $("#crear_personal_modal_body").html(data);
                 $("#asignar_personal").modal('hide');
@@ -150,6 +150,31 @@
             }
         );
     }
+
+
+    var GuardarPersonal = (tipo) => {
+        var createForm = $("#FormCrearPersonal").serializeArray();
+        var url = "{{ route('generales.personal.guardarmodal') }}";
+        ajaxRequest(
+            url,
+            "post",
+            createForm,
+            function(data){
+                AsignarPersonal(tipo,data["IdPersonal"],`${data["DNI"]}`,`${data["Nombres"]} ${data["ApePat"]} ${data["ApeMat"]}`,`${data["Dependencia"]}`)
+
+                return "13"
+                $("#crear_personal_modal_body").html(data);
+                $("#asignar_personal").modal('hide');
+                $("#crear_personal_modal").modal('show');
+                return true;
+                //console.log(inputparametro);
+
+                $("#tabla_asignar_personal_body").html(data);
+                $("#asignar_personal").modal('show');
+            }
+        );
+    }
+
 
     //Validar crear Asignacion
     var validar_formulario_asignacion = () => {
@@ -287,33 +312,8 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="form-group row">
-                    <div class="col-lg-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="parametro_modal" id="parametro_modal" onkeyup="javascript:this.value=this.value.toUpperCase();">
+            <div class="modal-body" id="tabla_asignar_personal_body">
 
-                            <div class="input-group-append">
-                                <a class="btn btn-success "  onclick="BuscarPersonal('responsable','_modal')" name="buscar" id="buscar"  style="color: #fff">Buscar</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="offset-md-7 col-md-2">
-                        <a class="btn btn-success "  name="buscar" id="buscar" onclick="CrearPersonal()"  style="color: #fff">Agregar</a>
-                    </div>
-                </div>
-                <table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_asignar_personal">
-                    <thead>
-                        <tr>
-                            <th>DNI</th>
-                            <th>Nombre</th>
-                            <th>Dependencia</th>
-                            <th>Accion</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabla_asignar_personal_body">
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>

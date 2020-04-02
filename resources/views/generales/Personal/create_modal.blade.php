@@ -1,6 +1,6 @@
 
 			<!--begin::Form-->
-            <form class="kt-form" action="{{ route('generales.personal.store') }}" method="POST">
+            <form class="kt-form" id="FormCrearPersonal" name="FormCrearPersonal" method="POST">
                 @method('POST')
                 @csrf
 				<div class="kt-portlet__body">
@@ -54,7 +54,7 @@
 				</div>
 				<div class="kt-portlet__foot">
 					<div class="kt-form__actions">
-						<a name="guardar_personal" id="guardar_personal" onclick="guardar_personal_agregar()" class="btn btn-primary" disabled>Guardar</a>
+                    <a name="guardar_personal" id="guardar_personal" onclick="GuardarPersonal('{{ $tipo }}')" class="btn btn-primary" disabled>Guardar</a>
 						<a  class="btn btn-secondary">Cancel</a>
 					</div>
 				</div>
