@@ -49,7 +49,9 @@
                                             {{$subtipo->Nombre}}
                                         </span>
                                         <span class="kt-widget17__desc">
+                                            Cantidad de Equipos: {{$subtipo->equipos}}<br>
                                             Cantidad de Equipos sin asignar: {{$subtipo->noasignados}}
+
                                         </span>
                                     </div>
                                 </div>

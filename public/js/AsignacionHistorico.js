@@ -16,7 +16,7 @@ var tabla_historico_asignacion = (url,IdTipo = "",IdSubTipo= "", IdMarca= "",IdM
         searchDelay: 500,
         processing: true,
         serverSide: true,
-        pagingType: "first_last_numbers",
+        pagingType:"simple_numbers",
         buttons: true,
         ajax: {
 
@@ -61,7 +61,7 @@ var tabla_historico_asignacion = (url,IdTipo = "",IdSubTipo= "", IdMarca= "",IdM
             text:      '<i class="kt-nav__link-icon la la-copy"></i> Copiar',
             titleAttr: 'Copy',
             className: 'dropdown-item',
-            title : "Modelos",
+            title : "Asignación Historica",
             init: function(api, node, config) {
                     $(node).removeClass('btn btn-secondary')
                 },
@@ -74,7 +74,7 @@ var tabla_historico_asignacion = (url,IdTipo = "",IdSubTipo= "", IdMarca= "",IdM
             text:      '<i class="kt-nav__link-icon la la-file-text-o"></i> CSV',
             titleAttr: 'CSV',
             className: 'dropdown-item',
-            title : "Modelos",
+            title : "Asignación Historica",
             init: function(api, node, config) {
                     $(node).removeClass('btn btn-secondary')
                 },
@@ -87,7 +87,7 @@ var tabla_historico_asignacion = (url,IdTipo = "",IdSubTipo= "", IdMarca= "",IdM
             text:      '<i class="kt-nav__link-icon la la-file-excel-o"></i> Excel',
             titleAttr: 'Excel',
             className: 'dropdown-item',
-            title : "Modelos",
+            title : "Asignación Historica",
             init: function(api, node, config) {
                     $(node).removeClass('btn btn-secondary')
                 },
@@ -99,8 +99,9 @@ var tabla_historico_asignacion = (url,IdTipo = "",IdSubTipo= "", IdMarca= "",IdM
             extend:    'pdf',
             text:      '<i class="kt-nav__link-icon la la-file-pdf-o"></i> PDF',
             titleAttr: 'PDF',
+            orientation: 'landscape',
             className: 'dropdown-item',
-            title : "Modelos",
+            title : "Asignación Historica",
             init: function(api, node, config) {
                     $(node).removeClass('btn btn-secondary')
                 },
@@ -113,7 +114,7 @@ var tabla_historico_asignacion = (url,IdTipo = "",IdSubTipo= "", IdMarca= "",IdM
             text:      '<i class="kt-nav__link-icon la la-print"></i> Imprimir',
             titleAttr: 'Print',
             className: 'dropdown-item',
-            title : "Modelos",
+            title : "Asignación Historica",
             init: function(api, node, config) {
                     $(node).removeClass('btn btn-secondary')
                 },

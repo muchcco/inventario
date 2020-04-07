@@ -306,8 +306,9 @@ var asignado = () => {
                     </div>
                 </div>
             </div>
-            <div class="kt-portlet__body">
-                <form class="kt-form kt-form--fit kt-margin-b-20">
+            <div class="kt-portlet__body kt-section">
+                <form class="kt-form kt-form--fit kt-section">
+                    <h3 class="kt-section__title">Datos del Equipo</h3>
                     <div class="row kt-margin-b-20">
 
                         <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
@@ -344,7 +345,8 @@ var asignado = () => {
                             <input type="text" class="form-control kt-input" id="CodPatrimonial" name="CodPatrimonial" placeholder="" data-col-index="4">
                         </div>
                     </div>
-
+                    <br>
+                    <h3 class="kt-section__title">Datos del Personal</h3>
                     <div class="row kt-margin-b-20">
                         <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
                             <label>Responsable DNI: </label>
@@ -385,7 +387,7 @@ var asignado = () => {
                             <a class="btn btn-secondary btn-secondary--icon"  id="resetear" name="resetear" >
                                 <span>
                                     <i class="la la-close"></i>
-                                    <span>Reset </span>
+                                    <span>Limpiar filtros </span>
                                 </span>
                             </a>
                             &nbsp;&nbsp;
@@ -393,6 +395,9 @@ var asignado = () => {
                         </div>
                     </div>
                     <div class="kt-separator kt-separator--md kt-separator--dashed"></div>
+                    <div class="kt-section__info" id="asignados" name="asignados">
+
+					</div>
                 </form>
 
             <!--begin: Datatable -->

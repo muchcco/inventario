@@ -26,6 +26,7 @@
                     tabla.destroy();
                     $("#tabla_personal_body").html(data.html);
                     tabla = $("#tabla_personal").DataTable({
+                        language: datatable_es,
                     "columns": [
                         { "width": "5%" },
                         { "width": "20%" },

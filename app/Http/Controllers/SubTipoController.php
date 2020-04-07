@@ -51,7 +51,7 @@ class SubTipoController extends Controller
     public function create(Request $request)
     {
         $request->user()->authorizeRoles('Administrador');
-        $tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
+        $tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->orderBy('Nombre', 'asc')->get();
         $view_create =  view('inventario.subtipo.create',compact('tipos'))->render();
         return response()->json(['html'=>$view_create]);
     }

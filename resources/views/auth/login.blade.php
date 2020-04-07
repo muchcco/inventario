@@ -3,12 +3,12 @@
 @section('content')
 <div class="kt-login__signin">
     <div class="kt-login__head">
-        <h3 class="kt-login__title">{{ __('Login') }}</h3>
+
     </div>
     <form method="POST" class="kt-form" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
         @csrf
         <div class="input-group">
-            <input id="email" type="email" placeholder="Email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
+            <input id="email" type="email" placeholder="Correo" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
 
             @if ($errors->has('email'))
                 <span class="invalid-feedback" role="alert">
@@ -17,7 +17,7 @@
             @endif
         </div>
         <div class="input-group">
-            <input id="password" type="password" placeholder="Password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+            <input id="password" type="password" placeholder="Contraseña" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
 
             @if ($errors->has('password'))
                 <span class="invalid-feedback" role="alert">
@@ -40,8 +40,8 @@
         </div>
         <div class="kt-login__actions">
             <button type="submit" style="     background-color: #067854;
-            border-color: #09402e;"  class="btn btn-brand btn-pill kt-login__btn-primary">
-                {{ __('Login') }}
+            border-color: #09402e;"  class="btn btn-brand btn-elevate kt-login__btn-primary">
+                {{ __('Auth.Login') }}
             </button>
 
         </div>

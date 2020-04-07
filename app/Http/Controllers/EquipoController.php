@@ -82,6 +82,7 @@ class EquipoController extends Controller
                 ->where('eq.baja','=',0)
                 ->count();
                 $tipos[$i]["hijos"][$j]["noasignados"] =  $equipos-$cantidad_eq_sin_asginar;
+                $tipos[$i]["hijos"][$j]["equipos"] =  $equipos;
             }
 
 

@@ -35,7 +35,7 @@ class DependenciaController extends Controller
     public function tabla(Request $request)
     {
 
-        $dependencia = Dependencia::get();
+        $dependencia = Dependencia::orderBy('Nombre', 'asc')->get();
 
         $arrdep =array();
         $a = 0;

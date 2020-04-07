@@ -12,6 +12,11 @@ use Yajra\Datatables\Datatables;
 use DB;
 class AsignacionHistoricoController extends Controller
 {
+    public function __construct()
+    {
+
+         $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -19,8 +24,12 @@ class AsignacionHistoricoController extends Controller
      */
     public function index()
     {
-        $tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
-        $marcas = Marca::select('Marca.IdMarca', 'Marca.Nombre')->get();
+        $tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')
+                        ->orderBy('Nombre', 'asc')
+                        ->get();
+        $marcas = Marca::select('Marca.IdMarca', 'Marca.Nombre')
+                        ->orderBy('Nombre', 'asc')
+                        ->get();
 
         return view('inventario.asignacionHistorico.index',compact('tipos','marcas'));
 
@@ -98,6 +107,7 @@ class AsignacionHistoricoController extends Controller
                             ->where('Nombres','like','%'.$request->q.'%')
                             ->orWhere('ApePat','like','%'.$request->q.'%')
                             ->orWhere('ApeMat','like','%'.$request->q.'%')
+                            ->orderBy('text', 'asc')
                             ->get();
 
 

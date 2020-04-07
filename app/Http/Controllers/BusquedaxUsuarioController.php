@@ -13,6 +13,11 @@ use App\Marca;
 use DB;
 class BusquedaxUsuarioController extends Controller
 {
+    public function __construct()
+    {
+
+         $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -56,23 +61,30 @@ class BusquedaxUsuarioController extends Controller
                                         $query->where('mod.IdModelo',"=", $request->IdModelo);
                                     }
                                     if ($request->CodPatrimonial != '') {
-                                        $query->where('eq.CodPatrimonial',"like", $request->CodPatrimonial);
+
+                                        $CodPatrimonial = "%".$request->CodPatrimonial."%";
+                                        $query->where('eq.CodPatrimonial',"like", $CodPatrimonial);
+
                                     }
                                     $query->where('eq.IdDependencia',"=", $request->user()->dependencias->IdDependencia);
                                 });
+
+
     $equipos = Personal::from('Personal as usu')
                         ->RightJoinSub($soloequipos,'eq',function($join){
                             $join->on('usu.IdPersonal','=','eq.Usuario');
                         })
                         ->where(function ($query) use ($request) {
                             if ($request->resDNI != '') {
-                                $query->where('res.DNI',"=", $request->resDNI);
+                                $resDNI = "%".$request->resDNI."%";
+                                $query->where('res.DNI',"like", $resDNI);
                             }
                             if ($request->IdResponsable != '') {
                                 $query->where('res.IdPersonal',"=", $request->IdResponsable);
                             }
                             if ($request->usuDNI != '') {
-                                $query->where('usu.DNI',"=", $request->usuDNI);
+                                $usuDNI = "%".$request->usuDNI."%";
+                                $query->where('usu.DNI',"like", $usuDNI);
                             }
                             if ($request->IdUsuario) {
                                 $query->where('usu.IdPersonal',"=", $request->IdUsuario);
@@ -87,9 +99,96 @@ class BusquedaxUsuarioController extends Controller
                         ->get();
 
 
-    return $datatable = Datatables::of($equipos)
+
+
+
+    $datatable = Datatables::of($equipos)
                         ->make(true);
+
+    return $datatable;
     }
+
+
+        /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function cantidades(Request $request)
+    {
+        $soloequipos = Equipo::from("Equipo as eq")
+                                ->select('eq.IdEquipo as IdEquipo','tip.IdTipo as IdTipo','tip.Nombre as Tipo','subt.IdSubTipo as IdSubTipo','subt.Nombre as SubTipo','mar.IdMarca as IdMarca','mar.Nombre as Marca','mod.IdModelo as IdModelo','mod.Nombre as Modelo','CodPatrimonial', 'Responsable','Usuario','asi.FAsignacion as FAsignacion','IdAsignacion')
+                                ->leftJoin('Asignacion as asi','eq.IdEquipo','=','asi.IdEquipo')
+                                ->join('Modelo as mod','eq.IdModelo','=','mod.IdModelo')
+                                ->join('Marca as mar','mod.IdMarca','=','mar.IdMarca')
+                                ->join('SubTipo as subt','mod.IdSubTipo','=','subt.IdSubTipo')
+                                ->join('Tipo as tip','subt.IdTipo','=','tip.IdTipo')
+                                ->where('eq.Baja','=',"0")
+                                ->where(function ($query) use ($request) {
+                                    if ($request->IdTipo != '') {
+                                        $query->where('tip.IdTipo',"=", $request->IdTipo);
+                                    }
+                                    if ($request->IdMarca != '') {
+                                        $query->where('mar.IdMarca',"=", $request->IdMarca);
+                                    }
+                                    if ($request->IdSubTipo != '') {
+                                        $query->where('subt.IdSubTipo',"=", $request->IdSubTipo);
+                                    }
+                                    if ($request->IdModelo != '') {
+                                        $query->where('mod.IdModelo',"=", $request->IdModelo);
+                                    }
+                                    if ($request->CodPatrimonial != '') {
+                                        $CodPatrimonial = "%".$request->CodPatrimonial."%";
+                                        $query->where('eq.CodPatrimonial',"like", $CodPatrimonial);
+                                    }
+                                    $query->where('eq.IdDependencia',"=", $request->user()->dependencias->IdDependencia);
+                                });
+
+
+    $equipos = Personal::from('Personal as usu')
+                        ->RightJoinSub($soloequipos,'eq',function($join){
+                            $join->on('usu.IdPersonal','=','eq.Usuario');
+                        })
+                        ->where(function ($query) use ($request) {
+                            if ($request->resDNI != '') {
+                                $resDNI = "%".$request->resDNI."%";
+                                $query->where('res.DNI',"like", $resDNI);
+                            }
+                            if ($request->IdResponsable != '') {
+                                $query->where('res.IdPersonal',"=", $request->IdResponsable);
+                            }
+                            if ($request->usuDNI != '') {
+                                $usuDNI = "%".$request->usuDNI."%";
+                                $query->where('usu.DNI',"like", $usuDNI);
+                            }
+                            if ($request->IdUsuario) {
+                                $query->where('usu.IdPersonal',"=", $request->IdUsuario);
+                            }
+                        })
+                        ->leftJoin('Personal as res','eq.Responsable','=','res.IdPersonal')
+                        ->orderBy('IdEquipo', 'asc')
+                        ->select('eq.IdEquipo as IdEquipo','eq.IdTipo as IdTipo','eq.Tipo as Tipo','eq.IdSubTipo as IdSubTipo','eq.SubTipo as SubTipo','eq.IdMarca as IdMarca','eq.Marca as Marca','eq.IdModelo as IdModelo','eq.Modelo as Modelo','eq.CodPatrimonial',
+                        'usu.IdPersonal as IdUsuario','usu.DNI as UsuDNI',DB::raw("CONCAT(usu.Nombres,' ',usu.ApePat,' ',usu.ApeMat) AS Usuario"),
+                        'res.IdPersonal as IdResponsable','res.DNI as ResDNI',DB::raw("CONCAT(res.Nombres,' ',res.ApePat,' ',res.ApeMat) AS Responsable"),
+                        'eq.FAsignacion as FAsignacion','IdAsignacion')
+                        ->get();
+
+    $resultado = [];
+    $cantidadEquipos = count($equipos);
+    $sinAsignar = 0;
+    for ($i=0; $i < $cantidadEquipos; $i++) {
+
+
+        if ($equipos[$i]["UsuDNI"] == null || $equipos[$i]["UsuDNI"] == "" || $equipos[$i]["UsuDNI"] == "null" ) {
+
+            $sinAsignar++;
+        }
+    }
+    $resultado["total"] = $cantidadEquipos;
+    $resultado["sinAsignar"] = $sinAsignar;
+    return $resultado;
+    }
+
 
     /**
      * Show the form for creating a new resource.

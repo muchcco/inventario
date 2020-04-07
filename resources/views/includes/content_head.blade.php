@@ -8,7 +8,7 @@
             <span class="kt-subheader__separator kt-subheader__separator--v"></span>
 
             <a href="#" class="btn btn-label-success btn-bold btn-sm btn-icon-h kt-margin-l-10">
-                INSTITUTO NACIONAL DE INNOVACION AGRARIA
+                DEPENDENCIA: {{ Auth::user()->dependencias->Nombre }}
             </a>
 
             <div class="kt-input-icon kt-input-icon--right kt-subheader__search kt-hidden">

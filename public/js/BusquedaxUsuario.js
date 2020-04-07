@@ -1,6 +1,7 @@
 "use strict";
 var tabla_busquedaxusuario = (url,IdTipo = "",IdSubTipo= "", IdMarca= "",IdModelo= "",CodPatrimonial= "",resDNI= "",IdResponsable= "",usuDNI= "",IdUsuario= "") =>{
 
+
     $.fn.dataTable.Api.register("column().title()", function() {
         return $(this.header()).text().trim()
     });
@@ -17,7 +18,7 @@ var tabla_busquedaxusuario = (url,IdTipo = "",IdSubTipo= "", IdMarca= "",IdModel
         searchDelay: 500,
         processing: true,
         serverSide: true,
-        pagingType: "first_last_numbers",
+        pagingType:"simple_numbers",
         buttons: true,
         ajax: {
 
@@ -57,7 +58,6 @@ var tabla_busquedaxusuario = (url,IdTipo = "",IdSubTipo= "", IdMarca= "",IdModel
                 },{
                     data: "acc", // can be null or undefined
                     mRender: function(data, type, full) {
-                        console.log(full["IdEquipo"])
                         var accion =  `<button type="button" class="btn btn-default btn-icon btn-sm btn-icon-md" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="flaticon-more"></i>
                                         </button>
@@ -85,6 +85,9 @@ var tabla_busquedaxusuario = (url,IdTipo = "",IdSubTipo= "", IdMarca= "",IdModel
                 defaultContent:"<button>Click!</button>"
               } ]
     });
+
+
+
     $('#tabla_historico_length select').addClass('custom-select custom-select-sm form-control form-control-sm');
     //$('#tabla_historico_paginate').addClass('custom-select custom-select-sm form-tabla_historico_paginate-control-sm');
     var botones = new $.fn.dataTable.Buttons( t, {
@@ -94,7 +97,7 @@ var tabla_busquedaxusuario = (url,IdTipo = "",IdSubTipo= "", IdMarca= "",IdModel
             text:      '<i class="kt-nav__link-icon la la-copy"></i> Copiar',
             titleAttr: 'Copy',
             className: 'dropdown-item',
-            title : "Modelos",
+            title : "Equipos",
             init: function(api, node, config) {
                     $(node).removeClass('btn btn-secondary')
                 },
@@ -107,7 +110,7 @@ var tabla_busquedaxusuario = (url,IdTipo = "",IdSubTipo= "", IdMarca= "",IdModel
             text:      '<i class="kt-nav__link-icon la la-file-text-o"></i> CSV',
             titleAttr: 'CSV',
             className: 'dropdown-item',
-            title : "Modelos",
+            title : "Equipos",
             init: function(api, node, config) {
                     $(node).removeClass('btn btn-secondary')
                 },
@@ -120,7 +123,7 @@ var tabla_busquedaxusuario = (url,IdTipo = "",IdSubTipo= "", IdMarca= "",IdModel
             text:      '<i class="kt-nav__link-icon la la-file-excel-o"></i> Excel',
             titleAttr: 'Excel',
             className: 'dropdown-item',
-            title : "Modelos",
+            title : "Equipos",
             init: function(api, node, config) {
                     $(node).removeClass('btn btn-secondary')
                 },
@@ -132,8 +135,9 @@ var tabla_busquedaxusuario = (url,IdTipo = "",IdSubTipo= "", IdMarca= "",IdModel
             extend:    'pdf',
             text:      '<i class="kt-nav__link-icon la la-file-pdf-o"></i> PDF',
             titleAttr: 'PDF',
+            orientation: 'landscape',
             className: 'dropdown-item',
-            title : "Modelos",
+            title : "Equipos",
             init: function(api, node, config) {
                     $(node).removeClass('btn btn-secondary')
                 },
@@ -146,7 +150,7 @@ var tabla_busquedaxusuario = (url,IdTipo = "",IdSubTipo= "", IdMarca= "",IdModel
             text:      '<i class="kt-nav__link-icon la la-print"></i> Imprimir',
             titleAttr: 'Print',
             className: 'dropdown-item',
-            title : "Modelos",
+            title : "Equipos",
             init: function(api, node, config) {
                     $(node).removeClass('btn btn-secondary')
                 },
@@ -158,6 +162,19 @@ var tabla_busquedaxusuario = (url,IdTipo = "",IdSubTipo= "", IdMarca= "",IdModel
     } );
     t.buttons().container().appendTo('#exportar');
     $("#resetear").removeClass("disabled");
-console.log(t.rows().nodes())
+
+
+
+    $.ajax({
+        type:'post',
+        url: url.replace('tabla','cantidades'),
+        dataType: "json",
+        data: {IdTipo: IdTipo,IdSubTipo: IdSubTipo,IdMarca: IdMarca,IdModelo: IdModelo,CodPatrimonial: CodPatrimonial,usuDNI: usuDNI,IdUsuario: IdUsuario, resDNI: resDNI,IdResponsable :IdResponsable},
+        success:function(data){
+           $("#asignados").html(`Cantidad de equipos: ${data["total"]}, equipos sin asignar: ${data["sinAsignar"]}`);
+        }
+    });
+
+
 
 }

@@ -47,6 +47,7 @@ Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
 //buscar por usuario
     Route::get('busquedaxusuario', 'BusquedaxUsuarioController@buscarusuario')->name('busquedaxusuario.buscarusuario');
     Route::any('busquedaxusuario/tabla', 'BusquedaxUsuarioController@tabla')->name('busquedaxusuario.tabla');
+    Route::any('busquedaxusuario/cantidades', 'BusquedaxUsuarioController@cantidades')->name('busquedaxusuario.cantidades');
     Route::any('busquedaxusuario/reasignar', 'BusquedaxUsuarioController@modal_reasignar')->name('busquedaxusuario.modal_reasignar');
     Route::put('busquedaxusuario/reasignado/{asignacion}', 'BusquedaxUsuarioController@modal_reasignado')->name('busquedaxusuario.modal_reasignado');
     Route::get('busquedaxusuario/asignacion/{Equipo}', 'BusquedaxUsuarioController@modal_create')->name('busquedaxusuario.modal_create');
@@ -85,13 +86,13 @@ Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
         Route::delete('tipo/{tipo}', 'TipoController@destroy')->name('tipo.destroy');
 
 
-        Route::get('subtipo', 'SubtipoController@index')->name('subtipo.index');
-        Route::get('subtipo/tabla', 'SubtipoController@tabla')->name('subtipo.tabla');
-        Route::get('subtipo/create', 'SubtipoController@create')->name('subtipo.create');
-        Route::post('subtipo/store', 'SubtipoController@store')->name('subtipo.store');
-        Route::post('subtipo/edit', 'SubtipoController@edit')->name('subtipo.edit');
-        Route::put('subtipo/{tipo}', 'SubtipoController@update')->name('subtipo.update');
-        Route::delete('subtipo/{tipo}', 'SubtipoController@destroy')->name('subtipo.destroy');
+        Route::get('subtipo', 'SubTipoController@index')->name('subtipo.index');
+        Route::get('subtipo/tabla', 'SubTipoController@tabla')->name('subtipo.tabla');
+        Route::get('subtipo/create', 'SubTipoController@create')->name('subtipo.create');
+        Route::post('subtipo/store', 'SubTipoController@store')->name('subtipo.store');
+        Route::post('subtipo/edit', 'SubTipoController@edit')->name('subtipo.edit');
+        Route::put('subtipo/{tipo}', 'SubTipoController@update')->name('subtipo.update');
+        Route::delete('subtipo/{tipo}', 'SubTipoController@destroy')->name('subtipo.destroy');
     });
 
 

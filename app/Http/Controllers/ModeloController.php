@@ -64,8 +64,8 @@ class ModeloController extends Controller
     public function create(Request $request)
     {
         $request->user()->authorizeRoles('Administrador');
-        $tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
-        $marcas = Marca::select('Marca.IdMarca', 'Marca.Nombre')->get();
+        $tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->orderBy('Nombre', 'asc')->get();
+        $marcas = Marca::select('Marca.IdMarca', 'Marca.Nombre')->orderBy('Nombre', 'asc')->get();
         $view_create =  view('inventario.modelo.create',compact('tipos','marcas'))->render();
         return response()->json(['html'=>$view_create]);
     }
@@ -75,10 +75,14 @@ class ModeloController extends Controller
     {
 
         if ($request->tipo == "") {
-            $subtipo = SubTipo::select('SubTipo.IdSubTipo as IdSubTipo'  , 'SubTipo.IdTipo', 'SubTipo.Nombre')->get();
+            $subtipo = SubTipo::select('SubTipo.IdSubTipo as IdSubTipo'  , 'SubTipo.IdTipo', 'SubTipo.Nombre')
+                                ->orderBy('SubTipo.Nombre', 'asc')
+                                ->get();
             return $subtipo;
         }
-        $subtipo = SubTipo::select('SubTipo.IdSubTipo as IdSubTipo'  , 'SubTipo.IdTipo', 'SubTipo.Nombre')->where('IdTipo', $request->tipo)->get();
+        $subtipo = SubTipo::select('SubTipo.IdSubTipo as IdSubTipo'  , 'SubTipo.IdTipo', 'SubTipo.Nombre')
+                            ->orderBy('SubTipo.Nombre', 'asc')
+                            ->where('IdTipo', $request->tipo)->get();
         return $subtipo;
         exit;
     }
@@ -100,6 +104,7 @@ class ModeloController extends Controller
                         $query->where('IdTipo',"=", $request->tipo);
                     }
                 })
+                ->orderBy('Nombre', 'asc')
                 ->get();
 
         return $modelos;

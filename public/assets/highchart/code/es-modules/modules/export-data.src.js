@@ -295,7 +295,7 @@ Highcharts.Chart.prototype.setUpKeyToAxis = function () {
  * @fires Highcharts.Chart#event:exportData
  */
 Highcharts.Chart.prototype.getDataRows = function (multiLevelHeaders) {
-    var hasParallelCoords = this.hasParallelCoordinates, time = this.time, csvOptions = ((this.options.exporting && this.options.exporting.csv) || {}), xAxis, xAxes = this.xAxis, rows = {}, rowArr = [], dataRows, topLevelColumnTitles = [], columnTitles = [], columnTitleObj, i, x, xTitle, 
+    var hasParallelCoords = this.hasParallelCoordinates, time = this.time, csvOptions = ((this.options.exporting && this.options.exporting.csv) || {}), xAxis, xAxes = this.xAxis, rows = {}, rowArr = [], dataRows, topLevelColumnTitles = [], columnTitles = [], columnTitleObj, i, x, xTitle,
     // Options
     columnHeaderFormatter = function (item, key, keyLength) {
         if (csvOptions.columnHeaderFormatter) {
@@ -320,13 +320,13 @@ Highcharts.Chart.prototype.getDataRows = function (multiLevelHeaders) {
             };
         }
         return item.name + (keyLength > 1 ? ' (' + key + ')' : '');
-    }, 
+    },
     // Map the categories for value axes
     getCategoryAndDateTimeMap = function (series, pointArrayMap, pIdx) {
         var categoryMap = {}, dateTimeValueAxisMap = {};
         pointArrayMap.forEach(function (prop) {
             var axisName = ((series.keyToAxis && series.keyToAxis[prop]) ||
-                prop) + 'Axis', 
+                prop) + 'Axis',
             // Points in parallel coordinates refers to all yAxis
             // not only `series.yAxis`
             axis = Highcharts.isNumber(pIdx) ?
@@ -413,11 +413,11 @@ Highcharts.Chart.prototype.getDataRows = function (multiLevelHeaders) {
                     val = point[prop];
                     rows[key][i + j] = pick(
                     // Y axis category if present
-                    categoryAndDatetimeMap.categoryMap[prop][val], 
+                    categoryAndDatetimeMap.categoryMap[prop][val],
                     // datetime yAxis
                     categoryAndDatetimeMap.dateTimeValueAxisMap[prop] ?
                         time.dateFormat(csvOptions.dateFormat, val) :
-                        null, 
+                        null,
                     // linear/log yAxis
                     val);
                     j++;
@@ -496,9 +496,9 @@ Highcharts.Chart.prototype.getDataRows = function (multiLevelHeaders) {
 Highcharts.Chart.prototype.getCSV = function (useLocalDecimalPoint) {
     var csv = '', rows = this.getDataRows(), csvOptions = this.options.exporting.csv, decimalPoint = pick(csvOptions.decimalPoint, csvOptions.itemDelimiter !== ',' && useLocalDecimalPoint ?
         (1.1).toLocaleString()[1] :
-        '.'), 
+        '.'),
     // use ';' for direct to Excel
-    itemDelimiter = pick(csvOptions.itemDelimiter, decimalPoint === ',' ? ';' : ','), 
+    itemDelimiter = pick(csvOptions.itemDelimiter, decimalPoint === ',' ? ';' : ','),
     // '\n' isn't working with the js csv data extraction
     lineDelimiter = csvOptions.lineDelimiter;
     // Transform the rows to CSV
@@ -545,7 +545,7 @@ Highcharts.Chart.prototype.getCSV = function (useLocalDecimalPoint) {
  * @fires Highcharts.Chart#event:afterGetTable
  */
 Highcharts.Chart.prototype.getTable = function (useLocalDecimalPoint) {
-    var html = '<table id="highcharts-data-table-' + this.index + '">', options = this.options, decimalPoint = useLocalDecimalPoint ? (1.1).toLocaleString()[1] : '.', useMultiLevelHeaders = pick(options.exporting.useMultiLevelHeaders, true), rows = this.getDataRows(useMultiLevelHeaders), rowLength = 0, topHeaders = useMultiLevelHeaders ? rows.shift() : null, subHeaders = rows.shift(), 
+    var html = '<table id="highcharts-data-table-' + this.index + '">', options = this.options, decimalPoint = useLocalDecimalPoint ? (1.1).toLocaleString()[1] : '.', useMultiLevelHeaders = pick(options.exporting.useMultiLevelHeaders, true), rows = this.getDataRows(useMultiLevelHeaders), rowLength = 0, topHeaders = useMultiLevelHeaders ? rows.shift() : null, subHeaders = rows.shift(),
     // Compare two rows for equality
     isRowEqual = function (row1, row2) {
         var i = row1.length;
@@ -560,7 +560,7 @@ Highcharts.Chart.prototype.getTable = function (useLocalDecimalPoint) {
             return false;
         }
         return true;
-    }, 
+    },
     // Get table cell HTML from value
     getCellHTMLFromValue = function (tag, classes, attrs, value) {
         var val = pick(value, ''), className = 'text' + (classes ? ' ' + classes : '');
@@ -578,7 +578,7 @@ Highcharts.Chart.prototype.getTable = function (useLocalDecimalPoint) {
         return '<' + tag + (attrs ? ' ' + attrs : '') +
             ' class="' + className + '">' +
             val + '</' + tag + '>';
-    }, 
+    },
     // Get table header markup from row data
     getTableHeaderHTML = function (topheaders, subheaders, rowLength) {
         var html = '<thead>', i = 0, len = rowLength || subheaders && subheaders.length, next, cur, curColspan = 0, rowspan;
