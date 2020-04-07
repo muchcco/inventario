@@ -24,7 +24,7 @@
         </div>
         <div class="kt-login__actions">
             <button type="submit" class="btn btn-brand btn-elevate kt-login__btn-primary" style="background-color: rgb(6, 120, 84); border-color: rgb(9, 64, 46);">
-                {{ __('Auth.Send Password Reset Link') }}
+                {{ __('auth.Send Password Reset Link') }}
             </button>
             &nbsp;&nbsp;
         <button onclick="window.location.href='{{ route('login') }}'" style="" id="kt_login_forgot_cancel" class="btn btn-light btn-elevate kt-login__btn-secondary">Cancel </button>

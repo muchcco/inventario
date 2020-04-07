@@ -41,7 +41,7 @@
         <div class="kt-login__actions">
             <button type="submit" style="     background-color: #067854;
             border-color: #09402e;"  class="btn btn-brand btn-elevate kt-login__btn-primary">
-                {{ __('Auth.Login') }}
+                {{ __('auth.Login') }}
             </button>
 
         </div>
