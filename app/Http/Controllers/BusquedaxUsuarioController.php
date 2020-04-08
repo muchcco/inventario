@@ -26,8 +26,12 @@ class BusquedaxUsuarioController extends Controller
     public function buscarusuario()
     {
 
-        $tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')->get();
-        $marcas = Marca::select('Marca.IdMarca', 'Marca.Nombre')->get();
+        $tipos = Tipo::select('Tipo.IdTipo', 'Tipo.Nombre')
+                        ->orderBy('Nombre', 'asc')
+                        ->get();
+        $marcas = Marca::select('Marca.IdMarca', 'Marca.Nombre')
+                        ->orderBy('Nombre', 'asc')
+                        ->get();
 
         return view('inventario.busquedaxusuario.buscarusuario',compact('tipos','marcas'));
     }

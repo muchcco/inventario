@@ -1,6 +1,7 @@
+{{ $i = 1 }}
 @foreach( $equipos as $equipo )
 <tr>
-    <td> {{ $equipo->IdEquipo }} </td>
+    <td> {{ $i }} </td>
     <td> {{ $equipo->CodPatrimonial }} </td>
     <td> {{ $equipo->Responsable }} </td>
     <td> {{ $equipo->Usuario }} </td>
@@ -39,4 +40,5 @@
         </div>
 
 </tr>
+{{ $i++ }}
 @endforeach

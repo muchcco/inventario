@@ -255,9 +255,11 @@ var CargarResponsables = () => {
                     </div>
                 </div>
             </div>
-            <div class="kt-portlet__body">
-                <form class="kt-form kt-form--fit kt-margin-b-20">
+            <div class="kt-portlet__body kt-section">
+                <form class="kt-form kt-form--fit kt-section">
+                    <h3 class="kt-section__title">Datos del Equipo</h3>
                     <div class="row kt-margin-b-20">
+
 
                         <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
                             <label>Tipo: </label>
@@ -293,7 +295,8 @@ var CargarResponsables = () => {
                             <input type="text" class="form-control kt-input" id="CodPatrimonial" name="CodPatrimonial" placeholder="" data-col-index="4">
                         </div>
                     </div>
-
+                    <br>
+                    <h3 class="kt-section__title">Datos del Personal</h3>
                     <div class="row kt-margin-b-20">
                         <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
                             <label>Responsable DNI: </label>

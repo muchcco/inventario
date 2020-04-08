@@ -21,7 +21,7 @@
                 {marca : marca.value,subtipo: "{{$subt->IdSubTipo}}"},
                 function(response){
 
-                    let Modelos = `<option value="">--SELECCIONAR MODELOS--</option>`
+                    let Modelos = `<option value="">--SELECCIONAR--</option>`
                     for (var i=0; i<response.length;i++){
 
                         Modelos+=`<option value="${response[i].IdModelo}"  ${response[i].IdModelo == "{{ $equipo->IdModelo }}" ? "selected" : "" }>${response[i].Nombre}</option>`;
@@ -38,7 +38,7 @@
                 {marca : marca.value,subtipo: "{{$subt->IdSubTipo}}"},
                 function(response){
 
-                    let Modelos = `<option value="">--SELECCIONAR MODELOS--</option>`
+                    let Modelos = `<option value="">--SELECCIONAR--</option>`
                     for (var i=0; i<response.length;i++){
                         Modelos+=`<option value="${response[i].IdModelo}" ${response[i].IdModelo == "{{ $equipo->IdModelo }}" ? "selected" : "" }>${response[i].Nombre}</option>`;
 
@@ -109,6 +109,10 @@
                     <div class="form-group">
 						<label>IP</label>
 						<input type="text" class="form-control" id="IP" name="IP" value="{{$equipo->IP}}">
+                    </div>
+                    <div class="form-group">
+						<label>Capacidad</label>
+						<input type="text" class="form-control" id="DiscoDuro" name="DiscoDuro" value="{{$equipo->DiscoDuro}}">
                     </div>
                     <div class="form-group">
 						<label>Codigo Patrimonial</label>

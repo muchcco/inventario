@@ -79,11 +79,8 @@ class HomeController extends Controller
 
     public function equiposPorTipo(Request $request){
 
-        if ($request->user()->role->nombre == "Administrador") {
-            $dependencia = 0;
-        }else{
             $dependencia = $request->user()->dependencias->IdDependencia;
-        }
+
         $sum = 0;
         $series = [];
         $datas = DB::select('graf_inv_equiposPorTipo ?',array($dependencia));

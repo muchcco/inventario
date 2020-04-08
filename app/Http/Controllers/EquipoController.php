@@ -10,6 +10,7 @@ use App\Asignacion;
 use App\Modelo;
 use App\User;
 use App\Personal;
+use App\Software;
 use Carbon\carbon;
 //use Request;
 
@@ -32,8 +33,6 @@ class EquipoController extends Controller
      */
     public function index(Request $request)
     {
-
-
         return view('inventario.equipo.index');
     }
 
@@ -146,6 +145,7 @@ class EquipoController extends Controller
      */
     public function subtipo_create($subtipo,Request $request)
     {
+
         $crtpdt = "Nuevo";
         $subt = SubTipo::where('Nombre',$subtipo)->first();
         $tipo = Tipo::where('IdTipo',$subt->IdTipo)->first();
@@ -154,7 +154,7 @@ class EquipoController extends Controller
         $equipo->IdEquipo = 0;
         $equipo->Host = gethostname();
         $equipo->IP = gethostbyname($equipo->Host);
-        if ($subtipo == "CPU" || $subtipo == "ALL_IN_ONE") {
+        if ($subtipo == "CPU" || $subtipo == "ALL_IN_ONE" || $subtipo == "LAPTOP" || $subtipo == "SERVIDOR") {
             $view_create =  view('inventario.equipo.subtipo.CPU.create',compact('equipo','subt','tipo','crtpdt','marcas'));
         }else{
             $equipo->Host = null;
@@ -188,6 +188,9 @@ class EquipoController extends Controller
         $attr["IdDependencia"] = $request->user()->dependencias->IdDependencia;
 
         $equipo = Equipo::create($attr);
+
+        $equipo->Software()->attach($request->IdSoftware);
+
         return redirect()->route('inventario.asignacion.create',['Equipo' => $equipo["IdEquipo"]]);
 
 
@@ -240,8 +243,10 @@ class EquipoController extends Controller
         $attr["NomMarca"] = $marca->Nombre;
         $modelo = Modelo::where('IdModelo',$attr["IdModelo"])->first();
         $attr["NomModelo"] = $modelo->Nombre;
+
         $eq->update($attr);
 
+        $eq->Software()->sync($request->IdSoftware);
 
         //Validar si esta asignado
         $asignado = Asignacion::where('IdEquipo',$eq->IdEquipo)->first();

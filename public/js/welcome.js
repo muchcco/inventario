@@ -10,7 +10,7 @@
                                 type: 'column'
                             },
                             title: {
-                                text: 'Equipos por Organos Desconcentrados'
+                                text: 'Equipos por Órganos Desconcentrados'
                             },
                             xAxis: {
                                 categories: response["categories"]

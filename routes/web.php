@@ -19,6 +19,23 @@ Route::group(['prefix'=>'inventario','as'=>'inventario.'],function () {
     Route::delete('equipo/{equipo}', 'EquipoController@destroy')->name('equipo.destroy');
     Route::post('equipo/modalbaja', 'EquipoController@modalbaja')->name('equipo.modalbaja');
     Route::post('equipo/baja', 'EquipoController@baja')->name('equipo.baja');
+
+
+    //Software
+    Route::get('software/so', 'SoftwareController@so')->name('software.so');
+    Route::get('software/create_so', 'SoftwareController@create_so')->name('software.create_so');
+    Route::post('software/store_so', 'SoftwareController@store_so')->name('software.store_so');
+
+    Route::get('software/sw', 'SoftwareController@sw')->name('software.sw');
+    Route::get('software/create_sw', 'SoftwareController@create_sw')->name('software.create_sw');
+    Route::post('software/store_sw', 'SoftwareController@store_sw')->name('software.store_sw');
+
+    Route::get('software/av', 'SoftwareController@av')->name('software.av');
+    Route::get('software/create_av', 'SoftwareController@create_av')->name('software.create_av');
+    Route::post('software/store_av', 'SoftwareController@store_av')->name('software.store_av');
+
+
+
     //Subtipo
     Route::get('equipo/subtipo/{subtipo}', 'EquipoController@subtipo')->name('equipo.subtipo');
     Route::get('equipo/subtipo/{subtipo}/create', 'EquipoController@subtipo_create')->name('equipo.subtipo_create');

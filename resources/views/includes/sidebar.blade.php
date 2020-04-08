@@ -9,9 +9,9 @@
             <!-- begin:: Aside -->
             <div class="kt-aside__brand kt-grid__item " id="kt_aside_brand">
                 <div class="kt-aside__brand-logo">
-                    <a href="index.html">
+
                         <img width="100%" style="padding: 20px;" alt="Logo" src="{{ asset('assets/media/logos/logo-INIA-horizontal.png')}}" />
-                    </a>
+
                 </div>
 
                 <div class="kt-aside__brand-tools">
@@ -77,7 +77,7 @@
                                     </svg></span><span class="kt-menu__link-text">Dashboard </span></a>
                         </li>
                         <li class="kt-menu__section ">
-                            <h4 class="kt-menu__section-text">Modulo </h4>
+                            <h4 class="kt-menu__section-text">Módulo </h4>
                             <i class="kt-menu__section-icon flaticon-more-v2"></i>
                         </li>
                         <li class="kt-menu__item  kt-menu__item--submenu @if (Request::is('inventario*')) kt-menu__item--open @endif" aria-haspopup="true"  data-ktmenu-submenu-toggle="hover">
