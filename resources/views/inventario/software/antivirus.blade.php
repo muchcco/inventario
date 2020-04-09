@@ -26,7 +26,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar </button>
-            <a onclick="guardarSO()" class="btn btn-primary" id="btn_guardar_marca">Guardar</a>
+            <a onclick="guardarAV()" class="btn btn-primary" id="btn_guardar_marca">Guardar</a>
         </div>
     </div>
 </div>

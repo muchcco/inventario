@@ -11,6 +11,7 @@ use App\AsignacionHistorico;
 use Yajra\Datatables\Datatables;
 use App\Marca;
 use DB;
+use Carbon\Carbon;
 class BusquedaxUsuarioController extends Controller
 {
     public function __construct()

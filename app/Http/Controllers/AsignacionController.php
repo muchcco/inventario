@@ -7,6 +7,8 @@ use App\Personal;
 use App\Asignacion;
 use App\AsignacionHistorico;
 use App\Equipo;
+use Carbon\Carbon;
+
 class AsignacionController extends Controller
 {
     public function __construct()
@@ -26,7 +28,6 @@ class AsignacionController extends Controller
         ->join('SubTipo','SubTipo.IdSubTipo','=','Modelo.IdSubTipo')
         ->where('IdEquipo', '=', $Equipo)
         ->first();
-
         return view('inventario.asignacion.create',compact('Equipo','subTipos'));
     }
 
@@ -153,7 +154,7 @@ class AsignacionController extends Controller
 
         $asignacionHistorico->IdAsignacion = $asignacion->IdAsignacion;
         $asignacionHistorico->FAsignacion = $asignacion->FAsignacion;
-        $asignacionHistorico->FDevolucion = $asignacion->FDevolucion;
+        $asignacionHistorico->FDevolucion = Carbon::createFromFormat('d/m/Y',$asignacion->FDevolucion);
         $asignacionHistorico->IdEquipo = $asignacion->IdEquipo;
         $asignacionHistorico->Usuario = $asignacion->Usuario;
         $asignacionHistorico->Responsable = $asignacion->Responsable;
@@ -228,10 +229,11 @@ class AsignacionController extends Controller
 
         $asignacion = Asignacion::find($asignacion);
 
+
         $asignacionHistorico = new  AsignacionHistorico;
         $asignacionHistorico->IdAsignacion = $asignacion->IdAsignacion;
         $asignacionHistorico->FAsignacion = $asignacion->FAsignacion;
-        $asignacionHistorico->FDevolucion = $request->FAsignacion;
+        $asignacionHistorico->FDevolucion = Carbon::createFromFormat('d/m/Y',$request->FAsignacion);
         $asignacionHistorico->IdEquipo = $asignacion->IdEquipo;
         $asignacionHistorico->Usuario = $asignacion->Usuario;
         $asignacionHistorico->Responsable = $asignacion->Responsable;
