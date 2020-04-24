@@ -147,13 +147,13 @@ class AsignacionController extends Controller
     public function desasignado(Request $request)
     {
         $asignacion = Asignacion::find($request->IdAsignacion);
-        $asignacion->FDevolucion =  date('d/m/Y', strtotime($request->FDevolucion));
+        $asignacion->FDevolucion =  date('Y-m-d', strtotime($request->FDevolucion));
         $asignacionHistorico = new  AsignacionHistorico;
 
 
         $asignacionHistorico->IdAsignacion = $asignacion->IdAsignacion;
-        $asignacionHistorico->FAsignacion =  date('d/m/Y', strtotime($asignacion->FAsignacion));
-        $asignacionHistorico->FDevolucion =  date('d/m/Y', strtotime($asignacion->FDevolucion));
+        $asignacionHistorico->FAsignacion =  date('Y-m-d', strtotime($asignacion->FAsignacion));
+        $asignacionHistorico->FDevolucion =  date('Y-m-d', strtotime($asignacion->FDevolucion));
         $asignacionHistorico->IdEquipo = $asignacion->IdEquipo;
         $asignacionHistorico->Usuario = $asignacion->Usuario;
         $asignacionHistorico->Responsable = $asignacion->Responsable;
@@ -230,8 +230,8 @@ class AsignacionController extends Controller
 
         $asignacionHistorico = new  AsignacionHistorico;
         $asignacionHistorico->IdAsignacion = $asignacion->IdAsignacion;
-        $asignacionHistorico->FAsignacion = date('d/m/Y', strtotime($asignacion->FAsignacion));
-        $asignacionHistorico->FDevolucion = date('d/m/Y', strtotime($request->FAsignacion));
+        $asignacionHistorico->FAsignacion = date('Y-m-d', strtotime($asignacion->FAsignacion));
+        $asignacionHistorico->FDevolucion = date('Y-m-d', strtotime($request->FAsignacion));
 
         $asignacionHistorico->IdEquipo = $asignacion->IdEquipo;
         $asignacionHistorico->Usuario = $asignacion->Usuario;
