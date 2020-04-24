@@ -100,11 +100,8 @@ class BusquedaxUsuarioController extends Controller
                         ->select('eq.IdEquipo as IdEquipo','eq.IdTipo as IdTipo','eq.Tipo as Tipo','eq.IdSubTipo as IdSubTipo','eq.SubTipo as SubTipo','eq.IdMarca as IdMarca','eq.Marca as Marca','eq.IdModelo as IdModelo','eq.Modelo as Modelo','eq.CodPatrimonial',
                         'usu.IdPersonal as IdUsuario','usu.DNI as UsuDNI',DB::raw("CONCAT(usu.Nombres,' ',usu.ApePat,' ',usu.ApeMat) AS Usuario"),
                         'res.IdPersonal as IdResponsable','res.DNI as ResDNI',DB::raw("CONCAT(res.Nombres,' ',res.ApePat,' ',res.ApeMat) AS Responsable"),
-                        'eq.FAsignacion as FAsignacion','IdAsignacion')
-                        ->toSql();
-                        dd($equipos);
-
-
+                        DB::raw('replace(convert(NVARCHAR,eq.FAsignacion, 106), \' \', \'/\') as FAsignacion'),'IdAsignacion')
+                        ->get();
 
 
     $datatable = Datatables::of($equipos)
@@ -122,7 +119,7 @@ class BusquedaxUsuarioController extends Controller
     public function cantidades(Request $request)
     {
         $soloequipos = Equipo::from("Equipo as eq")
-                                ->select('eq.IdEquipo as IdEquipo','tip.IdTipo as IdTipo','tip.Nombre as Tipo','subt.IdSubTipo as IdSubTipo','subt.Nombre as SubTipo','mar.IdMarca as IdMarca','mar.Nombre as Marca','mod.IdModelo as IdModelo','mod.Nombre as Modelo','CodPatrimonial', 'Responsable','Usuario','asi.FAsignacion as FAsignacion','IdAsignacion')
+                                ->select('eq.IdEquipo as IdEquipo','tip.IdTipo as IdTipo','tip.Nombre as Tipo','subt.IdSubTipo as IdSubTipo','subt.Nombre as SubTipo','mar.IdMarca as IdMarca','mar.Nombre as Marca','mod.IdModelo as IdModelo','mod.Nombre as Modelo','CodPatrimonial', 'Responsable','Usuario',DB::raw('replace(convert(NVARCHAR,asi.FAsignacion, 106), \' \', \'/\') as FAsignacion'),'IdAsignacion')
                                 ->leftJoin('Asignacion as asi','eq.IdEquipo','=','asi.IdEquipo')
                                 ->join('Modelo as mod','eq.IdModelo','=','mod.IdModelo')
                                 ->join('Marca as mar','mod.IdMarca','=','mar.IdMarca')
@@ -175,7 +172,7 @@ class BusquedaxUsuarioController extends Controller
                         ->select('eq.IdEquipo as IdEquipo','eq.IdTipo as IdTipo','eq.Tipo as Tipo','eq.IdSubTipo as IdSubTipo','eq.SubTipo as SubTipo','eq.IdMarca as IdMarca','eq.Marca as Marca','eq.IdModelo as IdModelo','eq.Modelo as Modelo','eq.CodPatrimonial',
                         'usu.IdPersonal as IdUsuario','usu.DNI as UsuDNI',DB::raw("CONCAT(usu.Nombres,' ',usu.ApePat,' ',usu.ApeMat) AS Usuario"),
                         'res.IdPersonal as IdResponsable','res.DNI as ResDNI',DB::raw("CONCAT(res.Nombres,' ',res.ApePat,' ',res.ApeMat) AS Responsable"),
-                        'eq.FAsignacion as FAsignacion','IdAsignacion')
+                        DB::raw('replace(convert(NVARCHAR,eq.FAsignacion, 106), \' \', \'/\') as FAsignacion'),'IdAsignacion')
                         ->get();
 
     $resultado = [];
@@ -248,7 +245,7 @@ class BusquedaxUsuarioController extends Controller
     public function modal_reasignar(Request $request)
     {
 
-        $asignado = Asignacion::select(  'IdAsignacion','FAsignacion','Utilizado',
+        $asignado = Asignacion::select(  'IdAsignacion',DB::raw('replace(convert(NVARCHAR,FAsignacion, 106), \' \', \'/\') as FAsignacion'),'Utilizado',
                                             'res.IdPersonal as IdResponsable', DB::raw("CONCAT(res.Nombres,' ',res.ApePat,' ',res.ApeMat) AS Responsable"),
                                             'usu.IdPersonal as IdUsuario', DB::raw("CONCAT(usu.Nombres,' ',usu.ApePat,' ',usu.ApeMat) AS Usuario"))
                                 ->from('Asignacion as asi')
