@@ -297,7 +297,9 @@ class EquipoController extends Controller
      */
     public function subtipo_destroy(Request $request,$id)
     {
+
         $asignado = Asignacion::where('IdEquipo',$id)->forceDelete();
+        $eq = Equipo::find($id)->Software()->detach();
         $eq = Equipo::find($id)->forceDelete();
 
 
