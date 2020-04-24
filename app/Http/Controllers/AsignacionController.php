@@ -41,6 +41,7 @@ class AsignacionController extends Controller
     {
         $request["Responsable"] = $request->responsable;
         $request["Usuario"] = $request->usuario;
+        $request["FAsignacion"] = date('Y-m-d', strtotime($request->FAsignacion));
         if($request->Utilizado == "on"){
             $request["Utilizado"] = 1;
         }else{
@@ -102,6 +103,7 @@ class AsignacionController extends Controller
     {
         $request["Responsable"] = $request->responsable;
         $request["Usuario"] = $request->usuario;
+        $request["FAsignacion"] = date('Y-m-d', strtotime($request->FAsignacion));
         if($request->Utilizado == "on"){
             $request["Utilizado"] = 1;
         }else{

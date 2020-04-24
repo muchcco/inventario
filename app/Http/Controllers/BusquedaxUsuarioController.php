@@ -296,8 +296,8 @@ class BusquedaxUsuarioController extends Controller
 
         $asignacionHistorico = new  AsignacionHistorico;
         $asignacionHistorico->IdAsignacion = $asignacion->IdAsignacion;
-        $asignacionHistorico->FAsignacion = $asignacion->FAsignacion;
-        $asignacionHistorico->FDevolucion = $request->FAsignacion;
+        $asignacionHistorico->FAsignacion = date('Y-m-d', strtotime($asignacion->FAsignacion));
+        $asignacionHistorico->FDevolucion = date('Y-m-d', strtotime($request->FAsignacion));
         $asignacionHistorico->IdEquipo = $asignacion->IdEquipo;
         $asignacionHistorico->Usuario = $asignacion->Usuario;
         $asignacionHistorico->Responsable = $asignacion->Responsable;
