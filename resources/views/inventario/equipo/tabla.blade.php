@@ -7,7 +7,7 @@
     <td> {{ $equipo->Usuario }} </td>
     <td>
         @if ($equipo->FAsignacion != "")
-            {{ date('d/M/Y', strtotime($equipo->FAsignacion)) }}
+            {{  $equipo->FAsignacion }}
         @endif
     </td>
     <td>
