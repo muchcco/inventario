@@ -146,15 +146,14 @@ class AsignacionController extends Controller
 
     public function desasignado(Request $request)
     {
-
         $asignacion = Asignacion::find($request->IdAsignacion);
-        $asignacion->FDevolucion = $request->FDevolucion;
+        $asignacion->FDevolucion =  date('d/m/Y', strtotime($request->FDevolucion));
         $asignacionHistorico = new  AsignacionHistorico;
 
 
         $asignacionHistorico->IdAsignacion = $asignacion->IdAsignacion;
-        $asignacionHistorico->FAsignacion = $asignacion->FAsignacion;
-        $asignacionHistorico->FDevolucion = Carbon::createFromFormat('d/m/Y',$asignacion->FDevolucion);
+        $asignacionHistorico->FAsignacion =  date('d/m/Y', strtotime($asignacion->FAsignacion));
+        $asignacionHistorico->FDevolucion =  date('d/m/Y', strtotime($asignacion->FDevolucion));
         $asignacionHistorico->IdEquipo = $asignacion->IdEquipo;
         $asignacionHistorico->Usuario = $asignacion->Usuario;
         $asignacionHistorico->Responsable = $asignacion->Responsable;
