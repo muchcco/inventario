@@ -225,15 +225,14 @@ class AsignacionController extends Controller
         $attr = $request->all();
 
         $subtipo = $equipo->Nombre;
-        dd($asignacion->FAsignacion);
+
 
         $asignacion = Asignacion::find($asignacion);
 
-
         $asignacionHistorico = new  AsignacionHistorico;
         $asignacionHistorico->IdAsignacion = $asignacion->IdAsignacion;
-        $asignacionHistorico->FAsignacion = $asignacion->FAsignacion;
-        $asignacionHistorico->FDevolucion = $request->FAsignacion;
+        $asignacionHistorico->FAsignacion = date('d/m/Y', strtotime($asignacion->FAsignacion));
+        $asignacionHistorico->FDevolucion = date('d/m/Y', strtotime($request->FAsignacion));
 
         $asignacionHistorico->IdEquipo = $asignacion->IdEquipo;
         $asignacionHistorico->Usuario = $asignacion->Usuario;
