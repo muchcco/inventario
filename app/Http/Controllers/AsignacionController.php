@@ -225,7 +225,7 @@ class AsignacionController extends Controller
         $attr = $request->all();
 
         $subtipo = $equipo->Nombre;
-        dd($request->FAsignacion);
+        dd($asignacion->FAsignacion);
 
         $asignacion = Asignacion::find($asignacion);
 
@@ -233,7 +233,7 @@ class AsignacionController extends Controller
         $asignacionHistorico = new  AsignacionHistorico;
         $asignacionHistorico->IdAsignacion = $asignacion->IdAsignacion;
         $asignacionHistorico->FAsignacion = $asignacion->FAsignacion;
-        $asignacionHistorico->FDevolucion = Carbon::createFromFormat('d/m/Y',$request->FAsignacion);
+        $asignacionHistorico->FDevolucion = $request->FAsignacion;
 
         $asignacionHistorico->IdEquipo = $asignacion->IdEquipo;
         $asignacionHistorico->Usuario = $asignacion->Usuario;
