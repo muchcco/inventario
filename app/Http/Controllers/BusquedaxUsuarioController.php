@@ -45,7 +45,7 @@ class BusquedaxUsuarioController extends Controller
     public function tabla(Request $request)
     {
         $soloequipos = Equipo::from("Equipo as eq")
-                                ->select('eq.IdEquipo as IdEquipo','tip.IdTipo as IdTipo','tip.Nombre as Tipo','subt.IdSubTipo as IdSubTipo','subt.Nombre as SubTipo','mar.IdMarca as IdMarca','mar.Nombre as Marca','mod.IdModelo as IdModelo','mod.Nombre as Modelo','CodPatrimonial', 'Responsable','Usuario',DB::raw('replace(convert(NVARCHAR,asi.FAsignacion, 106), \' \', \'/\') as FAsignacion'),'IdAsignacion')
+                                ->select('eq.IdEquipo as IdEquipo','tip.IdTipo as IdTipo','tip.Nombre as Tipo','subt.IdSubTipo as IdSubTipo','subt.Nombre as SubTipo','mar.IdMarca as IdMarca','mar.Nombre as Marca','mod.IdModelo as IdModelo','mod.Nombre as Modelo','CodPatrimonial', 'Responsable','Usuario',DB::raw('replace(convert(NVARCHAR,asi.FAsignacion, 113), \' \', \'/\') as FAsignacion'),'IdAsignacion')
                                 ->leftJoin('Asignacion as asi','eq.IdEquipo','=','asi.IdEquipo')
                                 ->join('Modelo as mod','eq.IdModelo','=','mod.IdModelo')
                                 ->join('Marca as mar','mod.IdMarca','=','mar.IdMarca')

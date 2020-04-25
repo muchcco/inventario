@@ -105,7 +105,9 @@ class EquipoController extends Controller
         $subt = SubTipo::where('Nombre',$request->subtipo)->first();
 
         $soloequipos = Equipo::select('Equipo.IdEquipo as IdEquipo','CodPatrimonial', 'Responsable',
-                                'Usuario','asi.FAsignacion as FAsignacion','IdAsignacion')
+                                'Usuario',
+                                DB::raw('replace(convert(NVARCHAR,asi.FAsignacion, 106), \' \', \'/\') as FAsignacion'),
+                                'IdAsignacion')
                             ->leftJoin('Asignacion as asi','Equipo.IdEquipo','=','asi.IdEquipo')
                             ->where('Equipo.IdSubTipo','=',$subt->IdSubTipo)
                             ->where('Equipo.IdDependencia','=',$request->user()->dependencias->IdDependencia)
@@ -115,7 +117,7 @@ class EquipoController extends Controller
         $equipos = Personal::from('Personal as usu')->RightJoinSub($soloequipos,'Equipo',function($join){
                     $join->on('usu.IdPersonal','=','Equipo.Usuario');
         })->leftJoin('Personal as resp','Equipo.Responsable','=','resp.IdPersonal')
-        ->select('Equipo.IdEquipo as IdEquipo','Equipo.CodPatrimonial', 'resp.Nombres as Responsable','usu.Nombres as Usuario','Equipo.FAsignacion as FAsignacion','IdAsignacion')
+        ->select('Equipo.IdEquipo as IdEquipo','Equipo.CodPatrimonial', 'resp.Nombres as Responsable','usu.Nombres as Usuario',DB::raw('replace(convert(NVARCHAR,Equipo.FAsignacion, 106), \' \', \'/\') as FAsignacion'),'IdAsignacion')
         ->get();
 
         $subtipo = $request["subtipo"];
