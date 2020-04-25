@@ -47,7 +47,7 @@ class AsignacionHistoricoController extends Controller
         $asignacionHistorico = AsignacionHistorico::select('tip.Nombre as Tipo','tip.IdTipo as IdTipo','subt.Nombre as SubTipo', 'mar.Nombre as Marca', 'mod.Nombre as Modelo','CodPatrimonial',
                                 'usu.DNI as UsuDNI',DB::raw("CONCAT(usu.Nombres,' ',usu.ApePat,' ',usu.ApeMat) AS Usuario"),
                                 'res.DNI as ResDNI',DB::raw("CONCAT(res.Nombres,' ',res.ApePat,' ',res.ApeMat) AS Responsable"),
-                                'FAsignacion','FDevolucion')
+                                DB::raw('replace(convert(NVARCHAR,FAsignacion, 106), \' \', \'/\') as FAsignacion'),DB::raw('replace(convert(NVARCHAR,FDevolucion, 106), \' \', \'/\') as FDevolucion'))
                                 ->from('AsignacionHistorico as asi')
                                 ->Join('Personal as usu','asi.Usuario','=','usu.IdPersonal')
                                 ->Join('Personal as res','asi.Responsable','=','res.IdPersonal')
